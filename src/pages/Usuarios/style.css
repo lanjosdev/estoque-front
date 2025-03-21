@@ -1,0 +1,7 @@
+.UsersContent,
+.main
+{
+    /* border: 3px solid orange; */
+    flex: 1;
+    padding: 4rem 1.5rem;
+}

@@ -71,42 +71,42 @@ export async function PRODUCT_GET_PER_PAGE_SEARCH(token, search, page) {
 }
 
 // Cria um novo produto (POST):
-export async function PRODUCT_CREATE(token, isGroup, name, quantMin, categoryProduct, obs, hasExpiration) {
-    console.log('CALL FUNCTION API');
- 
-    const response = await axios.post(`${API_URL}/product-equipaments`, {
-      "is_group": isGroup,
+export async function PRODUCT_CREATE(token, name, categoryProduct, quantIdeal, obs, hasExpiration) {
+   console.log('CALL FUNCTION API');
+
+   const response = await axios.post(`${API_URL}/product-equipaments`, {
       "name": name,
-      "quantity_min": quantMin,
       "fk_category_id": categoryProduct,
+      "quantity_ideal": quantIdeal,
       "observation": obs,
-      "expiration_date": hasExpiration,
-    },
-    { 
+      "expiration_date": hasExpiration
+   },
+   { 
       headers: { "Accept": "application/json", Authorization: "Bearer " + token } 
-    });
- 
-    // console.log(response.data);
-    return response.data;
+   });
+
+   // console.log(response.data);
+   return response.data;
 }
-// Cria um grupo de produto (POST):
-export async function PRODUCT_CREATE_GROUP(token, name, categoryProduct, listProducts) {
-    console.log('CALL FUNCTION API');
+
+// Atualiza dados (nome e/ou quantmin e/ou categoria/setorProduto) do produto (ADMIN) (POST):
+export async function PRODUCT_UPDATE(token, idProduct, name, categoryProduct, quantIdeal, quantMin, obs, hasExpiration) {
+   console.log('CALL FUNCTION API');
  
-    const response = await axios.post(`${API_URL}/product-equipaments`, {
-      "is_group": 1,
+   const response = await axios.post(`${API_URL}/update-product-equipaments/${idProduct}`, {
       "name": name,
-      "list_products": listProducts,
       "fk_category_id": categoryProduct,
-      "expiration_date": 0,
-      "quantity_min": 1
-    },
-    { 
+      "quantity_ideal": quantIdeal,
+      "quantity_min": quantMin,
+      "observation": obs,
+      "expiration_date": hasExpiration
+   }, 
+   { 
       headers: { "Accept": "application/json", Authorization: "Bearer " + token } 
-    });
+   });
  
-    // console.log(response.data);
-    return response.data;
+   // console.log(response.data);
+   return response.data;
 }
 
 // Deleta produto (DELETE):
@@ -115,26 +115,6 @@ export async function PRODUCT_DELETE(token, idProduct) {
 
     const response = await axios.delete(`${API_URL}/delete-product-equipaments/${idProduct}`, {
        headers: { "Accept": "application/json", Authorization: "Bearer " + token }
-    });
- 
-    // console.log(response.data);
-    return response.data;
-}
-
-// Atualiza dados (nome e/ou quantmin e/ou categoria/setorProduto) do produto (ADMIN) (POST):
-export async function PRODUCT_UPDATE(token, idProduct, name, quantMin, categoryProduct, obs, hasExpiration) {
-    console.log('CALL FUNCTION API');
- 
-    const response = await axios.post(`${API_URL}/update-product-equipaments/${idProduct}`, {
-      "is_group": 0,
-      "name": name,
-      "quantity_min": quantMin,
-      "fk_category_id": categoryProduct,
-      "observation": obs,
-      "expiration_date": hasExpiration,
-    }, 
-    { 
-      headers: { "Accept": "application/json", Authorization: "Bearer " + token } 
     });
  
     // console.log(response.data);

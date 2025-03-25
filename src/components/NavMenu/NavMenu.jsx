@@ -46,6 +46,7 @@ export function NavMenu({ onPageAlert=false }) {
     const tokenCookie = Cookies.get('tokenEstoque');
 
 
+
     useEffect(()=> {     
         async function getProductsAlert() {
             console.log('Effect Component NavMenu');
@@ -150,8 +151,13 @@ export function NavMenu({ onPageAlert=false }) {
                     <li>
                         <NavLink to='/users'>Usuários</NavLink>
                     </li>
+
                     <li>
                         <NavLink to='/sectors'>Setores</NavLink>
+                    </li>
+                    
+                    <li>
+                        <NavLink to='/products'>Produtos</NavLink>
                     </li>
                     </>
                     )}
@@ -159,10 +165,6 @@ export function NavMenu({ onPageAlert=false }) {
                     
                     {(profileDetails?.categories?.length > 0 || profileDetails?.level == "admin") && (
                     <>
-                    {/* <li>
-                        <NavLink to='/products'>Produtos</NavLink>
-                    </li> */}
-
                     {/* {profileDetails?.level == "admin" && (
                     <li>
                         <NavLink to='/storages'>Depósitos</NavLink>

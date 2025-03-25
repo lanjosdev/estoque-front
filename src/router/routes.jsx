@@ -7,8 +7,7 @@ import Login from "../pages/Login";
 // import Home from "../pages/Home";
 import Users from "../pages/Usuarios";
 import Sectors from "../pages/Setores";
-// import Sectors from "../pages/Setores";
-// import Products from "../pages/Produtos";
+import Products from "../pages/Produtos";
 // import Storages from "../pages/Armazenamentos";
 // import Inputs from "../pages/Entradas";
 // import Exits from "../pages/Saidas";
@@ -30,16 +29,13 @@ export default function AppRoutes() {
             <Route path="/" element={ <Login/> } />
 
 
+
             <Route path="/solicitacoes" element={ 
-                <ControllerRouter> 
-                    <Solicitacoes /> 
-                </ControllerRouter>
+                <ControllerRouter> <Solicitacoes /> </ControllerRouter>
             } />
 
             <Route path="/nova-solicitacao" element={ 
-                <ControllerRouter> 
-                    <NovaSolicitacao /> 
-                </ControllerRouter>
+                <ControllerRouter> <NovaSolicitacao /> </ControllerRouter>
             } />
 
 
@@ -49,16 +45,20 @@ export default function AppRoutes() {
             } /> */}
 
             <Route path="/users" element={ 
-                <ControllerRouter> <Users/> </ControllerRouter>
+                <ControllerRouter> 
+                    <Users/> 
+                </ControllerRouter>
             } />
 
             <Route path="/sectors" element={ 
-                <ControllerRouter> <Sectors/> </ControllerRouter>
+                <ControllerRouter> 
+                    <Sectors/> 
+                </ControllerRouter>
             } />
 
-            {/* <Route path="/products" element={ 
+            <Route path="/products" element={ 
                 <ControllerRouter> <Products/> </ControllerRouter>
-            } /> */}
+            } />
 
             {/* <Route path="/storages" element={ 
                 <ControllerRouter> <Storages/> </ControllerRouter>

@@ -1,0 +1,18 @@
+.WindowUpdateUser {
+    
+    .content-window {
+        
+        .levels {
+            display: flex;
+            flex-direction: column;
+
+            > label {
+                font-weight: 500;
+
+                input {
+                    margin-right: 0.5rem;
+                }
+            }
+        }
+    }
+}

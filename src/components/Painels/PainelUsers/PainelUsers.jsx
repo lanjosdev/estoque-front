@@ -1,16 +1,19 @@
-// Funcionalidades / Libs:
-import { useState, useEffect } from 'react';
+// Hooks / Libs:
 import Cookies from "js-cookie";
-import { USER_GET_ALL } from '../../../API/userApi';
+import { useState, useEffect } from 'react';
 // import { Navigate } from 'react-router-dom';
 
+// API:
+import { USER_GET_PER_PARAMS } from '../../../API/userApi';
+
 // Components:
-// import { CreateUser } from '../../Modals/ModalUser/CreateUser/CreateUser';
-// import { DeleteUser } from '../../Modals/ModalUser/DeleteUser/DeleteUser';
-// import { UpdateUser } from '../../Modals/ModalUser/UpdateUser/UpdateUser';
-// import { FilterUser } from '../../Modals/ModalUser/FilterUser/FilterUser';
-// import { RestoreUser } from '../../Modals/ModalUser/RestoreUser/RestoreUser';
-// import { DropdownMenuUser } from '../../DropdownMenus/DropdownUser/DropdownMenuUser';
+import { CreateUser } from '../../Modals/ModalUser/CreateUser/CreateUser';
+import { DeleteUser } from '../../Modals/ModalUser/DeleteUser/DeleteUser';
+import { UpdateUser } from '../../Modals/ModalUser/UpdateUser/UpdateUser';
+import { FilterUser } from '../../Modals/ModalUser/FilterUser/FilterUser';
+import { RestoreUser } from '../../Modals/ModalUser/RestoreUser/RestoreUser';
+import { DropdownMenuUser } from '../../DropdownMenus/DropdownUser/DropdownMenuUser';
+import { Pagination } from '../../Pagination/Pagination';
 import { toast } from 'react-toastify';
 
 // Utils:
@@ -34,8 +37,10 @@ export function PainelUsers() {
     const [optionUpdate, setOptionUpdate] = useState(null);
 
     const [users, setUsers] = useState([]);
-    const [userSelect, setUserSelect] = useState(null);
     const [userFilter, setUserFilter] = useState(filterDefault);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pages, setPages] = useState([]);
+    const [userSelect, setUserSelect] = useState(null);
     
     const tokenCookie = Cookies.get('tokenEstoque');
 
@@ -44,19 +49,26 @@ export function PainelUsers() {
     useEffect(()=> {
         async function getAllUsers() 
         {
-            console.log('Effect Component PainelUsers');
+            setLoading(true);
             
             try {
-                setLoading(true);
                 setHasError(true);
                 setUsers([]);
+                // setTotalResults(0);
 
-                const response = await USER_GET_ALL(JSON.parse(tokenCookie), userFilter);
+                const response = await USER_GET_PER_PARAMS(JSON.parse(tokenCookie), userFilter, currentPage);
                 console.log(response);
 
                 if(response.success) {
-                    setUsers(response.data);
+                    let arrayPages = [];
+                    for(let i = 1; i <= response.data.last_page; i++) {
+                        arrayPages.push(i);
+                    }
+                    // console.log(arrayPages);
+                    setPages(arrayPages);
+                    setUsers(response.data.data);
                     setHasError(false);
+                    // setTotalResults(response.data.total);
                 }
                 else if(response.success == false) {
                     if(response.message == 'Nenhum resultado encontrado.') {
@@ -68,24 +80,25 @@ export function PainelUsers() {
                 }
                 else {
                     toast.error('Erro inesperado.');
+                    // setProductSearchState(null);
+                    // setProductFilterState(filterDefault);
                 }
             }
             catch(error) {
-                console.error('DEU ERRO:', error);
-
                 if(error?.response?.data?.message == 'Unauthenticated.') {
                     console.error('Requisição não autenticada.');
                 }
                 else {
-                    toast.error('Houve algum erro.');
+                    console.error('Houve algum erro.');
                 }
+
+                console.error('DETALHES DO ERRO:', error);
             }
-            finally {
-                setLoading(false);
-            }
+            
+            setLoading(false);
         }
         getAllUsers();
-    }, [tokenCookie, reflashState, userFilter]);
+    }, [tokenCookie, reflashState, userFilter, currentPage]);
 
 
 
@@ -171,12 +184,25 @@ export function PainelUsers() {
             <div className="painel-content">
                 {loading ? (
 
-                    <p>Buscando usuários...</p>
+                    <p className='feedback_content'>
+                        Carregando usuários...
+                    </p>
 
                 ) : (
                     hasError ? (
 
-                    <p>Erro ao carregar usuários!</p>
+                    // <p>Erro ao carregar usuários!</p>
+                    <div className='feedback_content'>
+                        <p>
+                            <i className="bi bi-exclamation-triangle"></i>
+                            <span> Erro ao carregar usuários!</span>
+                        </p>
+                        
+                        <a className='btn primary' href='/users'>
+                            <i className="bi bi-arrow-clockwise"></i>
+                            Recarregue a página
+                        </a>
+                    </div>
 
                     ) : (users.length === 0 ? (
                         <div className='result-empty'>
@@ -195,29 +221,25 @@ export function PainelUsers() {
                             )}
                         </div>
                     ) : (
+                        <>
                         <table className=''>
                             <thead>
                                 <tr>
                                     <th scope="col">Nome</th>
                                     <th scope="col">Email</th>
-                                    <th scope="col">Reservas</th>
                                     <th scope="col">Nível</th>
                                     <th scope="col">Ações</th>
                                 </tr>
                             </thead>
-
                             <tbody>
                             {users.map((user)=> (
                                 <tr key={user.id} className="item-user" title={user.id}>
                                     <td data-label="nome">{user.name}</td>
                                     <td data-label="email">{user.email}</td>
-                                    <td data-label="reservas">
-                                        {user.level == 'admin' ? 'Acesso total' : (user.reservation_enabled ? 'Autorizado' : 'Bloqueado')}
-                                    </td>
                                     <td data-label="nível">
-                                        {user.level == 'user' ? (
+                                        {user.level_name == 'user' ? (
                                             <span><i className="bi bi-person-circle"></i> comum</span>
-                                        ) : (user.level == 'admin' ? (
+                                        ) : (user.level_name == 'admin' ? (
                                             <span><i className="bi bi-shield-fill-check"></i> admin</span>
                                         ) : (
                                             <span><i className="bi bi-shield-shaded"></i> gerente</span>
@@ -225,18 +247,27 @@ export function PainelUsers() {
                                         )}
                                     </td>
                                     <td data-label="ações">
-                                        {/* <DropdownMenuUser 
-                                        dataUser={user} 
-                                        setUserSelect={setUserSelect} 
+                                        <DropdownMenuUser
+                                        dataUser={user}
+                                        setUserSelect={setUserSelect}
                                         setOptionModal={setOptionModal}
                                         setOptionUpdate={setOptionUpdate}
                                         setShowModal={setShowModal}
-                                        /> */}
+                                        />
                                     </td>
                                 </tr>
                             ))}
                             </tbody>
                         </table>
+                        
+                        <Pagination
+                        setLoading={setLoading}
+                        setHasError={setHasError}
+                        currentPage={currentPage}
+                        setCurrentPage={setCurrentPage}
+                        pages={pages}
+                        />
+                        </>
                     ))
                 )}
             </div>

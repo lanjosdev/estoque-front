@@ -6,6 +6,7 @@ import Login from "../pages/Login";
 
 // import Home from "../pages/Home";
 import Users from "../pages/Usuarios";
+import Sectors from "../pages/Setores";
 // import Sectors from "../pages/Setores";
 // import Products from "../pages/Produtos";
 // import Storages from "../pages/Armazenamentos";
@@ -51,35 +52,35 @@ export default function AppRoutes() {
                 <ControllerRouter> <Users/> </ControllerRouter>
             } />
 
-            {/* <Route path="/sectors" element={ 
+            <Route path="/sectors" element={ 
                 <ControllerRouter> <Sectors/> </ControllerRouter>
             } />
 
-            <Route path="/products" element={ 
+            {/* <Route path="/products" element={ 
                 <ControllerRouter> <Products/> </ControllerRouter>
-            } />
+            } /> */}
 
-            <Route path="/storages" element={ 
+            {/* <Route path="/storages" element={ 
                 <ControllerRouter> <Storages/> </ControllerRouter>
-            } />
+            } /> */}
 
-            <Route path="/inputs" element={ 
+            {/* <Route path="/inputs" element={ 
                 <ControllerRouter> <Inputs/> </ControllerRouter>
-            } />
+            } /> */}
 
-            <Route path="/exits" element={ 
+            {/* <Route path="/exits" element={ 
                 <ControllerRouter> <Exits/> </ControllerRouter>
-            } />
+            } /> */}
 
-            <Route path="/reservations" element={ 
+            {/* <Route path="/reservations" element={ 
                 <ControllerRouter> <Reservations/> </ControllerRouter>
-            } />
+            } /> */}
 
-            <Route path="/profile" element={ 
+            {/* <Route path="/profile" element={ 
                 <ControllerRouter> <Profile/> </ControllerRouter>
-            } />
+            } /> */}
 
-            <Route path="/alerts" element={ 
+            {/* <Route path="/alerts" element={ 
                 <ControllerRouter> <Alerts/> </ControllerRouter>
             } /> */}
 

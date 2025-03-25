@@ -1,0 +1,45 @@
+.PainelSectors {
+
+    .painel-content {
+
+        table {
+            /* table-layout: fixed; */
+
+            tr {
+
+                td[data-label="descricao"] {
+                    display: flex;
+                    width: 100%;
+                    max-width: 52rem;
+                    max-height: 13rem;
+
+                    /* white-space: nowrap; */
+                    overflow: hidden;
+                    text-overflow: ellipsis; /* Adiciona reticências (...) no final do texto cortado */
+                }
+            }
+        }
+    }
+
+
+    /* RESPONSIVIDADE */
+    @media (max-width: 767px) {
+
+        .painel-content {
+
+            table {
+                table-layout: fixed;
+
+                tr {
+
+                    td[data-label="descrição"] {
+                        max-width: 100%;
+                        justify-content: space-between;
+                        gap: 0.5rem;
+                    }
+                }
+            }
+        }
+
+    }
+}

@@ -332,7 +332,8 @@ td[data-label="qtd. em estoque"]
     }
 }
 
-.btn_filter {
+.btn_filter,
+.btn-filter {
     background-color: transparent;
     padding: .2rem .5rem;
     border: 1px solid var(--color-text);

@@ -64,6 +64,18 @@ export async function USER_GET_ALL(token, params) {
    return response.data;
 }
 
+// Pega usuarios por params (GET):
+export async function USER_GET_PER_PARAMS(token, params, page) {
+   console.log('CALL FUNCTION API');
+
+   const response = await axios.get(`${API_URL}/get-all-user?${params}&page=${page}`, { 
+      headers: { "Accept": "application/json", Authorization: "Bearer " + token } 
+   });
+
+   // console.log(response.data);
+   return response.data;
+}
+
 // Cria novo usuario (POST):
 export async function USER_CREATE(token, email, password, name) {
    console.log('CALL FUNCTION API');
@@ -85,7 +97,7 @@ export async function USER_CREATE(token, email, password, name) {
 export async function USER_DELETE(token, idUser) {
    console.log('CALL FUNCTION API');
 
-   const response = await axios.delete(API_URL + '/delete-user/' + idUser, { 
+   const response = await axios.delete(`${API_URL}/delete-user/${idUser}`, { 
       headers: { "Accept": "application/json", Authorization: "Bearer " + token } 
    });
 
@@ -137,11 +149,11 @@ export async function USER_UPDATE_CATEGORY(token, idUser, array) {
 }
 
 // Atualiza/atribui level ao usuario (pelo idUser) (ADMIN) (POST):
-export async function USER_UPDATE_LEVEL(token, idUser, level) {
+export async function USER_UPDATE_LEVEL(token, idUser, idLevel) {
    console.log('CALL FUNCTION API');
 
    const response = await axios.post(API_URL + '/update-level/' + idUser, {
-      "level": level
+      "fk_level_id": idLevel
    }, 
    { 
       headers: { "Accept": "application/json", Authorization: "Bearer " + token } 
@@ -183,100 +195,3 @@ export async function USER_RESTORE(token, idUser) {
    // console.log(response.data);
    return response;
 }
-
-
-
-
-
-
-
-
-// Cria um  novo usuario (CREATE):
-// export async function USER_REGISTER(nome, email, senha) {
-//    console.log('CALL FUNCTION API');
-
-//    const response = await axios.post(API_URL + '/register', {
-//       "name": nome,
-//       "email": email,
-//       "password": senha
-//    },
-//    { 
-//       headers: { "Accept": "application/json" } 
-//    }
-//    );
-
-//    // console.log(response.data);
-//    return response.data;
-// }
-
-// // Logout usuario:
-// export async function USER_LOGOUT(token) {
-//    console.log('CALL FUNCTION API');
-   
-//    const respons = await fetch(API_URL + '/logout', {
-//       method: 'POST',
-//       headers: {"Accept": "application/json", Authorization: 'Bearer ' + token}
-//    });
-//    const response = await respons.json();
-
-//    // console.log(response.data);
-//    return response;
-// }
-
-// // Pega detalhes do usuario:
-// export async function USER_DETAILS(token) {
-//    console.log('CALL FUNCTION API');
-
-//    const response = await axios.get(API_URL + '/me', { 
-//       headers: {"Accept": "application/json", Authorization: "Bearer " + token} 
-//    });
-
-//    // console.log(response.data);
-//    return response.data;
-// }
-// // LOGIN/REGISTER END //
-
-// // Update nome user:
-// export async function USER_EDIT_NAME(token, name) {
-//    console.log('CALL FUNCTION API');
-
-//    const response = await axios.post(API_URL + '/reset-name', {
-//       "name": name
-//    },
-//    { 
-//       headers: { "Accept": "application/json", Authorization: "Bearer " + token, 'X-Dry-Run': true } 
-//    });
-
-//    // console.log(response.data);
-//    return response.data;
-// }
-
-// // Update email user:
-// export async function USER_EDIT_EMAIL(token, email) {
-//    console.log('CALL FUNCTION API');
-
-//    const response = await axios.post(API_URL + '/reset-email', {
-//       "email": email
-//    },
-//    { 
-//       headers: { "Accept": "application/json", Authorization: "Bearer " + token, 'X-Dry-Run': true } 
-//    });
-
-//    // console.log(response.data);
-//    return response.data;
-// }
-
-// export async function USER_RESET_PASS(token, senha, senhaConfirm) {
-//    console.log('CALL FUNCTION API');
-
-//    const response = await axios.post(API_URL + '/reset-password', {
-//       "password": senha,
-//       "password_confirmation": senhaConfirm
-//    },
-//    { 
-//       headers: { "Accept": "application/json", Authorization: "Bearer " + token, 'X-Dry-Run': true } 
-//    });
-
-//    // console.log(response.data);
-//    return response.data;
-// }

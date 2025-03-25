@@ -1,0 +1,33 @@
+.UpdateCategory {
+    /* padding: 2rem 1.5rem; */
+
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    &.grid {
+        min-width: fit-content;
+        max-width: 520px;
+    }
+
+    .content-window {
+
+        input[type="checkbox"] {
+            margin-right: 0.5rem;
+        }
+
+        .checkbox-group {
+            background-color: var(--color-w);
+            padding: .7rem;
+            border-radius: 7px;
+            max-width: 490px;
+
+            /* min-width: 100%; coloquei no textarea a seguir*/
+            width: 100%;
+
+            /* border: 1px solid red; */
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+        }
+    }
+}

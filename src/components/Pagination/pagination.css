@@ -1,0 +1,17 @@
+.Pagination {
+    /* background-color: antiquewhite; */
+    margin-top: 1.5rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+
+    .select--span {
+        select {
+            padding: .3rem;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+    }
+}

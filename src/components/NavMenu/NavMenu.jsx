@@ -50,33 +50,33 @@ export function NavMenu({ onPageAlert=false }) {
         async function getProductsAlert() {
             console.log('Effect Component NavMenu');
 
-            try {
-                const response = await PRODUCT_GET_ALERT(JSON.parse(tokenCookie), 1);
-                // console.log(response);
+            // try {
+            //     const response = await PRODUCT_GET_ALERT(JSON.parse(tokenCookie), 1);
+            //     // console.log(response);
 
-                if(response.success) {
-                    const arrayProcessed = response.data.data.slice(0, 5);
-                    // console.log(arrayProcessed)
-                    setProductsAlert(arrayProcessed);                    
-                    setHasError(false);
-                }
-                else if(response.success == false) {
-                    console.error(response.message);
-                }
-                else {
-                    console.error('Erro inesperado.');
-                }
-            }
-            catch(error) {
-                console.error('DEU ERRO:', error);
+            //     if(response.success) {
+            //         const arrayProcessed = response.data.data.slice(0, 5);
+            //         // console.log(arrayProcessed)
+            //         setProductsAlert(arrayProcessed);                    
+            //         setHasError(false);
+            //     }
+            //     else if(response.success == false) {
+            //         console.error(response.message);
+            //     }
+            //     else {
+            //         console.error('Erro inesperado.');
+            //     }
+            // }
+            // catch(error) {
+            //     console.error('DEU ERRO:', error);
 
-                if(error?.response?.data?.message == 'Unauthenticated.') {
-                    console.error('Requisição não autenticada.');
-                }
-                else {
-                    console.error('Houve algum erro.');
-                }
-            }
+            //     if(error?.response?.data?.message == 'Unauthenticated.') {
+            //         console.error('Requisição não autenticada.');
+            //     }
+            //     else {
+            //         console.error('Houve algum erro.');
+            //     }
+            // }
             
             setLoadingAlert(false)
         }
@@ -137,6 +137,7 @@ export function NavMenu({ onPageAlert=false }) {
                             </NavLink>
                         )}
                     </li>
+                    
                     <div className="separator mobile"></div>
 
                     {/* <li>
@@ -144,14 +145,14 @@ export function NavMenu({ onPageAlert=false }) {
                     </li> */}
                     
                     {/* nivel admin */}
-                    {profileDetails?.level == "admin" && (
+                    {profileDetails?.level_name == "admin" && (
                     <>
                     <li>
                         <NavLink to='/users'>Usuários</NavLink>
                     </li>
-                    {/* <li>
+                    <li>
                         <NavLink to='/sectors'>Setores</NavLink>
-                    </li> */}
+                    </li>
                     </>
                     )}
                     {/* nivel admin */}

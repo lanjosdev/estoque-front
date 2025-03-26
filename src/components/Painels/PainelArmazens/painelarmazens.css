@@ -1,0 +1,25 @@
+.Painel.PainelArmazens {
+
+    .painel-content {
+        /* border: 2px solid red; */
+
+        table {
+
+            tbody {
+                /* border: 4px solid blue; */
+
+                tr {
+
+                    td[data-label="ações"] {
+                        /* border: 2px solid red; */
+                        .btns_actions {
+                            /* border: 2px solid green; */
+                            display: flex;
+                            gap: 0.8rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

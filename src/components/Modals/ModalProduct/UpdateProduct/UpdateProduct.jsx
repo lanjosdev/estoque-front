@@ -194,7 +194,7 @@ export function UpdateProduct({ close, setReflashState, productSelect, optionUpd
                     <div className="label--input">
                         <label htmlFor="qtd">Quantidade ideal</label>
                         <input className="input" id="qtd" type="number" 
-                        min={0} 
+                        min={1} 
                         max={settingsAdmin.max_input_quantity_min} 
                         required 
                         value={quantIdeal}
@@ -205,7 +205,7 @@ export function UpdateProduct({ close, setReflashState, productSelect, optionUpd
                     <div className="label--input">
                         <label htmlFor="qtd">Quantidade mínima</label>
                         <input className="input" id="qtd" type="number" 
-                        min={1} 
+                        min={0} 
                         max={settingsAdmin.max_input_quantity_min} 
                         required 
                         value={quantMin}

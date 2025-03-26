@@ -330,6 +330,16 @@ td[data-label="qtd. em estoque"]
             background-color: var(--color-w);
         }
     }
+    &.view {
+        /* background-color: transparent; */
+        font-size: 2.2rem;
+        padding: 0rem 0.7rem;
+
+        &:hover {
+            background-color: transparent;
+            transform: scale(1.2);
+        }
+    }
 }
 
 .btn_filter,

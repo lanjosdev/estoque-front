@@ -8,7 +8,7 @@ import Login from "../pages/Login";
 import Users from "../pages/Usuarios";
 import Sectors from "../pages/Setores";
 import Products from "../pages/Produtos";
-// import Storages from "../pages/Armazenamentos";
+import Armazens from "../pages/Armazens";
 // import Inputs from "../pages/Entradas";
 // import Exits from "../pages/Saidas";
 // import Reservations from "../pages/Reservas";
@@ -57,12 +57,14 @@ export default function AppRoutes() {
             } />
 
             <Route path="/products" element={ 
-                <ControllerRouter> <Products/> </ControllerRouter>
+                <ControllerRouter> 
+                    <Products/> 
+                </ControllerRouter>
             } />
 
-            {/* <Route path="/storages" element={ 
-                <ControllerRouter> <Storages/> </ControllerRouter>
-            } /> */}
+            <Route path="/armazens" element={ 
+                <ControllerRouter> <Armazens/> </ControllerRouter>
+            } />
 
             {/* <Route path="/inputs" element={ 
                 <ControllerRouter> <Inputs/> </ControllerRouter>

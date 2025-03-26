@@ -162,6 +162,18 @@ export function NavMenu({ onPageAlert=false }) {
                     </>
                     )}
                     {/* nivel admin */}
+
+                    {/* nivel manager */}
+                    {(profileDetails?.level_name == "admin" || profileDetails?.level_name == "manager") && (
+                    <>
+                    <li>
+                        <NavLink to='/armazens'>Armazéns</NavLink>
+                    </li>
+                    </>
+                    )}
+                    {/* nivel admin e manager */}
+
+                    
                     
                     {(profileDetails?.categories?.length > 0 || profileDetails?.level == "admin") && (
                     <>

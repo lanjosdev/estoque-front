@@ -141,6 +141,7 @@ export function NavMenu({ onPageAlert=false }) {
                     
                     <div className="separator mobile"></div>
 
+
                     {/* <li>
                         <NavLink to='/home'>Início</NavLink>
                     </li> */}
@@ -163,6 +164,7 @@ export function NavMenu({ onPageAlert=false }) {
                     )}
                     {/* nivel admin */}
 
+
                     {/* nivel manager */}
                     {(profileDetails?.level_name == "admin" || profileDetails?.level_name == "manager") && (
                     <>
@@ -171,38 +173,26 @@ export function NavMenu({ onPageAlert=false }) {
                     </li>
                     </>
                     )}
-                    {/* nivel admin e manager */}
+                    {/* nivel manager */}
+                    
 
-                    
-                    
-                    {(profileDetails?.categories?.length > 0 || profileDetails?.level == "admin") && (
+                    {/* nivel user */}
+                    {(profileDetails?.level_name == "admin" || profileDetails?.level_name == "user") && (
                     <>
-                    {/* {profileDetails?.level == "admin" && (
                     <li>
-                        <NavLink to='/storages'>Depósitos</NavLink>
+                        <NavLink to='/nova-solicitacao'>Nova solicitação</NavLink>
                     </li>
-                    )} */}
-                    
+
                     {/* <li>
-                        <NavLink to='/inputs'>Entradas</NavLink>
-                    </li>
-                    <li>
-                        <NavLink to='/exits'>Saídas</NavLink>
-                    </li> */}
-
-                    
-                    <li>
                         <NavLink to='/solicitacoes'>Solicitações</NavLink>
-                    </li>
-
-                    <li>
-                        <NavLink to='/nova-solicitacao'>Nova Solicitação</NavLink>
-                    </li>
-                    
+                    </li>   */}
                     </>
                     )}
+                    {/* nivel user */}
+
                     
                     <div className="separator mobile"></div>
+
                     <li className='mobile'>
                         <button onClick={logoutUser} disabled={loading}>
                             Sair
@@ -273,7 +263,7 @@ export function NavMenu({ onPageAlert=false }) {
                             <i className="bi bi-person-circle"></i>
                             }
                             
-                            <span className='name-profile'>{primeiraPalavra(profileDetails?.name)}</span>
+                            <span className='name-profile'>{primeiraPalavra(profileDetails?.name || 'usuário')}</span>
                         </NavLink>
                     )}
                     

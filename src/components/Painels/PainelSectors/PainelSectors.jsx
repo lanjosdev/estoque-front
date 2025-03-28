@@ -167,9 +167,9 @@ export function PainelSectors() {
                             <thead>
                                 <tr>
                                     <th scope="col">ID</th>
-                                    <th scope="col">Nome</th>
+                                    <th scope="col">Setor</th>
                                     <th scope="col">Descrição</th>
-                                    <th scope="col">Ações</th>
+                                    <th scope="col" data-label="ações">Ações</th>
                                 </tr>
                             </thead>
 
@@ -179,7 +179,7 @@ export function PainelSectors() {
                                     <td data-label="id">
                                         {formatToIdCode(sector.id)}
                                     </td>
-                                    <td data-label="nome">{sector.name}</td>
+                                    <td data-label="setor">{sector.name}</td>
                                     <td data-label="descrição">{sector.description || 'Não informado'}</td>
                                     <td data-label="ações">
                                         <DropdownMenuSector 

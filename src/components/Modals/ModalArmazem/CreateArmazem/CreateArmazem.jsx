@@ -56,7 +56,7 @@ export function CreateArmazem({ close, setReflashState }) {
         console.log(name)
         console.log(details)
 
-        if(name !== '' && details !== '') {
+        if(name !== '') {
             try {
                 const response = await STORAGE_CREATE(JSON.parse(tokenCookie), name, details);
                 console.log(response);  
@@ -106,7 +106,7 @@ export function CreateArmazem({ close, setReflashState }) {
 
                 <div className="label--input">
                     <label htmlFor="obs">Detalhamento do armazém</label>
-                    <textarea ref={detailingRef} className="input" id="obs" required ></textarea>
+                    <textarea ref={detailingRef} className="input" id="obs"></textarea>
                 </div>
 
 

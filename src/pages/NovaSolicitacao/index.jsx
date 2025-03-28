@@ -7,7 +7,8 @@ import { useEffect, useState } from "react";
 
 // Components:
 import { NavMenu } from "../../components/NavMenu/NavMenu";
-import { PainelSolicitacoes } from "../../components/Painels/PainelSolicitacoes/PainelSolicitacoes";
+import { PainelNovaSolicitacao } from "../../components/Painels/PainelNovaSolicitacao/PainelNovaSolicitacao";
+import { PreviewCart } from "../../components/Modals/PreviewCart/PreviewCart";
 
 // Assets:
 // import imgLogo from '../../assets/LOGO-BIZSYS_preto.png';
@@ -17,9 +18,19 @@ import './style.css';
 
 
 export default function NovaSolicitacao() {
+
+    // Logica UI:
+    const [listProductsSaida, setListProductsSaida] = useState([]);
+    const [listProductsEmprestimo, setListProductsEmprestimo] = useState([]);
+    const [showModal, setShowModal] = useState(false);
+
+
+    // Dados a submiter:
     const [typeRequest, setTypeRequest] = useState('Saída');
+    const [listProductsQuantities, setListProductsQuantities] = useState([]);
 
     const tokenCookie = Cookies.get('tokenEstoque');
+
 
 
     useEffect(()=> {
@@ -32,8 +43,53 @@ export default function NovaSolicitacao() {
         } 
         verificaCookieToken();
     }, [tokenCookie]);
+
     
 
+
+
+
+    function handleChangeTypeRequest(typeReq) {
+        if(typeReq !== typeRequest) {
+            // Guarda dados antes de mudar o tipo da solicitação
+            if(typeRequest == 'Saída') {
+                setListProductsSaida(listProductsQuantities)
+            }
+            else {
+                setListProductsEmprestimo(listProductsQuantities)
+            }
+
+            // Muda o tipo da solicitção
+            setTypeRequest(typeReq);
+            if(typeReq == 'Empréstimo') {
+                setListProductsQuantities(listProductsEmprestimo);
+            }
+            else {
+                setListProductsQuantities(listProductsSaida);
+            }
+        }
+    }
+
+    function handleUpdateListProducts(itemTarget) {
+        let newList = [...listProductsQuantities];
+        const idxEdit = newList.findIndex((each)=> each.id == itemTarget.id);
+
+        if(idxEdit == -1) {
+            // Adiciona item na lista
+            newList.push({...itemTarget, quantity: 1});
+        }
+        else {
+            // Remove item na lista
+            newList.splice(idxEdit, 1);
+        }
+
+        console.log(newList);
+        setListProductsQuantities(newList);
+    } 
+
+    function handleShowModal() {
+        setShowModal(true);
+    }
     
   
     return (
@@ -50,7 +106,7 @@ export default function NovaSolicitacao() {
                         <i className="bi bi-calendar-event"></i>
                         )}
                         
-                        Solicitação de {typeRequest}
+                        <span>Solicitação de {typeRequest}</span>
                     </h1>
 
                     <p className="subtitle">
@@ -58,11 +114,65 @@ export default function NovaSolicitacao() {
                     </p>
                 </div>
 
-                <div>###TABS + BTN-CARRINHO###</div>
 
-                <div className="Painel">CATALAGO</div>
-                {/* <PainelSolicitacoes /> */}
+                <div className="tabs--btnCart">
+                    <div className="tabs">
+                        <button 
+                        className={`tab ${typeRequest == 'Saída' ? 'active' : ''}`}
+                        onClick={()=> handleChangeTypeRequest('Saída')}
+                        // disabled={loadingSubmit}
+                        >
+                            Saída
+                        </button>
+
+                        <button 
+                        className={`tab ${typeRequest == 'Empréstimo' ? 'active' : ''}`}
+                        onClick={()=> handleChangeTypeRequest('Empréstimo')}
+                        // disabled={loadingSubmit}
+                        >
+                            Empréstimo
+                        </button>
+                    </div>
+
+                    <button className="btn primary" onClick={handleShowModal} data-count={listProductsQuantities.length}>
+                        Ver Solicitação
+                        {listProductsQuantities.length > 0 && (
+                            <small>{listProductsQuantities.length}</small>
+                        )}
+                    </button>
+                </div>
+
+
+                <PainelNovaSolicitacao 
+                listProductsQuantities={listProductsQuantities}
+                handleUpdateListProducts={handleUpdateListProducts} 
+                />
             </main>
+            
+
+            {showModal && (
+            <PreviewCart
+            close={()=> setShowModal(false)}
+            typeRequest={typeRequest}
+            listProductsQuantities={listProductsQuantities}
+            setListProductsQuantities={setListProductsQuantities}
+            handleUpdateListProducts={handleUpdateListProducts}
+            />
+            )}
+            
+            {/* {showModal && (
+                <ModalProduct
+                close={()=> setShowModal(false)} 
+                setReflashState={setReflashState} 
+                optionModal={optionModal}
+                productSelect={productSelect}
+                optionUpdate={optionUpdate}
+                productSearchState={productSearchState}
+                setProductSearchState={setProductSearchState}
+                setProductFilterState={setProductFilterState}
+                clearSearch={clearSearch}
+                />
+            )} */}
 
         </div>
     );

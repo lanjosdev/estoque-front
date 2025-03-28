@@ -1,3 +1,85 @@
 .main.NovaSolicitacao {
-    border: 0.2rem solid red;
+    /* border: 0.3rem solid red; */
+
+    .title--subtitle {
+
+        h1 {
+            /* overflow-x: hidden; */
+            > span {
+                /* border: 1px solid red; */
+                overflow-x: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+        }
+    }
+
+    .tabs--btnCart {
+        background-color: var(--color-bg-1);
+        padding: 1rem 1.5rem;
+        margin: -1rem -1.5rem 0rem;
+        position: sticky;
+        top: 6.3rem;
+        z-index: 1;
+        /* border: 1px solid blue; */
+        display: flex;
+        justify-content: space-between;
+        /* align-items: center; */
+        gap: 1rem;
+
+
+        .tabs {
+            background-color: var(--color-bg-2);
+            width: 100%;
+            min-width: 20rem;
+            max-width: 30rem;
+            border-radius: 10px;
+            padding: 4px;
+            box-shadow: 0 4px 6px -1px rgba(49, 49, 49, 0.11), 0 2px 4px -2px rgba(49, 49, 49, 0.18);
+            outline: 0.1rem solid rgba(49, 49, 49, 0.11);
+    
+            display: flex;
+    
+            /* margin-bottom: 0.5rem; */
+    
+            .tab {
+                background-color: transparent;
+                flex: 1;
+                border-radius: 8px;
+                padding: 1px 12px;
+                color: #000;
+                font-size: 1.4rem;
+                font-weight: 600;
+                opacity: .7;
+    
+                transition: all .2s ease-in-out;
+    
+                &.active {
+                    background-color: var(--color-w);
+                    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+                    opacity: 1;
+                }
+                /* &:active {
+                    background-color: var(--color-w);
+                    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+                    opacity: 1;                    
+                } */
+            }
+        }  
+        
+        .btn.primary {
+            box-shadow: 0 4px 6px -1px rgba(49, 49, 49, 0.11), 0 2px 4px -2px rgba(49, 49, 49, 0.18);
+            height: 4rem;
+            gap: 0.5rem;
+            
+            small {
+                background-color: var(--color-w);
+                border-radius: 50%;
+                padding: 0.3rem;
+                min-width: 2.4rem;
+
+                color: var(--color-primary);
+            }
+        }
+    }
 }

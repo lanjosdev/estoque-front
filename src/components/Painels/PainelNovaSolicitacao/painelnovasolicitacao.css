@@ -1,0 +1,24 @@
+.Painel.PainelNovaSolicitacao {
+    
+    .painel-content {
+        
+        table {
+
+            tbody > tr {
+
+                td > .empty {
+                    color: var(--color-danger);
+                }
+
+                [data-label="ações"] {
+
+                    .btn {
+                        padding: 0.5rem 1rem;
+                        width: 100%;
+                        max-width: 12rem;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -264,6 +264,7 @@ td[data-label="qtd. em estoque"]
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 0.4rem;
 
     width: 100%;
     max-width: fit-content;
@@ -281,9 +282,6 @@ td[data-label="qtd. em estoque"]
         background-color: var(--color-primary);
         min-height: 3.2rem;
         color: var(--color-w);
-
-        display: flex;
-        gap: .4rem;
 
         &:hover {
             filter: drop-shadow(0 0 8px var(--color-primary)) brightness(1.1);

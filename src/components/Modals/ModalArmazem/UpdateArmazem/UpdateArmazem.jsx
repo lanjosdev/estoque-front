@@ -68,7 +68,7 @@ export function UpdateArmazem({ close, setReflashState, armazemSelect }) {
         console.log(name)
         console.log(details)
 
-        if(name !== '' && details !== '' && armazemSelect?.id) {
+        if(name !== '' && armazemSelect?.id) {
             try {
                 const response = await STORAGE_UPDATE(JSON.parse(tokenCookie), armazemSelect.id, name, details);
                 console.log(response);  
@@ -120,7 +120,7 @@ export function UpdateArmazem({ close, setReflashState, armazemSelect }) {
 
                 <div className="label--input">
                     <label htmlFor="obs">Detalhamento do armazém</label>
-                    <textarea ref={detailingRef} className="input" id="obs" required onFocus={()=> setUpdateStorage(true)} ></textarea>
+                    <textarea ref={detailingRef} className="input" id="obs" onFocus={()=> setUpdateStorage(true)} ></textarea>
                 </div>
 
 

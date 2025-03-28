@@ -55,8 +55,15 @@
             td {
                 padding: .7rem;
             }
+
+            tr > [data-label="ações"] {
+                /* text-align: right; */
+                display: flex;
+                justify-content: flex-end;
+            }
         }
     }
+    
 
 
     /* RESPONSIVIDADE */
@@ -98,7 +105,8 @@
                         border-bottom: 0.1rem solid var(--gray-400);
                     }
     
-                    td {
+                    td, 
+                    td[data-label="ações"] {
                         border-bottom: 1px solid var(--gray-400);
                         font-size: 14.08px;
                         padding: .5rem 0;

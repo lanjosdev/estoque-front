@@ -228,7 +228,7 @@ export function PainelUsers() {
                                     <th scope="col">Nome</th>
                                     <th scope="col">Email</th>
                                     <th scope="col">Nível</th>
-                                    <th scope="col">Ações</th>
+                                    <th scope="col" data-label="ações">Ações</th>
                                 </tr>
                             </thead>
                             <tbody>

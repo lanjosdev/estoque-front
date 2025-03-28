@@ -29,17 +29,6 @@ export default function AppRoutes() {
             <Route path="/" element={ <Login/> } />
 
 
-
-            <Route path="/solicitacoes" element={ 
-                <ControllerRouter> <Solicitacoes /> </ControllerRouter>
-            } />
-
-            <Route path="/nova-solicitacao" element={ 
-                <ControllerRouter> <NovaSolicitacao /> </ControllerRouter>
-            } />
-
-
-
             {/* <Route path="/home" element={ 
                 <ControllerRouter> <Home/> </ControllerRouter>
             } /> */}
@@ -63,7 +52,9 @@ export default function AppRoutes() {
             } />
 
             <Route path="/armazens" element={ 
-                <ControllerRouter> <Armazens/> </ControllerRouter>
+                <ControllerRouter> 
+                    <Armazens/> 
+                </ControllerRouter>
             } />
 
             {/* <Route path="/inputs" element={ 
@@ -85,6 +76,16 @@ export default function AppRoutes() {
             {/* <Route path="/alerts" element={ 
                 <ControllerRouter> <Alerts/> </ControllerRouter>
             } /> */}
+
+            <Route path="/solicitacoes" element={ 
+                <ControllerRouter> <Solicitacoes /> </ControllerRouter>
+            } />
+
+            <Route path="/nova-solicitacao" element={ 
+                <ControllerRouter> 
+                    <NovaSolicitacao /> 
+                </ControllerRouter>
+            } />
 
         </Routes>
     )

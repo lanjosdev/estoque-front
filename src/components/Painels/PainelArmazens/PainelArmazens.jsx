@@ -199,7 +199,7 @@ export function PainelArmazens() {
                             <thead>
                                 <tr>
                                     <th scope="col">ID</th>
-                                    <th scope="col">Nome</th>
+                                    <th scope="col">Armazém</th>
                                     <th scope="col">Detalhamento</th>
                                     <th scope="col" data-label="ações">Ações</th>
                                 </tr>
@@ -212,7 +212,7 @@ export function PainelArmazens() {
                                         {formatToIdCode(item.id)}
                                     </td>
 
-                                    <td data-label="nome">
+                                    <td data-label="armazém">
                                         <span>
                                         {item.name}
                                         </span>

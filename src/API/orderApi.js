@@ -10,6 +10,30 @@ export const API_URL = api.api_url;
 
 
 // End-Points/Rotas da API (TABELA ORDER):
+// Pega todas as solcitacoes por params (GET):
+export async function ORDER_GET_PER_PARAMS(token, params, page) {
+   console.log('CALL FUNCTION API');
+
+   const response = await axios.get(`${API_URL}/get-all-order?${params}&page=${page}`, { 
+      headers: { "Accept": "application/json", Authorization: "Bearer " + token } 
+   });
+
+   // console.log(response.data);
+   return response.data;
+}
+
+// Pega as solcitacoes do user logado (GET):
+export async function ORDER_GET_ME_PER_PARAMS(token, params, page) {
+   console.log('CALL FUNCTION API');
+
+   const response = await axios.get(`${API_URL}/my-orders?${params}&page=${page}`, { 
+      headers: { "Accept": "application/json", Authorization: "Bearer " + token } 
+   });
+
+   // console.log(response.data);
+   return response.data;
+}
+
 // Cria uma nova solicitação (POST):
 export async function ORDER_CREATE(token, idTypeOrder, productsQuantities, deliveryTo, daysReservation) {
    console.log('CALL FUNCTION API');

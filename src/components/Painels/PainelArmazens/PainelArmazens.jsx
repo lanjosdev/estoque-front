@@ -42,7 +42,8 @@ export function PainelArmazens() {
     const [storageSearchState, setStorageSearchState] = useState(null);
     const [storageFilterState, setStorageFilterState] = useState(filterDefault); //ex com pesquisa: 'name=${searchStateAqui}&active=true'
     const [currentPage, setCurrentPage] = useState(1);
-    const [pages, setPages] = useState([]);
+    // const [pages, setPages] = useState([]);
+    const [totalPages, setTotalPages] = useState(0);
     
     const tokenCookie = Cookies.get('tokenEstoque');
 
@@ -66,14 +67,15 @@ export function PainelArmazens() {
                 console.log(response);
 
                 if(response.success) {
-                    let arrayPages = [];
-                    for(let i = 1; i <= response.data.last_page; i++) {
-                        arrayPages.push(i);
-                    }
-                    // console.log(arrayPages);
-                    setPages(arrayPages);
+                    // let arrayPages = [];
+                    // for(let i = 1; i <= response.data.last_page; i++) {
+                    //     arrayPages.push(i);
+                    // }
+                    // // console.log(arrayPages);
+                    // setPages(arrayPages);
 
                     setTotalResults(response.data.total);
+                    setTotalPages(response.data.last_page);
                     setArmazens(response.data.data);
                     setHasError(false);
                 }
@@ -249,7 +251,7 @@ export function PainelArmazens() {
                         setHasError={setHasError} 
                         currentPage={currentPage} 
                         setCurrentPage={setCurrentPage} 
-                        pages={pages}
+                        totalPages={totalPages}
                         />
                         </>
                     ))

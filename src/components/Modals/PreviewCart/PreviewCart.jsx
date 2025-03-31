@@ -212,7 +212,7 @@ export function PreviewCart({ close, typeRequest, listProductsQuantities, setLis
 
             if(response.success) {
                 toast.success('Solicitação enviada com sucesso!');
-                navigate('/solicitacoes')
+                navigate('/minhas-solicitacoes')
             }
             else if(response.success == false) {
                 console.warn(response.message);
@@ -336,6 +336,7 @@ export function PreviewCart({ close, typeRequest, listProductsQuantities, setLis
 
                                     <input id='name_delivery' 
                                     type="text" 
+                                    className="input"
                                     value={nameDeliveryTo || ''} 
                                     onChange={(e)=> setNameDeliveryTo(e.target.value)} 
                                     required 
@@ -346,10 +347,11 @@ export function PreviewCart({ close, typeRequest, listProductsQuantities, setLis
 
                             {typeRequest == 'Empréstimo' && (
                             <div className="label--input">
-                                <label htmlFor="days_reservation">Dias que o(s) produto(s) ficarão em empréstimo</label>
+                                <label htmlFor="days_reservation" disabled={daysUndetermined}>Dias que o(s) produto(s) ficarão em empréstimo</label>
 
                                 <input id='days_reservation' 
                                 type="number" 
+                                className="input"
                                 min={1}
                                 value={daysReservation || ''} 
                                 onChange={(e)=> setDaysReservation(e.target.value)}

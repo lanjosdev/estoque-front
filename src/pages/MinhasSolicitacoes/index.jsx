@@ -7,7 +7,7 @@ import { useEffect } from "react";
 
 // Components:
 import { NavMenu } from "../../components/NavMenu/NavMenu";
-import { PainelSolicitacoes } from "../../components/Painels/PainelSolicitacoes/PainelSolicitacoes";
+import { PainelMinhasSolicitacoes } from "../../components/Painels/PainelMinhasSolicitacoes/PainelMinhasSolicitacoes";
 
 // Assets:
 // import imgLogo from '../../assets/LOGO-BIZSYS_preto.png';
@@ -16,14 +16,14 @@ import { PainelSolicitacoes } from "../../components/Painels/PainelSolicitacoes/
 import './style.css';
 
 
-export default function Solicitacoes() {
+export default function MinhasSolicitacoes() {
 
     const tokenCookie = Cookies.get('tokenEstoque');
 
 
     useEffect(()=> {
         function verificaCookieToken() {
-            console.log('Effect /Solicitacoes');
+            console.log('Effect /Minhas-Solicitacoes');
             
             if(!tokenCookie) {
                 console.error('tokenCookie sem VALUE ou REMOVIDO');
@@ -40,7 +40,7 @@ export default function Solicitacoes() {
             
             <NavMenu />
 
-            <main className='main Solicitacoes grid'>
+            <main className='main MinhasSolicitacoes grid'>
                 <div className="title--subtitle">
                     <h1 className="title">
                         <i className="bi bi-list-ul"></i>
@@ -52,7 +52,7 @@ export default function Solicitacoes() {
                     </p>
                 </div>
 
-                <PainelSolicitacoes />
+                <PainelMinhasSolicitacoes />
                 
             </main>
 

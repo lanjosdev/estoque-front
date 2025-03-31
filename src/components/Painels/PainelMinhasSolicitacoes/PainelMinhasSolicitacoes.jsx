@@ -4,9 +4,11 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 
 // API:
-
+import { ORDER_GET_ME_PER_PARAMS } from "../../../API/orderApi";
 
 // Components:
+import { toast } from "react-toastify";
+import { Pagination } from "../../Pagination/Pagination";
 // import { ModalSector } from '../../Modals/ModalSector/ModalSector';
 
 // Utils:
@@ -15,16 +17,21 @@ import { formatToIdCode } from '../../../utils/formatStrings';
 // Assets:
 
 // Estilo:
-import './painelsolicitacoes.css';
+import './painelminhassolicitacoes.css';
 
 
-export function PainelSolicitacoes() {
+export function PainelMinhasSolicitacoes() {
     // Estados do componente:
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     // Dados a ser pré-carregados:
     const [solicitacoes, setSolicitacoes] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const paramsDefault = '';
+    const [paramsQuery, setParamsQuery] = useState(paramsDefault); //ex com pesquisa: 'name=${productInputSearch}&active=true'
+    const [totalResults, setTotalResults] = useState(0);
+    const [totalPages, setTotalPages] = useState([]);
     
 
     // Lógica da UI:
@@ -41,63 +48,37 @@ export function PainelSolicitacoes() {
         async function getAllRequests() 
         {
             setLoading(true);
-            const requestsMock = {
-                success: true,
-                data: [
-                    {
-                        id: 0,
-                        type_name: 'Saída',
-                        status_reservation: null,
-                        status: 'Recebido',
-                    },
-                    {
-                        id: 1,
-                        type_name: 'Empréstimo',
-                        status_reservation: 'Em andamento',
-                        status: 'Entregue',
-                    },
-                    {
-                        id: 2,
-                        type_name: 'Empréstimo',
-                        status_reservation: 'Em atraso',
-                        status: 'Entregue',
-                    },
-                    {
-                        id: 3,
-                        type_name: 'Empréstimo',
-                        status_reservation: 'Finalizado',
-                        status: 'Devolvido',
-                    },
-                    {
-                        id: 4,
-                        type_name: 'Saída',
-                        status_reservation: null,
-                        status: 'Entregue',
-                    }
-                ]
-            };
             
             try {
                 setError(true);
                 setSolicitacoes([]);
-
-                const response = requestsMock;
+                setTotalResults(0);
+                
+                // const response = await PRODUCT_GET_PER_PARAMS(JSON.parse(tokenCookie), productFilterState, currentPage);
+                const response = await ORDER_GET_ME_PER_PARAMS(JSON.parse(tokenCookie), paramsQuery, currentPage);
                 console.log(response);
 
                 if(response.success) {
-                    setSolicitacoes(response.data);
+                    
+                    setSolicitacoes(response.data.data);
+                    setTotalPages(response.data.last_page);
+                    setTotalResults(response.data.total);
                     setError(false);
                 }
                 else if(response.success == false) {
-                    if(response.message == 'Nenhum resultado encontrado.') {
+                    console.warn(response.message);
+                    toast.error(response.message);
+
+                    if(response.message == "Nenhum produto encontrado com o nome informado.") {
                         setError(false);
-                    }
+                    } 
                     else {
-                        console.error(response.message);
+                        toast.error(response.message);
                     }
                 }
                 else {
-                    console.error('Erro inesperado.');
+                    toast.error('Erro inesperado.');
+                    // setProductFilterState(filterDefault);
                 }
             }
             catch(error) {
@@ -114,7 +95,7 @@ export function PainelSolicitacoes() {
             setLoading(false);
         }
         getAllRequests();
-    }, [tokenCookie]);
+    }, [tokenCookie, currentPage, paramsQuery]);
 
 
 
@@ -133,9 +114,9 @@ export function PainelSolicitacoes() {
 
 
     return (
-        <div className="Painel PainelSolicitacoes">
+        <div className="Painel PainelMinhasSolicitacoes">
             <div className="painel-top">
-                <h2>Solicitações ({solicitacoes.length}):</h2>
+                <h2>Solicitações ({totalResults}):</h2>
 
                 <div className="search--btnAdd">
                     {(solicitacoes.length > 0) && (
@@ -167,7 +148,7 @@ export function PainelSolicitacoes() {
                             <span> Erro ao carregar solicitações!</span>
                         </p>
                         
-                        <a className='btn primary' href='/solicitacoes'>
+                        <a className='btn primary' href='/minhas-solicitacoes'>
                             <i className="bi bi-arrow-clockwise"></i>
                             Recarregue a página
                         </a>
@@ -193,55 +174,76 @@ export function PainelSolicitacoes() {
                             {/* )} */}
                         </div>
                     ) : (
+                        <>
                         <table>
                             <thead>
                                 <tr>
                                     <th scope="col">ID</th>
                                     <th scope="col">Tipo</th>
                                     <th scope="col" data-label="status">Status</th>
-                                    <th scope="col">Ações</th>
+                                    <th scope="col" data-label="ações">Ações</th>
                                 </tr>
                             </thead>
-
                             <tbody>
                             {solicitacoes.map((solicitacao)=> (
                                 <tr key={solicitacao.id} className="item">
                                     <td data-label="id">
                                         {formatToIdCode(solicitacao.id)}
                                     </td>
+
                                     <td data-label="tipo">
                                         {/* <div className="content_type"> */}
                                             <span className={`badge ${solicitacao.status_reservation == 'Em atraso' ? 'alert' : ''}`}>
-                                                {solicitacao.type_name}
+                                                {solicitacao.order_type == "Saída" ? (
+                                                <i className="bi bi-box-arrow-left"></i>
+                                                ): (
+                                                <i className="bi bi-calendar-event"></i>
+                                                )}
+                                                <span> {solicitacao.order_type}</span>
                                             </span>
                                             {/* <div>5</div>
                                         </div> */}
                                     </td>
+
                                     <td data-label="status">
+                                        {solicitacao.status == 'Cancelado' ? (
+                                        <span>{solicitacao.status}</span>
+                                        ) : (
                                         <div>{solicitacao.status} (Linha do tempo...)</div>
+                                        )}
                                     </td>
+
                                     <td data-label="ações">
-                                        <button>
+                                        <button className="btn view">
                                             <i className="bi bi-eye"></i>
-                                            Ver detalhes
+                                            <span>Ver detalhes</span>
                                         </button>
                                     </td>
                                 </tr>
                             ))}
                             </tbody>
                         </table>
+
+                        <div className='legenda'>
+                            <h5>Legenda:</h5>
+                            <small>
+                                <span className='alert'>!</span>
+                                Empréstimo em atraso
+                            </small>
+                        </div>
+
+                        <Pagination
+                        setLoading={setLoading}
+                        setHasError={setError}
+                        currentPage={currentPage}
+                        setCurrentPage={setCurrentPage}
+                        totalPages={totalPages}
+                        />
+                        </>
                     )
 
                     )
                 )}
-
-                <div className='legenda'>
-                    <h5>Legenda:</h5>
-                    <small>
-                        <span className='alert'>!</span> 
-                        Empréstimo em atraso
-                    </small>
-                </div>
             </div>
 
 

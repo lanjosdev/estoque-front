@@ -17,9 +17,10 @@ Pagination.propTypes = {
     setHasError: PropTypes.func,
     currentPage: PropTypes.number,
     setCurrentPage: PropTypes.func,
-    pages: PropTypes.array
+    pages: PropTypes.array,
+    totalPages: PropTypes.number
 }
-export function Pagination({ setLoading, setHasError, currentPage, setCurrentPage, pages }) {
+export function Pagination({ setLoading, setHasError, currentPage, setCurrentPage, pages, totalPages }) {
 
     const handleSelectChange = (event)=> { 
         setLoading(true);
@@ -53,21 +54,31 @@ export function Pagination({ setLoading, setHasError, currentPage, setCurrentPag
 
             <div className='select--span'>
                 <select value={currentPage} onChange={handleSelectChange}>
-                    {pages.map(item=> (
-                    <option value={item} key={item} defaultValue={currentPage}>
-                        {item}
-                    </option>
-                    ))}
+                    {totalPages ? (
+                        Array(totalPages).fill(null).map((_, idx)=> (
+                            <option key={idx} value={idx+1} >
+                                {idx+1}
+                            </option>
+                        ))
+                    ) : (
+                        pages.map(item=> (
+                            <option value={item} key={item} >
+                                {item}
+                            </option>
+                        ))
+                    )}
                 </select>
-
-                <span>de {pages.length}</span>
+                
+                
+                <span> de {totalPages || pages?.length}</span>
             </div>
 
 
             <button 
             className="btn secundary"
             onClick={handleNextPage}
-            disabled={currentPage == pages.length}
+            // disabled={currentPage == pages.length}
+            disabled={totalPages ? (currentPage == totalPages) : (currentPage == pages?.length)}
             >
                 <i className="bi bi-caret-right-fill"></i>
             </button>

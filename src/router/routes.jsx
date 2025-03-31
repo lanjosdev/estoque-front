@@ -15,8 +15,8 @@ import Armazens from "../pages/Armazens";
 // import Profile from "../pages/Perfil";
 // import Alerts from "../pages/Alertas";
 
-import Solicitacoes from "../pages/Solicitacoes";
 import NovaSolicitacao from "../pages/NovaSolicitacao";
+import MinhasSolicitacoes from "../pages/MinhasSolicitacoes";
 
 // Components:
 import ControllerRouter from "./ControllerRouter";
@@ -77,13 +77,16 @@ export default function AppRoutes() {
                 <ControllerRouter> <Alerts/> </ControllerRouter>
             } /> */}
 
-            <Route path="/solicitacoes" element={ 
-                <ControllerRouter> <Solicitacoes /> </ControllerRouter>
-            } />
 
             <Route path="/nova-solicitacao" element={ 
                 <ControllerRouter> 
                     <NovaSolicitacao /> 
+                </ControllerRouter>
+            } />
+
+            <Route path="/minhas-solicitacoes" element={ 
+                <ControllerRouter> 
+                    <MinhasSolicitacoes /> 
                 </ControllerRouter>
             } />
 

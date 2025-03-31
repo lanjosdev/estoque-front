@@ -1,4 +1,4 @@
-.Painel.PainelSolicitacoes {
+.Painel.PainelMinhasSolicitacoes {
     /* background-color: aqua; */
 
     .painel-content {
@@ -50,6 +50,14 @@
 
                 td[data-label="ações"] {
                     min-width: 13.5rem;
+
+                    .btn {
+                        /* background-color: red; */
+
+                        > span {
+                            font-size: 1.2rem;
+                        }
+                    }
                 }
             }
             

@@ -183,9 +183,9 @@ export function NavMenu({ onPageAlert=false }) {
                         <NavLink to='/nova-solicitacao'>Nova solicitação</NavLink>
                     </li>
 
-                    {/* <li>
-                        <NavLink to='/solicitacoes'>Solicitações</NavLink>
-                    </li>   */}
+                    <li>
+                        <NavLink to='/minhas-solicitacoes'>Solicitações</NavLink>
+                    </li>  
                     </>
                     )}
                     {/* nivel user */}

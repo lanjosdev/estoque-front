@@ -142,9 +142,9 @@ export function NavMenu({ onPageAlert=false }) {
                     <div className="separator mobile"></div>
 
 
-                    {/* <li>
+                    <li>
                         <NavLink to='/home'>Início</NavLink>
-                    </li> */}
+                    </li>
                     
                     {/* nivel admin */}
                     {profileDetails?.level_name == "admin" && (

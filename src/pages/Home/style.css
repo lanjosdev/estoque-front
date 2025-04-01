@@ -1,0 +1,71 @@
+.PageContentMain {
+    /* border: 3px solid blue; */
+    flex: 1;
+    padding: 4rem 1.5rem;
+
+    .title--subtitle {
+        margin-bottom: 3rem;
+    }
+}
+
+.PageContentMain.Home {
+    /* border: 3px solid red; */
+
+    .Painel {
+        padding: 2rem 1.5rem;
+
+        .painel_title {
+            /* background-color: red; */
+            margin-bottom: 2rem;
+        }
+
+        .painel_datas {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem 1.5rem;
+            @media (max-width: 855px) {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            @media (max-width: 400px) {
+                grid-template-columns: 1fr;
+            }
+
+            .quadro {
+                background-color: var(--color-w);
+                border: 0.1rem solid var(--color-bg-3);
+                border-left: 0.5rem solid var(--color-secundary);
+                border-radius: 10px;
+                padding: 1rem;
+                box-shadow: 0 0 5px #00000015;
+
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+
+                text-align: center;
+
+                .quadro_title {
+                    color: var(--gray-400);
+                }
+                .quadro_data {
+                    font-size: 4.2rem;
+                    font-weight: 600;
+                }
+            }
+        }
+
+        
+    }
+
+
+
+    /* RESPONSIVIDADE */
+    /* @media (max-width: 670px) {
+        .Painel {
+    
+            .resumes {
+                grid-template-columns: 1fr;
+            }
+        }
+    } */
+}

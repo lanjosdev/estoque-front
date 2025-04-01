@@ -1,0 +1,42 @@
+.Chart.ChartKPI {
+    grid-column: span 2;
+    @media (max-width: 400px) {
+        grid-column: auto;
+    }
+
+    .chart_data {
+        /* border: 2px red solid; */
+        
+        .details {
+            /* background-color: aqua; */
+            font-weight: 400;
+
+            .details_title {
+                margin-bottom: 1rem;
+            }
+
+            .details_list {
+                /* background-color: antiquewhite; */
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+
+                .item {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+
+                    .item_dot {
+                        min-width: 1.8rem;
+                        min-height: 1.8rem;
+                        border-radius: 50%;
+                    }
+
+                    span {
+                        font-size: 1.4rem;
+                    }
+                }
+            }
+        }
+    }
+}

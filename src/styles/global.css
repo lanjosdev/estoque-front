@@ -20,9 +20,10 @@
     --color-danger: #DC3545;
     --color-danger-bg: #F8D7DA;
     --color-danger-border: #db989f;
-    --color-warning: #cc9900;
+    --color-warning: #ffbf00;
     --color-warning-bg: #FFF3CD;
-    --color-warning-border: #d6c180;
+    /* --color-warning-border: #d6c180; */
+    --color-warning-border: #b49538;
 
     --gray-100: #F4F4F4;
     --gray-200: #ECECEC;

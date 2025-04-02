@@ -1,0 +1,139 @@
+.Painel.PainelMovimentacoes {
+    /* background-color: aqua; */
+
+    .painel-content {
+
+        table {
+
+            [data-label="quantidade"],
+            [data-label="tipo"] {
+                text-align: center;
+            }
+            
+            .item {
+                td[data-label="tipo"] {
+                    /* background-color: rgba(255, 0, 0, 0.144); */
+
+                    .tipo_content {
+                        /* border: 1px solid red; */
+                        display: flex;
+                        align-items: center;
+                        gap: 0.5rem;
+
+                        .badge {
+                            display: flex;
+                            align-items: center;
+                            justify-content: flex-start;
+                            gap: 0.4rem;
+                            width: 100%;
+                            max-width: fit-content;
+                            font-size: 1.3rem;
+                            font-weight: 500;
+    
+                            i {
+                                font-size: 1.6rem;
+                            }
+                        }   
+
+                        .sub_type {
+                            /* display: inline-block; */
+                            /* width: 1.9rem;
+                            height: 1.9rem;
+                            background-color: var(--color-neutral);
+                            border-radius: 50%;
+
+                            padding: 0.2rem; */
+                            background-color: var(--color-neutral);
+                            width: 2.2rem;
+                            height: 2.2rem;
+                            border-radius: 50%;
+
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+
+
+                            text-align: center;
+                            font-weight: 600;
+                            line-height: 0;
+                            color: var(--color-w);
+                        } 
+                        .sub_type.discard {
+                            background-color: var(--color-danger);
+                        }
+                    }                
+                }
+
+                td[data-label="quantidade"] {
+                    font-weight: 600;
+                }
+                &:has(.success) {
+                    td[data-label="quantidade"] {
+                        span {
+                            color: var(--color-success);
+                        }
+                    }
+                }
+            }
+            
+        }
+
+        
+        .legenda {
+            margin-top: 1rem;
+
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+
+            small {
+                display: flex;
+                align-items: center;
+                gap: .5rem;
+
+                span {
+                    display: inline-block;
+                    width: 1.9rem;
+                    height: 1.9rem;
+                    background-color: var(--color-neutral);
+                    border-radius: 50%;
+
+                    padding: 0.2rem;
+
+                    text-align: center;
+                    font-weight: 600;
+                    line-height: 116%;
+                    color: var(--color-w);
+                }
+                span.discard {
+                    background-color: var(--color-danger);
+                }
+            }
+        }
+        &:not(:has(table .sub_type)) {
+            .legenda {
+                display: none;
+            }
+        }
+    }
+
+
+
+    /* RESPONSIVIDADE */
+    /* @media (max-width: 767px) {
+
+        .painel-content {
+
+            table {
+                table-layout: fixed;
+
+                .item {
+
+                    td[data-label="status"] {
+                        min-width: 100%;
+                    }
+                }
+            }
+        }
+    } */
+}

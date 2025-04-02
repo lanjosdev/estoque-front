@@ -10,11 +10,11 @@ export const API_URL = api.api_url;
 
 
 // End-Points/Rotas da API:
-// Pega dados para o dashboard (GET):
-export async function DASH_GET_ALL(token) {
+// Pega todas as movimentações por params (GET):
+export async function MOVIMENTATION_GET_PER_PARAMS(token, params, page) {
    console.log('CALL FUNCTION API');
 
-   const response = await axios.get(`${API_URL}/get-all-info-dash`, { 
+   const response = await axios.get(`${API_URL}/get-all-movimentations?${params}&page=${page}`, { 
       headers: { "Accept": "application/json", Authorization: "Bearer " + token } 
    });
 

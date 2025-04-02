@@ -9,7 +9,7 @@ import Users from "../pages/Usuarios";
 import Sectors from "../pages/Setores";
 import Products from "../pages/Produtos";
 import Armazens from "../pages/Armazens";
-// import Inputs from "../pages/Entradas";
+import Movimentacoes from "../pages/Movimentacoes";
 // import Exits from "../pages/Saidas";
 // import Reservations from "../pages/Reservas";
 // import Profile from "../pages/Perfil";
@@ -60,9 +60,9 @@ export default function AppRoutes() {
                 </ControllerRouter>
             } />
 
-            {/* <Route path="/inputs" element={ 
-                <ControllerRouter> <Inputs/> </ControllerRouter>
-            } /> */}
+            <Route path="/movimentacoes" element={ 
+                <ControllerRouter> <Movimentacoes/> </ControllerRouter>
+            } />
 
             {/* <Route path="/exits" element={ 
                 <ControllerRouter> <Exits/> </ControllerRouter>

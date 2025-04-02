@@ -31,7 +31,7 @@ export function PainelMinhasSolicitacoes() {
     const paramsDefault = '';
     const [paramsQuery, setParamsQuery] = useState(paramsDefault); //ex com pesquisa: 'name=${productInputSearch}&active=true'
     const [totalResults, setTotalResults] = useState(0);
-    const [totalPages, setTotalPages] = useState([]);
+    const [totalPages, setTotalPages] = useState(1);
     
 
     // Lógica da UI:

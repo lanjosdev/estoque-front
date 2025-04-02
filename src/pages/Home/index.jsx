@@ -178,7 +178,7 @@ export default function Home() {
                         <div className="painel_datas">
                             <div className="quadro">
                                 <div className="quadro_title">
-                                    <h3>Total de produtos</h3>
+                                    <h3>Produtos catalogados</h3>
                                 </div>
 
                                 <div className="quadro_data">
@@ -198,7 +198,7 @@ export default function Home() {
 
                             <div className="quadro">
                                 <div className="quadro_title">
-                                    <h3>Empréstimos em andamento</h3>
+                                    <h3>Empréstimos ativos</h3>
                                 </div>
 
                                 <div className="quadro_data">

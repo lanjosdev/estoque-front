@@ -47,7 +47,7 @@ export function ChartProductsSector({ datas }) {
     return (
         <div className="Chart ChartProductsSector w-full max-w-3xl p-6 bg-white rounded-lg shadow-md">
             <div className="chart_title">
-                <h3 className="text-xl font-bold mb-6 text-gray-800">Quantidade de Produtos por Setor</h3>
+                <h3 className="text-xl font-bold mb-6 text-gray-800">Produtos catalogados por Setor</h3>
             </div>
 
             <div className="chart_data">
@@ -74,7 +74,7 @@ export function ChartProductsSector({ datas }) {
                 </ResponsiveContainer>
 
                 <div className="text_bottom mt-8 text-sm text-gray-500">
-                    Total de produtos: {dadosOrdenados.reduce((total, item) => total + item.quantity_products, 0)}
+                    Total de produtos catalogados: {dadosOrdenados.reduce((total, item) => total + item.quantity_products, 0)}
                 </div>
             </div>
         </div>

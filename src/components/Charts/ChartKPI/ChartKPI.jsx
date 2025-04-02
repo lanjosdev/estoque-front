@@ -78,6 +78,7 @@ export function ChartKPI({ datas }) {
                             paddingAngle={2}
                             labelLine={false}
                             label={renderCustomizedLabel}
+                            // label={({ status, percent })=> `${status}: ${percent}%`}
                         >
                             {dadosComPorcentagem.map((entry, index) => (
                             <Cell key={`cell-${index}`} fill={CORES[index % CORES.length]} />
@@ -103,6 +104,7 @@ export function ChartKPI({ datas }) {
                         /> */}
                     </PieChart>
                 </ResponsiveContainer>
+
                 {/* <ResponsiveContainer width="100%" height={400}>
                     <PieChart>
                         <Pie

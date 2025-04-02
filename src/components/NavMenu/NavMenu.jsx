@@ -171,6 +171,10 @@ export function NavMenu({ onPageAlert=false }) {
                     <li>
                         <NavLink to='/armazens'>Armazéns</NavLink>
                     </li>
+                    
+                    <li>
+                        <NavLink to='/movimentacoes'>Movimentações</NavLink>
+                    </li>
                     </>
                     )}
                     {/* nivel manager */}
@@ -179,12 +183,14 @@ export function NavMenu({ onPageAlert=false }) {
                     {/* nivel user */}
                     {(profileDetails?.level_name == "admin" || profileDetails?.level_name == "user") && (
                     <>
+                    {profileDetails.level_name == "user" && (
                     <li>
                         <NavLink to='/nova-solicitacao'>Nova solicitação</NavLink>
                     </li>
+                    )}
 
                     <li>
-                        <NavLink to='/minhas-solicitacoes'>Solicitações</NavLink>
+                        <NavLink to='/minhas-solicitacoes'>Minhas solicitações</NavLink>
                     </li>  
                     </>
                     )}

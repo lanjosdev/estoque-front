@@ -201,7 +201,7 @@ td[data-label="qtd. em estoque"]
     border-radius: 13px;
     font-size: 1.2rem;
     color: var(--color-neutral);
-    border: 1px solid var(--color-neutral);
+    border: 0.1rem solid var(--color-neutral);
     
     white-space: nowrap;
     overflow: hidden;
@@ -210,17 +210,17 @@ td[data-label="qtd. em estoque"]
 
     &.success {
         background-color: var(--color-success-bg);
-        border: 1px solid var(--color-success);
+        border: 0.1rem solid var(--color-success);
         color: var(--color-success);
     }
     &.danger {
         background-color: var(--color-danger-bg);
-        border: 1px solid var(--color-danger); 
+        border: 0.1rem solid var(--color-danger); 
         color: var(--color-danger);
     }
     &.warn {
         background-color: var(--color-warning-bg);
-        border: 1px solid var(--color-warning-border);
+        border: 0.1rem solid var(--color-warning-border);
         color: var(--color-warning);
     }
 }

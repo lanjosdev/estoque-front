@@ -1,5 +1,8 @@
-body:has(.Modal) {
-    overflow-y: hidden;
+body:has(.Modal),
+body:has(.PreviewCart) {
+    @media (max-width: 520px) {
+        overflow-y: hidden;
+    }
 }
 
 /* GRID LAYOUT */

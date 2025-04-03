@@ -59,69 +59,6 @@ export function PreviewCart({ close, typeRequest, listProductsQuantities, setLis
 
 
     useEffect(()=> {
-        // setListProductsQuantities([
-        //     {
-        //         "id": 2,
-        //         "name_category": "Administração",
-        //         "name": "Lápis",
-        //         "quantity_ideal": 50,
-        //         "quantity_min": 20,
-        //         "quantity_stock": 100,
-        //         "expiration_date": 0,
-        //         "quantity": 1
-        //     },
-        //     {
-        //         "id": 3,
-        //         "name_category": "Administração",
-        //         "name": "Lápis",
-        //         "quantity_ideal": 50,
-        //         "quantity_min": 20,
-        //         "quantity_stock": 100,
-        //         "expiration_date": 0,
-        //         "quantity": 1
-        //     },
-        //     {
-        //         "id": 4,
-        //         "name_category": "Administração",
-        //         "name": "Lápis",
-        //         "quantity_ideal": 50,
-        //         "quantity_min": 20,
-        //         "quantity_stock": 100,
-        //         "expiration_date": 0,
-        //         "quantity": 1
-        //     },
-        //     {
-        //         "id": 5,
-        //         "name_category": "Administração",
-        //         "name": "Lápis",
-        //         "quantity_ideal": 50,
-        //         "quantity_min": 20,
-        //         "quantity_stock": 100,
-        //         "expiration_date": 0,
-        //         "quantity": 1
-        //     },
-        //     {
-        //         "id": 6,
-        //         "name_category": "Administração",
-        //         "name": "Lápis",
-        //         "quantity_ideal": 50,
-        //         "quantity_min": 20,
-        //         "quantity_stock": 100,
-        //         "expiration_date": 0,
-        //         "quantity": 1
-        //     },
-        //     {
-        //         "id": 7,
-        //         "name_category": "Administração",
-        //         "name": "Lápis",
-        //         "quantity_ideal": 50,
-        //         "quantity_min": 20,
-        //         "quantity_stock": 100,
-        //         "expiration_date": 0,
-        //         "quantity": 1
-        //     }
-        // ]);
-
         // function initialComponent() {
             const handleKeyDown = (event)=> {
                 if(event.key === 'Escape') {
@@ -140,26 +77,26 @@ export function PreviewCart({ close, typeRequest, listProductsQuantities, setLis
     }, [close]);
 
 
-    useEffect(()=> {
-        async function validateSubmitDatas() {
-            // const requirements = reason.replace(/\s+/g, '').length > 0 
-            //     && obs.replace(/\s/g, '').length > 0 
-            //     && quantity > 0 
-            //     && deliveryTo.replace(/\s+/g, '').length > 0;
+    // useEffect(()=> {
+    //     async function validateSubmitDatas() {
+    //         // const requirements = reason.replace(/\s+/g, '').length > 0 
+    //         //     && obs.replace(/\s/g, '').length > 0 
+    //         //     && quantity > 0 
+    //         //     && deliveryTo.replace(/\s+/g, '').length > 0;
 
-            // const nameHasChange = profileDetails.name != name;
-            // const dateBirthHasChange = profileDetails.birth_data != dateBirth;
-            // const phoneHasChange = profileDetails.phone != phone;
-            // const genderHasChange = profileDetails.gender_id != genderSelect.id;
-            // const genderOptionalHasChange = profileDetails.sub_gender_id != genderOptionalSelect?.id;
-            // const sexualityHasChange = profileDetails.sexuality_id != sexualitySelect.id;
-            // const aboutMeHasChange = profileDetails.about_me != aboutMe;
+    //         // const nameHasChange = profileDetails.name != name;
+    //         // const dateBirthHasChange = profileDetails.birth_data != dateBirth;
+    //         // const phoneHasChange = profileDetails.phone != phone;
+    //         // const genderHasChange = profileDetails.gender_id != genderSelect.id;
+    //         // const genderOptionalHasChange = profileDetails.sub_gender_id != genderOptionalSelect?.id;
+    //         // const sexualityHasChange = profileDetails.sexuality_id != sexualitySelect.id;
+    //         // const aboutMeHasChange = profileDetails.about_me != aboutMe;
 
-            // setValidateSubmit(requirements && (nameHasChange || dateBirthHasChange || phoneHasChange || genderHasChange || genderOptionalHasChange || sexualityHasChange || aboutMeHasChange));          
-            // setValidateSubmit(requirements);          
-        }
-        validateSubmitDatas();
-    }, []);
+    //         // setValidateSubmit(requirements && (nameHasChange || dateBirthHasChange || phoneHasChange || genderHasChange || genderOptionalHasChange || sexualityHasChange || aboutMeHasChange));          
+    //         // setValidateSubmit(requirements);          
+    //     }
+    //     validateSubmitDatas();
+    // }, []);
     
 
 

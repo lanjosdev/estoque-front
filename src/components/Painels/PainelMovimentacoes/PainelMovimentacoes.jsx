@@ -7,9 +7,11 @@ import { MOVIMENTATION_GET_PER_PARAMS } from '../../../API/movimentationApi';
 
 // Components:
 import { toast } from 'react-toastify';
-import { DropdownMenuMovimentacoes } from '../../DropdownMenus/DropdownMovimentacoes/DropdownMenuMovimentacoes';
+import { DropdownMenuInput } from '../../DropdownMenus/DropdownInput/DropdownMenuInput';
 import { Pagination } from '../../Pagination/Pagination';
+import { ModalTypeMovimentation } from '../../Modals/ModalTypeMovimentation/ModalTypeMovimentation';
 // import { ModalInput } from '../../Modals/ModalInput/ModalInput';
+import { ModalInput } from '../../Modals/ModalInput/ModalInput';
 
 // Utils:
 import { formatToIdCode } from '../../../utils/formatStrings';
@@ -35,10 +37,11 @@ export function PainelMovimentacoes() {
 
 
 
-    // Logica Modal:
-    const [showModal, setShowModal] = useState(false);
-    const [optionModal, setOptionModal] = useState(null);
-    // const [optionUpdate, setOptionUpdate] = useState(null);
+
+    // Logica Modals:
+    const [showModalNewMovimentation, setShowModalNewMovimentation] = useState(false);
+    const [showModalInput, setShowModalInput] = useState(false);
+    const [optionModalInput, setOptionModalInput] = useState(null);
 
     
     const [inputSelect, setInputSelect] = useState(null);
@@ -90,11 +93,16 @@ export function PainelMovimentacoes() {
 
 
 
-    function handleOpenModal(opt) {
-        console.log(opt);
+    function handleOpenNewMovimentation() {
+        setShowModalNewMovimentation(true);
+    }
 
-        setOptionModal(opt);
-        setShowModal(true);
+    function handleOpenModalInput(opt) {
+        console.log(opt);
+        setShowModalNewMovimentation(false);
+
+        setOptionModalInput(opt);
+        setShowModalInput(true);
     }
 
 
@@ -123,7 +131,7 @@ export function PainelMovimentacoes() {
                     </form> */}
 
                     {movimentations.length > 0 && (
-                    <button className="btn primary" onClick={()=> handleOpenModal('create')} disabled={loading || hasError}>
+                    <button className="btn primary" onClick={handleOpenNewMovimentation} disabled={loading || hasError}>
                         <i className="bi bi-plus-lg"></i>
                         <span>Nova movimentação</span>
                     </button>
@@ -157,7 +165,7 @@ export function PainelMovimentacoes() {
                         <div className='result-empty'>
                             <p>Nenhuma movimentação registrada!</p>
                             
-                            <button className='btn primary' onClick={()=> handleOpenModal('create')} disabled={hasError}>
+                            <button className='btn primary' onClick={handleOpenNewMovimentation} disabled={hasError}>
                                 <i className="bi bi-plus-lg"></i>
                                 Registrar movimentação
                             </button>
@@ -214,7 +222,7 @@ export function PainelMovimentacoes() {
                                     </td>
 
                                     <td data-label="quantidade">
-                                        <span>{item.type !== 'ENTRADA' && '-'}{item.quantity}</span>
+                                        <span>{item.type == 'ENTRADA' ? '+' : '-'}{item.quantity}</span>
                                     </td>
 
                                     <td data-label="usuário (id)">
@@ -233,11 +241,17 @@ export function PainelMovimentacoes() {
                                     </td>
                                     
                                     <td data-label="ações">
-                                        <DropdownMenuMovimentacoes
-                                        // dataInput={}
-                                        // setInputSelect={setInputSelect}
-                                        // handleOpenModal={handleOpenModal}
-                                        />
+                                        {item.type == 'ENTRADA' ? (
+                                            <DropdownMenuInput
+                                            dataInput={item}
+                                            setInputSelect={setInputSelect}
+                                            handleOpenModalInput={handleOpenModalInput}
+                                            />
+                                        ) : (
+                                            <span disabled={item.sub_type == 'DESCARE'}>
+                                                AÇOES SAIDA
+                                            </span>
+                                        )}
                                     </td>
                                 </tr>
                             ))}
@@ -271,15 +285,22 @@ export function PainelMovimentacoes() {
             </div>
 
 
-            {/* {showModal && (
-                <ModalInput
-                close={()=> setShowModal(false)} 
-                setReflashState={setReflashState} 
-                optionModal={optionModal}
-                inputSelect={inputSelect}
-                // optionUpdate={optionUpdate}
+
+            {showModalNewMovimentation && (
+                <ModalTypeMovimentation 
+                close={()=> setShowModalNewMovimentation(false)}
+                handleOpenModalInput={handleOpenModalInput}
                 />
-            )} */}
+            )}
+
+            {showModalInput && (
+                <ModalInput
+                close={()=> setShowModalInput(false)} 
+                setReflashState={setReflashState} 
+                optionModal={optionModalInput}
+                inputSelect={inputSelect}
+                />
+            )}
         </div>
     )        
 }

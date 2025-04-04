@@ -226,7 +226,7 @@ export function CreateInput({ close, setReflashState }) {
 
     return (
         <div className='Window CreateInput grid'>
-            <h3>
+            <h3 className="title_modal entrada">
                 <i className="bi bi-arrow-down-circle-fill"></i>
                 <span> Registrar entrada no estoque</span>
             </h3>
@@ -291,7 +291,7 @@ export function CreateInput({ close, setReflashState }) {
 
 
                 <div className="btns">
-                    <button className="btn primary" disabled={loading || loadingSubmit || hasError}>
+                    <button className="btn success" disabled={loading || loadingSubmit || hasError}>
                         {loadingSubmit ? 'Registrando...' : 'Registrar entrada'}
                     </button>
 

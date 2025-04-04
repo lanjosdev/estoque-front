@@ -95,7 +95,7 @@ export function DeleteInput({ close, setReflashState, inputSelect }) {
             </h3>       
 
             <div className="content-window">
-                {profileDetails.level == 'admin' ?  (
+                {profileDetails.level_name == 'admin' ?  (
                 <p>
                     Deseja deletar a entrada de <b>{inputSelect.quantity}</b> ite{inputSelect.quantity > 1 ? 'ns' : 'm'} de <b>{inputSelect.product_name}</b>?
                 </p> 
@@ -104,10 +104,11 @@ export function DeleteInput({ close, setReflashState, inputSelect }) {
                     <i className="bi bi-exclamation-triangle"></i> 
                     Você não pode seguir com esta ação, contate o administrador do ambiente.
                 </p>   
-                )}            
+                )}      
+                      
 
                 <div className="btns">
-                    {profileDetails.level == 'admin' && (
+                    {profileDetails.level_name == 'admin' && (
                     <button className="btn danger" onClick={handleSubmitDeleteInput} disabled={loading}>
                         {loading ? 'Deletando...' : 'Deletar'}
                     </button>

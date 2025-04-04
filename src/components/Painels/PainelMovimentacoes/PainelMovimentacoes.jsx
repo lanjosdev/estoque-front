@@ -9,8 +9,8 @@ import { MOVIMENTATION_GET_PER_PARAMS } from '../../../API/movimentationApi';
 import { toast } from 'react-toastify';
 import { DropdownMenuInput } from '../../DropdownMenus/DropdownInput/DropdownMenuInput';
 import { Pagination } from '../../Pagination/Pagination';
+
 import { ModalTypeMovimentation } from '../../Modals/ModalTypeMovimentation/ModalTypeMovimentation';
-// import { ModalInput } from '../../Modals/ModalInput/ModalInput';
 import { ModalInput } from '../../Modals/ModalInput/ModalInput';
 
 // Utils:
@@ -34,8 +34,6 @@ export function PainelMovimentacoes() {
     const [movimentations, setMovimentations] = useState([]);
     const [totalPages, setTotalPages] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
-
-
 
 
     // Logica Modals:

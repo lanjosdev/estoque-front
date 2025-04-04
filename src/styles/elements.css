@@ -74,6 +74,24 @@ td[data-label="qtd. em estoque"]
         /* line-height: 0; */
     }
 }
+
+.title_modal {
+    background-color: var(--color-neutral-bg);
+    padding: 0.5rem;
+    border-radius: 7px;
+
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+
+    &.entrada {
+        background-color: var(--color-success-bg);
+        color: var(--color-success);
+    }
+    &.saida {
+        color: var(--color-neutral);
+    }
+}
 /* TIPOGRAFIA-FIM */
 
 
@@ -339,6 +357,15 @@ td[data-label="qtd. em estoque"]
         &:hover {
             background-color: transparent;
             transform: scale(1.2);
+        }
+    }
+    &.success {
+        background-color: var(--color-success);
+        min-height: 3.2rem;
+        color: var(--color-w);
+
+        &:hover {
+            filter: drop-shadow(0 0 8px var(--color-success)) brightness(1.1);
         }
     }
 }

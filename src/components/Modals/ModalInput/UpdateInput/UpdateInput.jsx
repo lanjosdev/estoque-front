@@ -262,7 +262,10 @@ export function UpdateInput({ close, setReflashState, inputSelect }) {
 
     return (
         <div className='Window UpdateInput UpdateReservation grid'>
-            <h3>Editar entrada no estoque</h3>
+            <h3 className="title_modal entrada">
+                <i className="bi bi-arrow-down-circle-fill"></i>
+                <span> Editar entrada do estoque</span>
+            </h3>
 
             <div className="top-window">
                 <p>Abaixo você pode editar os dados da entrada em questão.</p>
@@ -335,7 +338,7 @@ export function UpdateInput({ close, setReflashState, inputSelect }) {
 
 
                 <div className="btns">
-                    <button className="btn primary" disabled={ loading || loadingSubmit || hasError || !validateSubmit }>
+                    <button className="btn success" disabled={ loading || loadingSubmit || hasError || !validateSubmit }>
                         {loadingSubmit ? 'Salvando...' : 'Salvar alteração'}
                     </button>
 

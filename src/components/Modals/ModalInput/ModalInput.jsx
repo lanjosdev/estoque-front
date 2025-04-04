@@ -7,8 +7,8 @@ import { useEffect } from 'react';
 
 // Components:
 import { CreateInput } from "./CreateInput/CreateInput";
-// import { DeleteInput } from "./DeleteInput/DeleteInput";
 import { UpdateInput } from "./UpdateInput/UpdateInput";
+import { DeleteInput } from "./DeleteInput/DeleteInput";
 
 // Utils:
 //import { formatarHora } from '../../../utils/formatarNumbers';

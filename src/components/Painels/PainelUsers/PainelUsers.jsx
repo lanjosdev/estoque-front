@@ -234,8 +234,12 @@ export function PainelUsers() {
                             <tbody>
                             {users.map((user)=> (
                                 <tr key={user.id} className="item-user" title={user.id}>
-                                    <td data-label="nome">{user.name}</td>
+                                    <td data-label="nome">
+                                        <span className="name_profile">{user.name}</span>
+                                    </td>
+
                                     <td data-label="email">{user.email}</td>
+
                                     <td data-label="nível">
                                         {user.level_name == 'user' ? (
                                             <span><i className="bi bi-person-circle"></i> comum</span>
@@ -246,6 +250,7 @@ export function PainelUsers() {
                                         )
                                         )}
                                     </td>
+
                                     <td data-label="ações">
                                         <DropdownMenuUser
                                         dataUser={user}

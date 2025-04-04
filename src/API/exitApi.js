@@ -85,17 +85,18 @@ export async function EXIT_UPDATE(token, idExit, idProduct, quant, deliveryTo, r
 }
 
 // Atualiza dados da saida por descarte (POST):
-export async function EXIT_UPDATE_DISCARD(token, idExit, idProduct, quant, obs, idInput) {
+export async function EXIT_UPDATE_DISCARD(token, idExit, idProduct, quant, obs) {
    console.log('CALL FUNCTION API');
 
-   const response = await axios.post(`${API_URL}/update-exits/${idExit}`, {
-      "discarded": 1,
-      "fk_product_equipament_id": idProduct,
-      "quantity": quant,
-      "observation": obs,
-      "fk_inputs_id": idInput
-   }, 
-   { 
+   const bodyReq = {
+      discarded: 1,
+      fk_product_id: idProduct,
+      quantity: Number(quant),
+      observation: obs || null,
+   };
+   console.log(bodyReq);
+
+   const response = await axios.post(`${API_URL}/update-exits/${idExit}`, bodyReq, {
       headers: { "Accept": "application/json", Authorization: "Bearer " + token } 
    });
 

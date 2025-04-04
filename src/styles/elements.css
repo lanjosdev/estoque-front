@@ -8,7 +8,7 @@ body:has(.PreviewCart) {
 /* GRID LAYOUT */
 .grid {
     width: 100%;
-    max-width: 1280px;
+    max-width: 1380px;
 
     margin: 0 auto;
 }
@@ -459,15 +459,16 @@ td[data-label="qtd. em estoque"]
         background-color: var(--color-w);
         padding: .7rem;
         border-radius: 7px;
-        max-width: 490px;
-
-        /* min-width: 100%; coloquei no textarea a seguir*/
         width: 100%;
+        /* max-width: 490px; */
+        /* min-width: 100%; coloquei no textarea a seguir*/
     }
 
     textarea {
         min-width: 100%;
+        max-width: 490px;
         min-height: 7.5rem;
+        max-height: 15rem;
     }
 }
 

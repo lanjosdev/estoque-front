@@ -33,7 +33,7 @@ export function DropdownMenuExit({ dataExit, setExitSelect, handleOpenModalExit 
 		<div className="DropdownMenu">
             <DropdownMenu.Root>
                 <DropdownMenu.Trigger asChild>
-                    <button className="btn danger">
+                    <button className="btn secundary">
                         <i className="bi bi-three-dots"></i>
                         <span>Opções</span>
                     </button>

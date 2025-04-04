@@ -62,7 +62,7 @@ export function DeleteExit({ close, setReflashState, exitSelect }) {
             if(response.success) {
                 close();
                 setReflashState(prev => !prev);
-                toast.success('Sáida deletada!');
+                toast.success(`${exitSelect.sub_type == 'DESCARTE' ? 'Descarte deletado!' : 'Saída deletada!'}`);
             }
             else if(response.success == false) {
                 toast.error(response.message);
@@ -95,7 +95,7 @@ export function DeleteExit({ close, setReflashState, exitSelect }) {
             </h3>       
 
             <div className="content-window">
-                {profileDetails.level == 'admin' ?  (
+                {profileDetails.level_name == 'admin' ?  (
                 <p>
                     Deseja deletar {exitSelect.discarded ? 'o descarte' : 'a saída'} de <b>{exitSelect.quantity}</b> ite{exitSelect.quantity > 1 ? 'ns' : 'm'} de <b>{exitSelect.product_name}</b>?
                 </p> 
@@ -107,14 +107,14 @@ export function DeleteExit({ close, setReflashState, exitSelect }) {
                 )}      
 
                 <div className="btns">
-                    {profileDetails.level == 'admin' && (
+                    {profileDetails.level_name == 'admin' && (
                     <button className="btn danger" onClick={handleSubmitDeleteExit} disabled={loading}>
                         {loading ? 'Deletando...' : 'Deletar'}
                     </button>
                     )}
 
                     <button ref={elementFocusRef} className="btn cancel" onClick={close} disabled={loading}>
-                        {profileDetails.level == 'admin' ? 'Cancelar' : 'Fechar'}
+                        {profileDetails.level_name == 'admin' ? 'Cancelar' : 'Fechar'}
                     </button>
                 </div>
             </div>     

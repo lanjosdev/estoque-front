@@ -54,12 +54,12 @@ export function ModalTypeMovimentation({ close, handleOpenModalInput, handleOpen
                 </div>
 
                 <div className="window_content">
-                    <button onClick={()=> handleOpenModalInput('create')}>
+                    <button className="btn_entrada" onClick={()=> handleOpenModalInput('create')}>
                         <i className="bi bi-arrow-down-circle-fill"></i>
                         <span>Entrada</span>
                     </button>
 
-                    <button onClick={()=> handleOpenModalExit('create')}>
+                    <button className="btn_saida" onClick={()=> handleOpenModalExit('create')}>
                         <i className="bi bi-arrow-up-circle-fill"></i>
                         <span>Descarte</span>
                     </button>

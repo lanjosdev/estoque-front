@@ -115,7 +115,7 @@ export function DeleteInput({ close, setReflashState, inputSelect }) {
                     )}
 
                     <button ref={elementFocusRef} className="btn cancel" onClick={close} disabled={loading}>
-                        {profileDetails.level == 'admin' ? 'Cancelar' : 'Fechar'}
+                        {profileDetails.level_name == 'admin' ? 'Cancelar' : 'Fechar'}
                     </button>
                 </div>
             </div>     

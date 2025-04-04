@@ -5,8 +5,8 @@ import { useEffect } from 'react';
 
 // Components:
 import { CreateExit } from "./CreateExit/CreateExit";
-// import { DeleteExit } from "./DeleteExit/DeleteExit";
-// import { UpdateExit } from "./UpdateExit/UpdateExit";
+import { UpdateExit } from "./UpdateExit/UpdateExit";
+import { DeleteExit } from "./DeleteExit/DeleteExit";
 
 // Utils:
 

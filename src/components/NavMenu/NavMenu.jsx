@@ -114,7 +114,7 @@ export function NavMenu({ onPageAlert=false }) {
     
 
     return (
-        <header className={'NavMenu ' + profileDetails?.level}>
+        <header className={'NavMenu ' + profileDetails?.level_name}>
 
             <nav ref={navMenuRef} className="NavMenuContent grid">
                 <Link className='logo' to='/home' onClick={()=> setIsOpen(false)}>

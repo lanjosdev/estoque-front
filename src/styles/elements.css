@@ -368,6 +368,15 @@ td[data-label="qtd. em estoque"]
             filter: drop-shadow(0 0 8px var(--color-success)) brightness(1.1);
         }
     }
+    &.neutral {
+        background-color: var(--color-neutral);
+        min-height: 3.2rem;
+        color: var(--color-w);
+
+        &:hover {
+            filter: drop-shadow(0 0 8px var(--color-neutral)) brightness(1.1);
+        }
+    }
 }
 
 .btn_filter,

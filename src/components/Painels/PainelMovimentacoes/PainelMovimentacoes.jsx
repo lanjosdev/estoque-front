@@ -8,10 +8,12 @@ import { MOVIMENTATION_GET_PER_PARAMS } from '../../../API/movimentationApi';
 // Components:
 import { toast } from 'react-toastify';
 import { DropdownMenuInput } from '../../DropdownMenus/DropdownInput/DropdownMenuInput';
+import { DropdownMenuExit } from '../../DropdownMenus/DropdownExit/DropdownMenuExit';
 import { Pagination } from '../../Pagination/Pagination';
 
 import { ModalTypeMovimentation } from '../../Modals/ModalTypeMovimentation/ModalTypeMovimentation';
 import { ModalInput } from '../../Modals/ModalInput/ModalInput';
+import { ModalExit } from '../../Modals/ModalExit/ModalExit';
 
 // Utils:
 import { formatToIdCode } from '../../../utils/formatStrings';
@@ -40,9 +42,11 @@ export function PainelMovimentacoes() {
     const [showModalNewMovimentation, setShowModalNewMovimentation] = useState(false);
     const [showModalInput, setShowModalInput] = useState(false);
     const [optionModalInput, setOptionModalInput] = useState(null);
+    const [showModalExit, setShowModalExit] = useState(false);
+    const [optionModalExit, setOptionModalExit] = useState(null);
 
     
-    const [inputSelect, setInputSelect] = useState(null);
+    const [movimentationSelect, setMovimentationSelect] = useState(null);
 
     
     const tokenCookie = Cookies.get('tokenEstoque');
@@ -101,6 +105,13 @@ export function PainelMovimentacoes() {
 
         setOptionModalInput(opt);
         setShowModalInput(true);
+    }
+    function handleOpenModalExit(opt) {
+        console.log(opt);
+        setShowModalNewMovimentation(false);
+
+        setOptionModalExit(opt);
+        setShowModalExit(true);
     }
 
 
@@ -242,13 +253,15 @@ export function PainelMovimentacoes() {
                                         {item.type == 'ENTRADA' ? (
                                             <DropdownMenuInput
                                             dataInput={item}
-                                            setInputSelect={setInputSelect}
+                                            setInputSelect={setMovimentationSelect}
                                             handleOpenModalInput={handleOpenModalInput}
                                             />
                                         ) : (
-                                            <span disabled={item.sub_type == 'DESCARE'}>
-                                                AÇOES SAIDA
-                                            </span>
+                                            <DropdownMenuExit 
+                                            dataExit={item}
+                                            setExitSelect={setMovimentationSelect}
+                                            handleOpenModalExit={handleOpenModalExit}
+                                            />
                                         )}
                                     </td>
                                 </tr>
@@ -288,6 +301,7 @@ export function PainelMovimentacoes() {
                 <ModalTypeMovimentation 
                 close={()=> setShowModalNewMovimentation(false)}
                 handleOpenModalInput={handleOpenModalInput}
+                handleOpenModalExit={handleOpenModalExit}
                 />
             )}
 
@@ -296,7 +310,15 @@ export function PainelMovimentacoes() {
                 close={()=> setShowModalInput(false)} 
                 setReflashState={setReflashState} 
                 optionModal={optionModalInput}
-                inputSelect={inputSelect}
+                inputSelect={movimentationSelect}
+                />
+            )}
+            {showModalExit && (
+                <ModalExit
+                close={()=> setShowModalExit(false)}
+                setReflashState={setReflashState}
+                optionModal={optionModalExit}
+                exitSelect={movimentationSelect}
                 />
             )}
         </div>

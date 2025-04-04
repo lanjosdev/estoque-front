@@ -1,29 +1,30 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import PropTypes from "prop-types";
 
-// import "./dropdownmenuinput.css";
+
+// import "./dropdownmenuexit.css";
 
 
-DropdownMenuInput.propTypes = {
-    dataInput: PropTypes.object,
-    setInputSelect: PropTypes.func,
-    handleOpenModalInput: PropTypes.func,
+DropdownMenuExit.propTypes = {
+    dataExit: PropTypes.object,
+    setExitSelect: PropTypes.func,
+    handleOpenModalExit: PropTypes.func,
     // setOptionUpdate: PropTypes.func
 }
-export function DropdownMenuInput({ dataInput, setInputSelect, handleOpenModalInput }) {
+export function DropdownMenuExit({ dataExit, setExitSelect, handleOpenModalExit }) {
 
 
-    function handleDelInput() {
+    function handleDelExit() {
         ////Fazer uma condição que se NÃO for ADMIN apresentar um modal de aviso que não pode processeguir com o delete
-        setInputSelect(dataInput);
+        setExitSelect(dataExit);
 
-        handleOpenModalInput('delete');
+        handleOpenModalExit('delete');
     }
 
-    function handleUpdateInput() {
-        setInputSelect(dataInput);
+    function handleUpdateExit() {
+        setExitSelect(dataExit);
 
-        handleOpenModalInput('update');
+        handleOpenModalExit('update');
     }
 
 
@@ -32,27 +33,27 @@ export function DropdownMenuInput({ dataInput, setInputSelect, handleOpenModalIn
 		<div className="DropdownMenu">
             <DropdownMenu.Root>
                 <DropdownMenu.Trigger asChild>
-                    <button className="btn secundary">
+                    <button className="btn danger">
                         <i className="bi bi-three-dots"></i>
                         <span>Opções</span>
                     </button>
                 </DropdownMenu.Trigger>
-                
+
                 <DropdownMenu.Content className="dropdown-content">
                     <DropdownMenu.Item className="dropdown-item">
                         Ver detalhes
                     </DropdownMenu.Item>
 
-                    {!dataInput.sub_type && (
+                    {dataExit.sub_type == 'DESCARTE' && (
                     <>
-                    <DropdownMenu.Item className="dropdown-item" onClick={handleUpdateInput}>
-                        Editar entrada
+                    <DropdownMenu.Item className="dropdown-item" onClick={handleUpdateExit}>
+                        Editar {dataExit.discarded ? 'descarte' : 'saída'}
                     </DropdownMenu.Item>
 
                     <DropdownMenu.Separator className="dropdown-separator" />
 
-                    <DropdownMenu.Item className="dropdown-item" onClick={handleDelInput}>
-                        Deletar entrada
+                    <DropdownMenu.Item className="dropdown-item" onClick={handleDelExit}>
+                        Deletar {dataExit.discarded ? 'descarte' : 'saída'}
                     </DropdownMenu.Item>
                     </>
                     )}

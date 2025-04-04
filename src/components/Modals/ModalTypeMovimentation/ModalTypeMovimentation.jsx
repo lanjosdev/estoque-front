@@ -1,6 +1,6 @@
 // Hooks / Libs:
 import PropTypes from "prop-types";
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 
 // API:
 
@@ -18,9 +18,10 @@ import './modaltypemovimentation.css';
 
 ModalTypeMovimentation.propTypes = {
     close: PropTypes.func,
-    handleOpenModalInput: PropTypes.func
+    handleOpenModalInput: PropTypes.func,
+    handleOpenModalExit: PropTypes.func
 }
-export function ModalTypeMovimentation({ close, handleOpenModalInput }) {
+export function ModalTypeMovimentation({ close, handleOpenModalInput, handleOpenModalExit }) {
 
 
     useEffect(()=> {
@@ -58,9 +59,9 @@ export function ModalTypeMovimentation({ close, handleOpenModalInput }) {
                         <span>Entrada</span>
                     </button>
 
-                    <button>
+                    <button onClick={()=> handleOpenModalExit('create')}>
                         <i className="bi bi-arrow-up-circle-fill"></i>
-                        <span>Saída</span>
+                        <span>Descarte</span>
                     </button>
                 </div>
             </div>

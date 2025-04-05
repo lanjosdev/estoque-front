@@ -1,9 +1,10 @@
-// Funcionalidades / Libs:
+// Hooks / Libs:
 import PropTypes from "prop-types";
-import { useState, useEffect, useRef } from 'react';
-import { USER_CREATE } from "../../../../API/userApi";
 import Cookies from "js-cookie";
-// import { Navigate } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
+
+// API:
+import { USER_CREATE } from "../../../../API/userApi";
 
 // Components:
 import { InputPassword } from "../../../InputPassword/InputPassword";
@@ -64,39 +65,54 @@ export function CreateUser({ close, setReflashState }) {
         const email = emailRef.current?.value;
         const password = passwordRef.current?.value;
 
-        if(name !== '' && email !== '' && password !== '') {
-            try {
-                const response = await USER_CREATE(JSON.parse(tokenCookie), email, password, name);
-                console.log(response);  
-    
-                if(response.success) {
-                    close();
-                    setReflashState(prev => !prev);
-                    toast.success('Usuário criado!');
-                }
-                else if(response.success == false) {
-                    if(response.message == 'Error: validation.min.string') {
-                        toast.error('A senha precisa ter no mínino 8 caracteres.');
-                    }
-                    else {
-                        toast.error(response.message);
-                    }
-                }
-                else {
-                    toast.error('Erro inesperado.');
-                }
-            }
-            catch(error) {
-                console.error('Deu erro: ', error);
+        // Validação:
+        const validadeName = name.replace(/\s/g, '').length > 0;
+        const validadePassword = password.length >= 8;
 
-                if(error?.response?.data?.message == 'Unauthenticated.') {
-                    toast.error('Requisição não autenticada.');
+        if(!validadeName) {
+            setLoading(false);
+            toast.warn('Preencha o campo de nome corretamente.');
+            return;
+        }
+        if(!validadePassword) {
+            setLoading(false);
+            toast.warn('O campo de senha precisa ter no mínino 8 caracteres.');
+            return;
+        }
+
+        // Submit API:
+        try {
+            const response = await USER_CREATE(JSON.parse(tokenCookie), email, password, name);
+            console.log(response);  
+
+            if(response.success) {
+                close();
+                setReflashState(prev => !prev);
+                toast.success('Usuário criado!');
+            }
+            else if(response.success == false) {
+                if(response.message == 'Error: validation.min.string') {
+                    toast.error('A senha precisa ter no mínino 8 caracteres.');
                 }
                 else {
-                    toast.error('Houve algum erro.');
+                    console.error(response.message);
+                    toast.error(response.message);
                 }
             }
-        }  
+            else {
+                toast.error('Erro inesperado.');
+            }
+        }
+        catch(error) {
+            if(error?.response?.data?.message == 'Unauthenticated.') {
+                console.error('Requisição não autenticada.');
+            }
+            else {
+                toast.error('Houve algum erro.');
+            }
+
+            console.error('DETALHES DO ERRO: ', error);
+        }
 
         setLoading(false);
     }

@@ -135,6 +135,7 @@ export function CreateExit({ close, setReflashState }) {
 
         // Validação de dados
         if(!validateSubmit) {
+            setLoadingSubmit(false);
             toast.warn('Preencha os campos necessários.');
             return;
         }

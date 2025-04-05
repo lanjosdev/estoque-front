@@ -69,7 +69,8 @@ export function UpdateUser({ close, setReflashState, userSelect, optionUpdate })
         console.log(password);
         console.log(userSelect.id);
 
-        if(password !== '' && userSelect.id) {
+
+        if(password.length >= 8 && userSelect.id) {
             try {
                 const response = await USER_UPDATE_PASSWORD(JSON.parse(tokenCookie), password, userSelect.id);
                 console.log(response);  
@@ -99,6 +100,7 @@ export function UpdateUser({ close, setReflashState, userSelect, optionUpdate })
         }
         else {
             console.warn('Algum erro com a condicional!');
+            toast.warn('O campo de senha precisa ter no mínino 8 caracteres.');
         }
 
         setLoading(false);       
@@ -244,7 +246,7 @@ export function UpdateUser({ close, setReflashState, userSelect, optionUpdate })
                         </div>
     
                         <div className="btns">
-                            <button className="btn primary" onClick={handleSubmitUpdateLevel} disabled={loading || userSelect.level == levelUser}>
+                            <button className="btn primary" onClick={handleSubmitUpdateLevel} disabled={loading || userSelect.level_id == levelUser.id}>
                                 {loading ? 'Salvando...' : 'Salvar alteração'}
                             </button>
     

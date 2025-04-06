@@ -72,7 +72,6 @@ export function UpdateExit({ close, setReflashState, exitSelect }) {
 
     useEffect(()=> {
         async function checkValidateDatasSubmit() {
-            // || obs.replace(/\s/g, '').length == 0 || (exitSelect.id_product == productSelect.id && exitSelect.quantity == quantity && exitSelect.delivery_to == deliveryTo && exitSelect.reason_project == reason && exitSelect.observation == obs)
             const requirements = productSelect?.id && quantity > 0 && obs.replace(/\s/g, '').length > 0;
 
             const quantHasChange = exitSelect?.quantity != quantity;

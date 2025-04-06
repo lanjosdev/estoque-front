@@ -1,4 +1,4 @@
-// Funcionalidades / Libs:
+// Hooks / Libs:
 import PropTypes from "prop-types";
 import Cookies from "js-cookie";
 import { useState, useEffect, useRef, useContext } from 'react';
@@ -20,7 +20,7 @@ import { toast } from "react-toastify";
 // import LogoHeader from '../../assets/logo-header.png';
 
 // Estilo:
-// import './updateproduct.css';
+import './updateproduct.css';
 
 
 UpdateProduct.propTypes = {
@@ -50,6 +50,10 @@ export function UpdateProduct({ close, setReflashState, productSelect, optionUpd
     const [obs, setObs] = useState(productSelect.observation || '');
     const [hasExpiration, setHasExpiration] = useState(productSelect.expiration_date);
     // const [listIdsProducts, setlistIdsProducts] = useState(productSelect.components_group.map(item=> item.id));
+    const [ordersActive, setOrdersActive] = useState({
+        exit: true,
+        reservation: true
+    });
     
 
 
@@ -106,7 +110,21 @@ export function UpdateProduct({ close, setReflashState, productSelect, optionUpd
         initializeComponent();
     }, [productSelect, optionUpdate, tokenCookie]);
 
+    useEffect(()=> {
+        async function checkValidateDatasSubmit() {
+            // const requirements = productSelect?.id && quantity > 0 && obs.replace(/\s/g, '').length > 0;
 
+            // const quantHasChange = exitSelect?.quantity != quantity;
+            // const obsHasChange = exitSelect?.observation != obs;
+
+            // const hasChange = quantHasChange || obsHasChange;
+            // // console.log('Requisitos: ', requirements);
+            // // console.log('Mudança: ', hasChange);
+            // // console.log(requirements && hasChange);
+            // setValidateSubmit(requirements && hasChange);          
+        }
+        checkValidateDatasSubmit();
+    }, []);
 
 
     // SUBMIT UPDATE:
@@ -242,11 +260,37 @@ export function UpdateProduct({ close, setReflashState, productSelect, optionUpd
                             </label>
                         </div>
                     </div>
+
+                    <div className="label--input solicitacao">
+                        <label>Marque os tipos de solicitações que este porduto fará parte:</label>
+    
+                        <div className="input">
+                            <label>
+                                <input type="checkbox" 
+                                name="solicitacao"
+                                checked={ordersActive.exit}
+                                onChange={()=> setOrdersActive(prev=> ({...prev, exit: !prev.exit}))} 
+                                />
+
+                                <span> Saídas</span>
+                            </label>
+
+                            <label>
+                                <input type="checkbox" 
+                                name="solicitacao"
+                                checked={ordersActive.reservation}
+                                onChange={()=> setOrdersActive(prev=> ({...prev, reservation: !prev.reservation}))}
+                                />
+
+                                <span> Empréstimos</span>
+                            </label>
+                        </div>
+                    </div>
     
     
                     <div className="btns">
                         <button className="btn primary" 
-                        disabled={loading || loadingSubmit || (name == productSelect.name && quantIdeal == productSelect.quantity_ideal && quantMin == productSelect.quantity_min && hasExpiration == productSelect.expiration_date)}
+                        disabled={loading || loadingSubmit || (name == productSelect.name && quantIdeal == productSelect.quantity_ideal && quantMin == productSelect.quantity_min && hasExpiration == productSelect.expiration_date) || (!ordersActive.exit && !ordersActive.reservation)}
                         >
                             {loadingSubmit ? 'Salvando...' : 'Salvar alteração'}
                         </button>

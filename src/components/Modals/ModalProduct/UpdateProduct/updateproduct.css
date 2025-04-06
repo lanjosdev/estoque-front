@@ -1,0 +1,13 @@
+.UpdateProduct {
+
+    .content-window {
+
+        .label--input.solicitacao {
+            
+            .input {
+                display: flex;
+                gap: 1.3rem;
+            }
+        }
+    }
+}

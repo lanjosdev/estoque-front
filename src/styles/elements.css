@@ -442,7 +442,7 @@ td[data-label="qtd. em estoque"]
             label {
                 /* background-color: aquamarine; */
                 display: flex;
-                gap: .1rem;
+                gap: .3rem;
             }
         }
     }

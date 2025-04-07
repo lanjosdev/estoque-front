@@ -446,6 +446,13 @@ td[data-label="qtd. em estoque"]
             }
         }
     }
+    &.solicitacao {
+            
+        > .input {
+            display: flex;
+            gap: 1.3rem;
+        }
+    }
 }
 .label--input {
     input[type='text'], 

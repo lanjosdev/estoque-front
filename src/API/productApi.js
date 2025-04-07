@@ -71,17 +71,21 @@ export async function PRODUCT_GET_PER_PAGE_SEARCH(token, search, page) {
 }
 
 // Cria um novo produto (POST):
-export async function PRODUCT_CREATE(token, name, categoryProduct, quantIdeal, obs, hasExpiration) {
+export async function PRODUCT_CREATE(token, name, categoryProduct, quantIdeal, hasExpiration, is_reservation, is_exit) {
    console.log('CALL FUNCTION API');
 
-   const response = await axios.post(`${API_URL}/product-equipaments`, {
-      "name": name,
-      "fk_category_id": categoryProduct,
-      "quantity_ideal": quantIdeal,
-      "observation": obs,
-      "expiration_date": hasExpiration
-   },
-   { 
+   const bodyReq = {
+      name: name,
+      fk_category_id: categoryProduct,
+      quantity_ideal: quantIdeal,
+      observation: null,
+      expiration_date: hasExpiration,
+      is_reservation: is_reservation,
+      is_exit: is_exit
+   };
+   console.log(bodyReq);
+
+   const response = await axios.post(`${API_URL}/product-equipaments`, bodyReq, {
       headers: { "Accept": "application/json", Authorization: "Bearer " + token } 
    });
 
@@ -90,18 +94,22 @@ export async function PRODUCT_CREATE(token, name, categoryProduct, quantIdeal, o
 }
 
 // Atualiza dados (nome e/ou quantmin e/ou categoria/setorProduto) do produto (ADMIN) (POST):
-export async function PRODUCT_UPDATE(token, idProduct, name, categoryProduct, quantIdeal, quantMin, obs, hasExpiration) {
+export async function PRODUCT_UPDATE(token, idProduct, name, categoryProduct, quantIdeal, quantMin, obs, hasExpiration, is_reservation, is_exit) {
    console.log('CALL FUNCTION API');
+
+   const bodyReq = {
+      name: name,
+      fk_category_id: categoryProduct,
+      quantity_ideal: quantIdeal,
+      quantity_min: quantMin,
+      observation: obs || null,
+      expiration_date: hasExpiration,
+      is_reservation: is_reservation,
+      is_exit: is_exit
+   };
+   console.log(bodyReq);
  
-   const response = await axios.post(`${API_URL}/update-product-equipaments/${idProduct}`, {
-      "name": name,
-      "fk_category_id": categoryProduct,
-      "quantity_ideal": quantIdeal,
-      "quantity_min": quantMin,
-      "observation": obs,
-      "expiration_date": hasExpiration
-   }, 
-   { 
+   const response = await axios.post(`${API_URL}/update-product-equipaments/${idProduct}`, bodyReq, {
       headers: { "Accept": "application/json", Authorization: "Bearer " + token } 
    });
  

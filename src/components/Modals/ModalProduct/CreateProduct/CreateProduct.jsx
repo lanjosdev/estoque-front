@@ -42,8 +42,12 @@ export function CreateProduct({ close, setReflashState }) {
     const nameRef = useRef('');
     const [sectorProduct, setSectorProduct] = useState(null);
     const quantIdealRef = useRef(0);
-    const obsRef = useRef(null);
+    // const obsRef = useRef(null);
     const [hasExpiration, setHasExpiration] = useState(null);
+    const [ordersPermission, setOrdersPermission] = useState({
+        exit: true,
+        reservation: true
+    });
 
 
     const tokenCookie = Cookies.get('tokenEstoque');
@@ -96,44 +100,59 @@ export function CreateProduct({ close, setReflashState }) {
 
         const name = nameRef.current?.value;
         const quantIdeal = quantIdealRef.current?.value;
-        const obs = obsRef.current?.value;
+        // const obs = obsRef.current?.value;
         console.log(name);
         console.log(sectorProduct?.id);
         console.log(quantIdeal);
-        console.log(obs);
+        console.log(ordersPermission);
         console.log(hasExpiration);
+        // console.log(obs);
 
-        if(name !== '' && quantIdeal > 0 && sectorProduct?.id && hasExpiration !== null) {
-            try {
-                const response = await PRODUCT_CREATE(JSON.parse(tokenCookie), name, sectorProduct.id, quantIdeal, obs, hasExpiration);
-                console.log(response);  
-    
-                if(response.success) {
-                    close();
-                    setReflashState(prev => !prev);
-                    toast.success('Produto cadastrado!');
-                }
-                else if(response.success == false) {
-                    toast.error(response.message);
-                }
-                else {
-                    toast.error('Erro inesperado.');
-                }
-            }
-            catch(error) {
-                if(error?.response?.data?.message == 'Unauthenticated.') {
-                    console.error('Requisição não autenticada.');
-                }
-                else {
-                    console.error('Houve algum erro.');
-                }
+        // Validação:
+        const requirements = name.replace(/\s/g, '').length > 0 && 
+            sectorProduct.id && 
+            quantIdeal >= 1 && 
+            (ordersPermission.exit || ordersPermission.reservation) &&
+            hasExpiration != null;
 
-                console.error('DETALHES DO ERRO: ', error);
+        if(!requirements) {
+            setLoadingSubmit(false);
+            // setHasError(true);
+            toast.warn('Necessário prencher todos os campos corretamente.');
+            return;
+        }
+
+
+        // Submit API:
+        try {
+            const response = await PRODUCT_CREATE(JSON.parse(tokenCookie), name, sectorProduct.id, quantIdeal, hasExpiration, ordersPermission.reservation, ordersPermission.exit);
+            console.log(response);  
+
+            if(response.success) {
+                close();
+                setReflashState(prev => !prev);
+                toast.success('Produto cadastrado!');
             }
-        } 
-        else {
-            console.warn('Algum erro com a condicional!');
-        } 
+            else if(response.success == false) {
+                console.error(response.message);
+                toast.error(response.message);
+            }
+            else {
+                toast.error('Erro inesperado.');
+            }
+        }
+        catch(error) {
+            if(error?.response?.data?.message == 'Unauthenticated.') {
+                console.error('Requisição não autenticada.');
+            }
+            else {
+                console.error('Houve algum erro.');
+            }
+
+            console.error('DETALHES DO ERRO: ', error);
+        }
+        
+         
 
         setLoadingSubmit(false);
     }
@@ -179,9 +198,34 @@ export function CreateProduct({ close, setReflashState }) {
                     <input ref={quantIdealRef} className="input" id="qtd" type="number" min={1} max={settingsAdmin.max_input_quantity_min} required />
                 </div>
 
-                <div className="label--input">
+                {/* <div className="label--input">
                     <label htmlFor="obs">Observação</label>
                     <textarea ref={obsRef} className="input" id="obs"></textarea>
+                </div> */}
+                <div className="label--input solicitacao">
+                    <label>Marque os tipos de solicitações que este produto fará parte:</label>
+
+                    <div className="input">
+                        <label>
+                            <input type="checkbox" 
+                            name="solicitacao"
+                            checked={ordersPermission.exit}
+                            onChange={()=> setOrdersPermission(prev=> ({...prev, exit: !prev.exit}))} 
+                            />
+
+                            <span> Saídas</span>
+                        </label>
+
+                        <label>
+                            <input type="checkbox" 
+                            name="solicitacao"
+                            checked={ordersPermission.reservation}
+                            onChange={()=> setOrdersPermission(prev=> ({...prev, reservation: !prev.reservation}))}
+                            />
+
+                            <span> Empréstimos</span>
+                        </label>
+                    </div>
                 </div>
 
                 <div className="label--input question">
@@ -213,7 +257,7 @@ export function CreateProduct({ close, setReflashState }) {
 
 
                 <div className="btns">
-                    <button className="btn primary" disabled={loading || loadingSubmit || !sectorProduct || hasError}>
+                    <button className="btn primary" disabled={loading || loadingSubmit || !sectorProduct || hasError || (!ordersPermission.exit && !ordersPermission.reservation) || hasExpiration == null}>
                         {loadingSubmit ? 'Cadastrando...' : 'Cadastrar produto'}
                     </button>
 

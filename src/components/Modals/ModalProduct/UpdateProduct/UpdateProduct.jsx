@@ -20,7 +20,7 @@ import { toast } from "react-toastify";
 // import LogoHeader from '../../assets/logo-header.png';
 
 // Estilo:
-import './updateproduct.css';
+// import './updateproduct.css';
 
 
 UpdateProduct.propTypes = {
@@ -36,7 +36,7 @@ export function UpdateProduct({ close, setReflashState, productSelect, optionUpd
     const [hasError, setHasError] = useState(true);
     const elementFocusRef = useRef(null);
     const [loadingSubmit, setLoadingSubmit] = useState(false);
-    // const [validateSubmit, setValidateSubmit] = useState(false);
+    const [validateSubmit, setValidateSubmit] = useState(false);
 
     // Dados a ser pré-carregados:
     const [sectors, setSectors] = useState([]);
@@ -50,9 +50,9 @@ export function UpdateProduct({ close, setReflashState, productSelect, optionUpd
     const [obs, setObs] = useState(productSelect.observation || '');
     const [hasExpiration, setHasExpiration] = useState(productSelect.expiration_date);
     // const [listIdsProducts, setlistIdsProducts] = useState(productSelect.components_group.map(item=> item.id));
-    const [ordersActive, setOrdersActive] = useState({
-        exit: true,
-        reservation: true
+    const [ordersPermission, setOrdersPermission] = useState({
+        exit: productSelect.is_exit,
+        reservation: productSelect.is_reservation
     });
     
 
@@ -112,19 +112,29 @@ export function UpdateProduct({ close, setReflashState, productSelect, optionUpd
 
     useEffect(()=> {
         async function checkValidateDatasSubmit() {
-            // const requirements = productSelect?.id && quantity > 0 && obs.replace(/\s/g, '').length > 0;
+            const requirements = name.replace(/\s/g, '').length > 0 &&
+                idSectorProduct > 0 &&
+                quantIdeal >= 1 &&
+                quantMin >= 0 &&
+                (ordersPermission.exit || ordersPermission.reservation) &&
+                hasExpiration !== null;
 
-            // const quantHasChange = exitSelect?.quantity != quantity;
-            // const obsHasChange = exitSelect?.observation != obs;
+            const nameHasChange = productSelect.name != name;
+            const quantIdealHasChange = productSelect.quantity_ideal != quantIdeal;
+            const quantMinHasChange = productSelect.quantity_min != quantMin;
+            const orderExitHasChange = productSelect.is_exit != ordersPermission.exit;
+            const orderReservationHasChange = productSelect.is_reservation != ordersPermission.reservation;
+            const hasExpirationHasChange = productSelect.expiration_date != hasExpiration;
 
-            // const hasChange = quantHasChange || obsHasChange;
-            // // console.log('Requisitos: ', requirements);
-            // // console.log('Mudança: ', hasChange);
-            // // console.log(requirements && hasChange);
-            // setValidateSubmit(requirements && hasChange);          
+            const hasChange = nameHasChange || quantIdealHasChange || quantMinHasChange || orderExitHasChange || orderReservationHasChange || hasExpirationHasChange;
+            // console.log('Requisitos: ', requirements);
+            // console.log('Mudança: ', hasChange);
+            // console.log(requirements && hasChange);
+            setValidateSubmit(requirements && hasChange);          
         }
         checkValidateDatasSubmit();
-    }, []);
+    }, [productSelect, name, idSectorProduct, quantIdeal, quantMin, ordersPermission, hasExpiration]);
+
 
 
     // SUBMIT UPDATE:
@@ -137,50 +147,52 @@ export function UpdateProduct({ close, setReflashState, productSelect, optionUpd
         console.log(idSectorProduct)
         console.log(quantIdeal)
         console.log(quantMin)
-        console.log(obs)
+        console.log(ordersPermission)
         console.log(hasExpiration)
+        console.log(obs)
 
-        if(name !== '' && quantIdeal > 0 && idSectorProduct > 0 && hasExpiration !== null) {
-            // if(
-            //     name == productSelect.name && 
-            //     quantMin == productSelect.quantity_min && 
-            //     sectorProduct == productSelect.fk_category_id &&
-            //     hasExpiration == productSelect.expiration_date
-            // ) {
-            //     console.log('Nenhuma alteração!');
-            //     setLoadingSubmit(false);
-            //     return;
-            // }
+        // Validação:
+        const requirements = name.replace(/\s/g, '').length > 0 &&
+            idSectorProduct > 0 &&
+            quantIdeal >= 1 &&
+            quantMin >= 0 &&
+            (ordersPermission.exit || ordersPermission.reservation) &&
+            hasExpiration !== null;
 
-            try {
-                const response = await PRODUCT_UPDATE(JSON.parse(tokenCookie), productSelect.id, name, idSectorProduct, quantIdeal, quantMin, obs, hasExpiration);
-                console.log(response);  
-    
-                if(response.success) {
-                    close();
-                    setReflashState(prev => !prev);
-                    toast.success('Alteração salva!');
-                }
-                else if(response.success == false) {
-                    toast.error(response.message);
-                }
-                else {
-                    toast.error('Erro inesperado.');
-                }
+        if(!requirements) {
+            setLoadingSubmit(false);
+            toast.warn('Preencha corretamente o(s) campo(s).');
+            return;
+        }
+
+
+        // Submit API:
+        try {
+            const response = await PRODUCT_UPDATE(JSON.parse(tokenCookie), productSelect.id, name, idSectorProduct, quantIdeal, quantMin, obs, hasExpiration, ordersPermission.reservation, ordersPermission.exit);
+            console.log(response);  
+
+            if(response.success) {
+                close();
+                setReflashState(prev => !prev);
+                toast.success('Alteração salva!');
             }
-            catch(error) {
-                if(error?.response?.data?.message == 'Unauthenticated.') {
-                    console.error('Requisição não autenticada.');
-                }
-                else {
-                    console.error('Houve algum erro.');
-                }
-
-                console.error('DETALHES DO ERRO: ', error);
+            else if(response.success == false) {
+                console.error(response.message);
+                toast.error(response.message);
             }
-        } 
-        else {
-            console.warn('Algum erro com a condicional!');
+            else {
+                toast.error('Erro inesperado.');
+            }
+        }
+        catch(error) {
+            if(error?.response?.data?.message == 'Unauthenticated.') {
+                console.error('Requisição não autenticada.');
+            }
+            else {
+                console.error('Houve algum erro.');
+            }
+
+            console.error('DETALHES DO ERRO: ', error);
         }
 
         setLoadingSubmit(false);
@@ -231,6 +243,32 @@ export function UpdateProduct({ close, setReflashState, productSelect, optionUpd
                         // onFocus={()=> setUpdateProduct(true)} 
                         />
                     </div>
+
+                    <div className="label--input solicitacao">
+                        <label>Marque os tipos de solicitações que este produto fará parte:</label>
+    
+                        <div className="input">
+                            <label>
+                                <input type="checkbox" 
+                                name="solicitacao"
+                                checked={ordersPermission.exit}
+                                onChange={()=> setOrdersPermission(prev=> ({...prev, exit: !prev.exit}))} 
+                                />
+
+                                <span> Saídas</span>
+                            </label>
+
+                            <label>
+                                <input type="checkbox" 
+                                name="solicitacao"
+                                checked={ordersPermission.reservation}
+                                onChange={()=> setOrdersPermission(prev=> ({...prev, reservation: !prev.reservation}))}
+                                />
+
+                                <span> Empréstimos</span>
+                            </label>
+                        </div>
+                    </div>
     
                     <div className="label--input question">
                         <label>Tem data de vencimento?</label>
@@ -261,36 +299,12 @@ export function UpdateProduct({ close, setReflashState, productSelect, optionUpd
                         </div>
                     </div>
 
-                    <div className="label--input solicitacao">
-                        <label>Marque os tipos de solicitações que este porduto fará parte:</label>
     
-                        <div className="input">
-                            <label>
-                                <input type="checkbox" 
-                                name="solicitacao"
-                                checked={ordersActive.exit}
-                                onChange={()=> setOrdersActive(prev=> ({...prev, exit: !prev.exit}))} 
-                                />
-
-                                <span> Saídas</span>
-                            </label>
-
-                            <label>
-                                <input type="checkbox" 
-                                name="solicitacao"
-                                checked={ordersActive.reservation}
-                                onChange={()=> setOrdersActive(prev=> ({...prev, reservation: !prev.reservation}))}
-                                />
-
-                                <span> Empréstimos</span>
-                            </label>
-                        </div>
-                    </div>
     
     
                     <div className="btns">
                         <button className="btn primary" 
-                        disabled={loading || loadingSubmit || (name == productSelect.name && quantIdeal == productSelect.quantity_ideal && quantMin == productSelect.quantity_min && hasExpiration == productSelect.expiration_date) || (!ordersActive.exit && !ordersActive.reservation)}
+                        disabled={loading || loadingSubmit || hasError || !validateSubmit}
                         >
                             {loadingSubmit ? 'Salvando...' : 'Salvar alteração'}
                         </button>

@@ -44,7 +44,7 @@ export function UpdateProduct({ close, setReflashState, productSelect, optionUpd
 
     // Dados para submiter:
     const [name, setName] = useState(productSelect.name || '');
-    const [idSectorProduct, setIdSectorProduct] = useState(productSelect.fk_category_id);
+    const [idSectorProduct, setIdSectorProduct] = useState(productSelect.fk_category_id || null);
     const [quantIdeal, setQuantIdeal] = useState(productSelect.quantity_ideal || '');
     const [quantMin, setQuantMin] = useState(productSelect.quantity_min || '');
     const [obs, setObs] = useState(productSelect.observation || '');

@@ -36,14 +36,17 @@ export async function PRODUCT_GET_PER_PAGE_SEARCH(token, search, page) {
 
 
 // Registra novo deposito/storage (POST):
-export async function STORAGE_CREATE(token, name, obs) {
+export async function STORAGE_CREATE(token, name, idCategoryStorage, obs) {
    console.log('CALL FUNCTION API');
 
-   const response = await axios.post(`${API_URL}/storage-location`, {
-      "name": name,
-      "observation": obs,
-   },
-   { 
+   const bodyReq = {
+      name: name,
+      observation: obs || null,
+      fk_category_id: idCategoryStorage
+   };
+   console.log(bodyReq);
+
+   const response = await axios.post(`${API_URL}/storage-location`, bodyReq, {
       headers: { "Accept": "application/json", Authorization: "Bearer " + token } 
    });
 
@@ -52,14 +55,17 @@ export async function STORAGE_CREATE(token, name, obs) {
 }
 
 // Atualiza dados (nome e/ou observação) do deposito/storage (ADMIN) (POST):
-export async function STORAGE_UPDATE(token, idStorage, name, obs) {
+export async function STORAGE_UPDATE(token, idStorage, name, idCategoryStorage, obs) {
    console.log('CALL FUNCTION API');
 
-   const response = await axios.post(`${API_URL}/update-storage-location/${idStorage}`, {
-      "name": name,
-      "observation": obs
-   }, 
-   { 
+   const bodyReq = {
+      name: name,
+      observation: obs || null,
+      fk_category_id: idCategoryStorage
+   };
+   console.log(bodyReq);
+
+   const response = await axios.post(`${API_URL}/update-storage-location/${idStorage}`, bodyReq, {
       headers: { "Accept": "application/json", Authorization: "Bearer " + token } 
    });
 

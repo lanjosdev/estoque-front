@@ -202,6 +202,7 @@ export function PainelArmazens() {
                                 <tr>
                                     <th scope="col">ID</th>
                                     <th scope="col">Armazém</th>
+                                    <th scope="col">Setor</th>
                                     <th scope="col">Detalhamento</th>
                                     <th scope="col" data-label="ações">Ações</th>
                                 </tr>
@@ -220,6 +221,10 @@ export function PainelArmazens() {
                                         </span>
                                     </td>
 
+                                    <td data-label="setor">
+                                        {item.category_name || 'Setor não atribuido'}
+                                    </td>
+                                    
                                     <td data-label="detalhamento">
                                         {item.observation || 'Não informado'}
                                     </td>

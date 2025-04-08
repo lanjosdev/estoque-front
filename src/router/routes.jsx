@@ -10,8 +10,7 @@ import Sectors from "../pages/Setores";
 import Products from "../pages/Produtos";
 import Armazens from "../pages/Armazens";
 import Movimentacoes from "../pages/Movimentacoes";
-// import Exits from "../pages/Saidas";
-// import Reservations from "../pages/Reservas";
+import Profile from "../pages/Perfil";
 // import Profile from "../pages/Perfil";
 // import Alerts from "../pages/Alertas";
 
@@ -28,6 +27,7 @@ export default function AppRoutes() {
         <Routes>
 
             <Route path="/" element={ <Login/> } />
+            
 
 
             <Route path="/home" element={ 
@@ -61,20 +61,14 @@ export default function AppRoutes() {
             } />
 
             <Route path="/movimentacoes" element={ 
-                <ControllerRouter> <Movimentacoes/> </ControllerRouter>
+                <ControllerRouter> 
+                    <Movimentacoes/> 
+                </ControllerRouter>
             } />
 
-            {/* <Route path="/exits" element={ 
-                <ControllerRouter> <Exits/> </ControllerRouter>
-            } /> */}
-
-            {/* <Route path="/reservations" element={ 
-                <ControllerRouter> <Reservations/> </ControllerRouter>
-            } /> */}
-
-            {/* <Route path="/profile" element={ 
+            <Route path="/profile" element={ 
                 <ControllerRouter> <Profile/> </ControllerRouter>
-            } /> */}
+            } />
 
             {/* <Route path="/alerts" element={ 
                 <ControllerRouter> <Alerts/> </ControllerRouter>

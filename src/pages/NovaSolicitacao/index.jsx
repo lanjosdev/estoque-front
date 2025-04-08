@@ -146,6 +146,7 @@ export default function NovaSolicitacao() {
                 <PainelNovaSolicitacao 
                 listProductsQuantities={listProductsQuantities}
                 handleUpdateListProducts={handleUpdateListProducts} 
+                typeRequest={typeRequest}
                 />
             </main>
             

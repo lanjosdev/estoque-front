@@ -1,0 +1,98 @@
+.Pagee.SettingsProjeto.User {
+
+
+    .form-delete {
+        box-shadow: 0 0 0px .5px var(--color-bg-3);
+
+        h3 {
+            margin-bottom: 1rem;
+        }
+
+        .container-inputs {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: .7rem 2rem;
+
+            .label-input {
+                position: relative;
+                label {
+                    font-size: 14px;      
+                    font-weight: 600;
+                }
+                input {
+                    border-radius: 6px;
+                    padding: .2rem .4rem;
+                    font-size: 1.6rem;
+                    width: 100%;
+                    /* max-width: 40rem; */
+                    display: inline-block;
+                }
+            }
+
+            @media (max-width: 480px) {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .btns {
+            margin-top: 2rem;
+
+            .btn-add {
+                height: 2.5rem;
+                width: 100%;
+                max-width: 12rem;
+            }
+        }
+    }
+}
+
+.ProfileContent {
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+
+        .form {
+            background-color: var(--color-bg-2);
+            /* box-shadow: 0 0 0 .5px var(--color-bg-3); */
+            border-radius: 10px;
+            padding: 1.5rem;
+    
+            h3 {
+                margin-bottom: 1rem;
+            }
+            .container-inputs {
+                width: 100%;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: .7rem 2rem;
+
+                .label--input {
+                    /* background-color: aqua; */
+
+                    input {
+                        max-width: 100%;
+                    }
+                    
+                    .sectors {
+                        display: flex;
+                        flex-wrap: wrap;
+                        gap: 0.7rem;
+
+                        span {
+                            background-color: var(--color-bg-2);
+                            padding: 0.2rem 0.5rem;
+                            border-radius: 5px;
+                        }
+                    }
+                }
+
+                @media (max-width: 480px) {
+                    grid-template-columns: 1fr;
+                }
+            }
+        }
+    }
+}

@@ -23,9 +23,10 @@ import './painelnovasolicitacao.css';
 
 PainelNovaSolicitacao.propTypes = {
     listProductsQuantities: PropTypes.array,
-    handleUpdateListProducts: PropTypes.func
+    handleUpdateListProducts: PropTypes.func,
+    typeRequest: PropTypes.any
 }
-export function PainelNovaSolicitacao({ listProductsQuantities, handleUpdateListProducts }) {
+export function PainelNovaSolicitacao({ listProductsQuantities, handleUpdateListProducts, typeRequest }) {
     // Estados do componente:
     const [loading, setLoading] = useState(true);
     const [hasError, setHasError] = useState(true);
@@ -53,7 +54,7 @@ export function PainelNovaSolicitacao({ listProductsQuantities, handleUpdateList
     useEffect(()=> {
         //=> Contagem de pagina reinicia ao ter mudança no filter e/ou search (tudo é params)
         setCurrentPage(1);
-    }, [productFilterState]);
+    }, [productFilterState, typeRequest]);
 
     useEffect(()=> {
         async function getProductsPerPage() 
@@ -65,7 +66,7 @@ export function PainelNovaSolicitacao({ listProductsQuantities, handleUpdateList
                 setHasError(true);
                 setProducts([]);
                 
-                const response = await PRODUCT_GET_PER_PARAMS(JSON.parse(tokenCookie), productFilterState, currentPage);
+                const response = await PRODUCT_GET_PER_PARAMS(JSON.parse(tokenCookie), `${productFilterState}&type=${typeRequest == 'Saída' ? 'exit' : 'reservation'}`, currentPage);
                 console.log(response);
 
                 if(response.success) {
@@ -110,7 +111,7 @@ export function PainelNovaSolicitacao({ listProductsQuantities, handleUpdateList
             setLoading(false);
         }
         getProductsPerPage();
-    }, [tokenCookie, productFilterState, currentPage]);
+    }, [tokenCookie, productFilterState, currentPage, typeRequest]);
 
 
 

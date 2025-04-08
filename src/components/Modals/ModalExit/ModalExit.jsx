@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import { CreateExit } from "./CreateExit/CreateExit";
 import { UpdateExit } from "./UpdateExit/UpdateExit";
 import { DeleteExit } from "./DeleteExit/DeleteExit";
+import { DetailsExit } from "./DetailsExit/DetailsExit";
 
 // Utils:
 
@@ -59,6 +60,8 @@ export function ModalExit({ close, setReflashState, optionModal, exitSelect }) {
                 return <DeleteExit close={close} setReflashState={setReflashState} exitSelect={exitSelect} />;
             case 'update':
                 return <UpdateExit close={close} setReflashState={setReflashState} exitSelect={exitSelect} />;
+            case 'details':
+                return <DetailsExit close={close} exitSelect={exitSelect} />;
             default:
                 return <div style={{color: 'red'}}>Status desconhecido</div>;
         }

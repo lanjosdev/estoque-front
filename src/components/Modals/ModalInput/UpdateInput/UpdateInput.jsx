@@ -261,9 +261,10 @@ export function UpdateInput({ close, setReflashState, inputSelect }) {
 
 
     return (
-        <div className='Window UpdateInput UpdateReservation grid'>
+        <div className='Window UpdateInput grid'>
             <h3 className="title_modal entrada">
-                <i className="bi bi-arrow-down-circle-fill"></i>
+                {/* <i className="bi bi-arrow-down-circle-fill"></i> */}
+                <i className="bi bi-box-arrow-in-down"></i>
                 <span> Editar entrada do estoque</span>
             </h3>
 

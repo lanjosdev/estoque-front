@@ -1,0 +1,54 @@
+.Window.DetailsInput {
+
+    .window_top {
+        /* border: 1px solid red; */
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        .title_modal {
+
+            small {
+                font-weight: 500;
+            }
+        }
+
+        .sub_type {
+            /* border: 1px solid yellow; */
+            display: flex;
+            gap: 1rem;
+
+            .tag {
+                background-color: var(--color-neutral);
+                color: var(--color-w);
+                border-radius: 20px;
+                padding: 0.2rem 0.7rem;
+
+                font-size: 1.4rem;
+
+                &.danger {
+                    background-color: var(--color-danger);
+                }
+            }
+        }
+    }
+
+    .window_content {
+        /* border: 1px solid red; */
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem 1rem;
+        .column_full {
+            grid-column: span 2;
+        }
+
+        .separator {
+            margin: 1rem 0 0.5rem;
+            opacity: 0.3;
+        }
+    }
+
+    /* .window_bottom.btns {
+        margin-top: 0;
+    } */
+}

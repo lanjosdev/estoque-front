@@ -26,6 +26,11 @@ export function DropdownMenuExit({ dataExit, setExitSelect, handleOpenModalExit 
 
         handleOpenModalExit('update');
     }
+    function handleDetailsExit() {
+        setExitSelect(dataExit);
+
+        handleOpenModalExit('details');
+    }
 
 
 
@@ -40,20 +45,23 @@ export function DropdownMenuExit({ dataExit, setExitSelect, handleOpenModalExit 
                 </DropdownMenu.Trigger>
 
                 <DropdownMenu.Content className="dropdown-content">
-                    <DropdownMenu.Item className="dropdown-item">
-                        Ver detalhes
+                    <DropdownMenu.Item className="dropdown-item" onClick={handleDetailsExit}>
+                        <i className="bi bi-info-circle"></i>
+                        <span> Exibir detalhes</span>
                     </DropdownMenu.Item>
 
                     {dataExit.sub_type == 'DESCARTE' && (
                     <>
                     <DropdownMenu.Item className="dropdown-item" onClick={handleUpdateExit}>
-                        Editar {dataExit.discarded ? 'descarte' : 'saída'}
+                        <i className="bi bi-pencil-square"></i>
+                        <span> Editar {dataExit.discarded ? 'descarte' : 'saída'}</span>
                     </DropdownMenu.Item>
 
                     <DropdownMenu.Separator className="dropdown-separator" />
 
-                    <DropdownMenu.Item className="dropdown-item" onClick={handleDelExit}>
-                        Deletar {dataExit.discarded ? 'descarte' : 'saída'}
+                    <DropdownMenu.Item className="dropdown-item del" onClick={handleDelExit}>
+                        <i className="bi bi-x-octagon"></i>
+                        <span> Deletar {dataExit.discarded ? 'descarte' : 'saída'}</span>
                     </DropdownMenu.Item>
                     </>
                     )}

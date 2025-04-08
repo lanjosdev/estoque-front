@@ -25,6 +25,11 @@ export function DropdownMenuInput({ dataInput, setInputSelect, handleOpenModalIn
 
         handleOpenModalInput('update');
     }
+    function handleDetailsInput() {
+        setInputSelect(dataInput);
+
+        handleOpenModalInput('details');
+    }
 
 
 
@@ -39,20 +44,23 @@ export function DropdownMenuInput({ dataInput, setInputSelect, handleOpenModalIn
                 </DropdownMenu.Trigger>
                 
                 <DropdownMenu.Content className="dropdown-content">
-                    <DropdownMenu.Item className="dropdown-item">
-                        Ver detalhes
+                    <DropdownMenu.Item className="dropdown-item" onClick={handleDetailsInput}>
+                        <i className="bi bi-info-circle"></i>
+                        <span> Exibir detalhes</span>
                     </DropdownMenu.Item>
 
                     {!dataInput.sub_type && (
                     <>
                     <DropdownMenu.Item className="dropdown-item" onClick={handleUpdateInput}>
-                        Editar entrada
+                        <i className="bi bi-pencil-square"></i>
+                        <span> Editar entrada</span>
                     </DropdownMenu.Item>
 
                     <DropdownMenu.Separator className="dropdown-separator" />
 
-                    <DropdownMenu.Item className="dropdown-item" onClick={handleDelInput}>
-                        Deletar entrada
+                    <DropdownMenu.Item className="dropdown-item del" onClick={handleDelInput}>
+                        <i className="bi bi-x-octagon"></i>
+                        <span> Deletar entrada</span>
                     </DropdownMenu.Item>
                     </>
                     )}

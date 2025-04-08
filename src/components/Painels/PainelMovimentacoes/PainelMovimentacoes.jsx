@@ -186,10 +186,10 @@ export function PainelMovimentacoes() {
                                 <tr>
                                     <th scope="col">ID</th>
                                     <th scope="col">Tipo</th>
-                                    <th scope="col">Produto (ID)</th>
+                                    <th scope="col">Produto</th>
                                     <th scope="col">Setor</th>
                                     <th scope="col" data-label="quantidade">Quantidade</th>
-                                    <th scope="col">Usuário (ID)</th>
+                                    <th scope="col">Usuário</th>
                                     {/* <th scope="col">Armazém</th> */}
                                     <th scope="col">Data</th>
                                     <th scope="col" data-label="ações">Ações</th>
@@ -205,13 +205,13 @@ export function PainelMovimentacoes() {
 
                                     <td data-label="tipo">
                                         <div className="tipo_content">
-                                            <span className={`badge ${item.type == 'ENTRADA' ? 'success' : ''}`}>
+                                            <span className={`badge ${item.type == 'ENTRADA' ? 'success' : ''}`} title={item.type}>
                                                 {item.type == 'ENTRADA' ? (
-                                                <i className="bi bi-arrow-down-circle-fill"></i>
+                                                <i className="bi bi-box-arrow-in-down"></i>
                                                 ) : (
-                                                <i className="bi bi-arrow-up-circle-fill"></i>
+                                                <i className="bi bi-box-arrow-up"></i>
                                                 )}
-                                                <span>{item.type}</span>
+                                                {/* <span>{item.type}</span> */}
                                             </span>
                                             
                                             {item.sub_type && (
@@ -222,8 +222,8 @@ export function PainelMovimentacoes() {
                                         </div>
                                     </td>
                                     
-                                    <td data-label="Produto (ID)">
-                                        <span>{item.product_name} ({item.fk_product_id})</span>
+                                    <td data-label="Produto">
+                                        <span>{item.product_name}</span>
                                     </td>
 
                                     <td data-label="setor">
@@ -234,10 +234,9 @@ export function PainelMovimentacoes() {
                                         <span>{item.type == 'ENTRADA' ? '+' : '-'}{item.quantity}</span>
                                     </td>
 
-                                    <td data-label="usuário (id)">
+                                    <td data-label="usuário">
                                         <span>
-                                            <span className="name-profile">{item.name_user} </span>
-                                            ({item.fk_user_id})
+                                            <span className="name-profile">{item.name_user}</span>
                                         </span>
                                     </td>
 
@@ -272,15 +271,17 @@ export function PainelMovimentacoes() {
                         <div className='legenda'>
                             <h5>Legenda:</h5>
 
-                            <small>
-                                <span className='discard'>D</span>
-                                Descarte
-                            </small>
+                            <div className="legenda_content">
+                                <small>
+                                    <span className='discard'>D</span>
+                                    Descarte
+                                </small>
 
-                            <small>
-                                <span>E</span>
-                                Empréstimo
-                            </small>
+                                <small>
+                                    <span>E</span>
+                                    Empréstimo
+                                </small>
+                            </div>
                         </div>
 
                         <Pagination 

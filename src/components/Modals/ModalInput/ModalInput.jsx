@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import { CreateInput } from "./CreateInput/CreateInput";
 import { UpdateInput } from "./UpdateInput/UpdateInput";
 import { DeleteInput } from "./DeleteInput/DeleteInput";
+import { DetailsInput } from "./DetailsInput/DetailsInput";
 
 // Utils:
 //import { formatarHora } from '../../../utils/formatarNumbers';
@@ -63,6 +64,8 @@ export function ModalInput({ close, setReflashState, optionModal, inputSelect })
                 return <DeleteInput close={close} setReflashState={setReflashState} inputSelect={inputSelect} />;
             case 'update':
                 return <UpdateInput close={close} setReflashState={setReflashState} inputSelect={inputSelect} />;
+            case 'details':
+                return <DetailsInput close={close} inputSelect={inputSelect} />;
             default:
                 return <div style={{color: 'red'}}>Status desconhecido</div>;
         }

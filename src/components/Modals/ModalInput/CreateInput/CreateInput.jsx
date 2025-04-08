@@ -227,7 +227,8 @@ export function CreateInput({ close, setReflashState }) {
     return (
         <div className='Window CreateInput grid'>
             <h3 className="title_modal entrada">
-                <i className="bi bi-arrow-down-circle-fill"></i>
+                {/* <i className="bi bi-arrow-down-circle-fill"></i> */}
+                <i className="bi bi-box-arrow-in-down"></i>
                 <span> Registrar entrada no estoque</span>
             </h3>
 

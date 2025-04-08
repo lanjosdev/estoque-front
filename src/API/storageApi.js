@@ -84,3 +84,15 @@ export async function STORAGE_DELETE(token, idStorage) {
    // console.log(response.data);
    return response.data;
 }
+
+// Pega os produtos existem no armazem (GET):
+export async function STORAGE_VIEW_PRODUCTS(token, idStorage, page, params) {
+   console.log('CALL FUNCTION API');
+
+   const response = await axios.get(`${API_URL}/view-products/${idStorage}?${params}&page=${page}`, { 
+      headers: { "Accept": "application/json", Authorization: "Bearer " + token } 
+   });
+
+   // console.log(response.data);
+   return response.data;
+}

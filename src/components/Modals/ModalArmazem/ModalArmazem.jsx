@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import { CreateArmazem } from "./CreateArmazem/CreateArmazem";
 import { UpdateArmazem } from "./UpdateArmazem/UpdateArmazem";
 import { DeleteArmazem } from "./DeleteArmazem/DeleteArmazem";
+import { ViewArmazem } from "./ViewArmazem/ViewArmazem";
 // import { SearchProduct } from "./SearchProduct/SearchProduct";
 // import { toast } from "react-toastify";
 
@@ -67,6 +68,8 @@ export function ModalArmazem({
     // Função que retorna JSX baseado no switch
     const renderWindowModal = ()=> {
         switch(optionModal) {
+            case 'view':
+                return <ViewArmazem close={close} armazemSelect={armazemSelect} />;
             case 'create':
                 return <CreateArmazem close={close} setReflashState={setReflashState} />;
             case 'update':

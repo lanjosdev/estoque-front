@@ -193,6 +193,14 @@ export function DetailsInput({ close, inputSelect }) {
                         {inputSelect.created_at}
                     </p>
                 </div>
+
+                <div className="label--input column_full">
+                    <label>Email do usuário</label>
+
+                    <p className="input">
+                        {inputSelect.email_user}
+                    </p>
+                </div>
                 
 
                 {inputSelect?.expiration_date && (

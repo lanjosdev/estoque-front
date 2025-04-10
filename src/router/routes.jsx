@@ -11,7 +11,7 @@ import Products from "../pages/Produtos";
 import Armazens from "../pages/Armazens";
 import Movimentacoes from "../pages/Movimentacoes";
 import Profile from "../pages/Perfil";
-// import Profile from "../pages/Perfil";
+import Solicitacoes from "../pages/Solicitacoes";
 // import Alerts from "../pages/Alertas";
 
 import NovaSolicitacao from "../pages/NovaSolicitacao";
@@ -67,13 +67,19 @@ export default function AppRoutes() {
             } />
 
             <Route path="/profile" element={ 
-                <ControllerRouter> <Profile/> </ControllerRouter>
+                <ControllerRouter> 
+                    <Profile/> 
+                </ControllerRouter>
             } />
 
             {/* <Route path="/alerts" element={ 
                 <ControllerRouter> <Alerts/> </ControllerRouter>
             } /> */}
 
+
+            <Route path="/solicitacoes" element={ 
+                <ControllerRouter> <Solicitacoes /> </ControllerRouter>
+            } />
 
             <Route path="/nova-solicitacao" element={ 
                 <ControllerRouter> 

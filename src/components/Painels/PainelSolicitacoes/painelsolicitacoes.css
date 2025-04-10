@@ -1,0 +1,93 @@
+.Painel.PainelSolicitacoes {
+    /* background-color: bisque; */
+
+    .painel-content {
+
+        table {
+            /* table-layout: fixed; */
+            
+            .item {
+                td[data-label="tipo"] {
+                    position: relative;
+
+                    .badge.alert::after {
+                        content: '!';
+                        position: absolute;
+                        width: 1.5rem;
+                        height: 1.5rem;
+                        background-color: var(--color-danger);
+                        border-radius: 50%;
+
+                        text-align: center;
+                        font-weight: 500;
+                        line-height: 115%;
+                        color: var(--color-w);
+                        transform: translateY(-0.2rem);
+                        /* left: 0; */
+                        /* right: 0;                         */
+                    }
+                }
+
+                td[data-label='ações'] {
+                    /* background-color: aqua; */
+                    .btns_actions {
+                        /* background-color: rgb(161, 106, 39); */
+                        display: flex;
+                        gap: 0.7rem;
+                    }
+                }
+            }
+        }
+
+
+        .legenda {
+            /* background-color: antiquewhite; */
+            margin-top: 1rem;
+
+            small {
+                display: flex;
+                align-items: center;
+                gap: .5rem;
+
+                span {
+                    display: inline-block;
+                    width: 1.5rem;
+                    height: 1.5rem;
+                    background-color: var(--color-danger);
+                    border-radius: 50%;
+
+                    text-align: center;
+                    font-weight: 500;
+                    line-height: 115%;
+                    color: var(--color-w);
+                }
+            }
+        }
+        &:not(:has(table .alert)) {
+            .legenda {
+                display: none;
+            }
+        }
+    }
+
+
+
+    /* RESPONSIVIDADE */
+    /* @media (max-width: 767px) {
+
+        .painel-content {
+
+            table {
+                table-layout: fixed;
+
+                .item {
+
+                    td[data-label="status"] {
+                        min-width: 100%;
+                    }
+                }
+            }
+        }
+
+    } */
+}

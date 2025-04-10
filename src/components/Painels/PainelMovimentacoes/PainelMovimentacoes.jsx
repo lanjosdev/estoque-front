@@ -198,7 +198,7 @@ export function PainelMovimentacoes() {
 
                             <tbody>
                             {movimentations.map((item)=> (
-                                <tr key={`${item.id}${item.sub_type}`} className="item">
+                                <tr key={`${item.id}${item.sub_type || item.type}`} className="item">
                                     <td data-label="id">
                                         <span>{formatToIdCode(item.id, 4)}</span>
                                     </td>

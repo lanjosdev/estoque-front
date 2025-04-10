@@ -8,7 +8,7 @@ body:has(.PreviewCart) {
 /* GRID LAYOUT */
 .grid {
     width: 100%;
-    max-width: 1380px;
+    max-width: 1480px;
 
     margin: 0 auto;
 }
@@ -82,7 +82,9 @@ td[data-label="qtd. em estoque"]
 
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 0.5rem;
+    text-align: center;
 
     &.entrada {
         background-color: var(--color-success-bg);
@@ -213,7 +215,7 @@ td[data-label="qtd. em estoque"]
 .separator {
     background-color: var(--color-text);
     height: 1px;
-    opacity: .7;
+    opacity: 0.3;
 }
 
 .badge {

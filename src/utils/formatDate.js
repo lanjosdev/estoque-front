@@ -2,7 +2,7 @@
 
 export function formatFullToHoursMinutes(dateString) {
     if(!dateString) {
-        return 'NULO';
+        return 'N/A';
     }
 
     const result = dateString.substring(0, 16);

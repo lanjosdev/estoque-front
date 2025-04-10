@@ -175,6 +175,10 @@ export function NavMenu({ onPageAlert=false }) {
                     <li>
                         <NavLink to='/movimentacoes'>Movimentações</NavLink>
                     </li>
+
+                    <li>
+                        <NavLink to='/solicitacoes'>Solicitações</NavLink>
+                    </li>
                     </>
                     )}
                     {/* nivel manager */}
@@ -208,7 +212,7 @@ export function NavMenu({ onPageAlert=false }) {
                 
                 <div className="menu-right">
 
-                    <div ref={conteinerAlertRef} className="conteiner-alert">
+                    {/* <div ref={conteinerAlertRef} className="conteiner-alert">
                         {onPageAlert ? (
                         <NavLink to='/alerts' className='btn notification'>
                             <i className="bi bi-bell-fill"></i>
@@ -257,7 +261,7 @@ export function NavMenu({ onPageAlert=false }) {
                             </div>
                         </div>
                         )}
-                    </div>
+                    </div> */}
                     
                     {loading ? (
                         <small className='desktop'>Carregando...</small>

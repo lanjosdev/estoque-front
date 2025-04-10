@@ -151,6 +151,12 @@ export default function Profile() {
                                 {loadingInterative ? 'Salvando...' : 'Salvar'}
                             </button>
                         </div> */}
+
+                        <div className="btns hidden">
+                            <button className="btn primary" disabled={true}>
+                                {loading ? 'Salvando...' : 'Trocar'}
+                            </button>
+                        </div>
                     </div>
                     
                     <form className="form password" onSubmit={handleSubmitResetSenha}>

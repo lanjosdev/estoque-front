@@ -7,7 +7,8 @@ import { useEffect } from "react";
 
 // Components:
 import { NavMenu } from "../../components/NavMenu/NavMenu";
-import { PainelMinhasSolicitacoes } from "../../components/Painels/PainelMinhasSolicitacoes/PainelMinhasSolicitacoes";
+import { PainelSolicitacoes } from "../../components/Painels/PainelSolicitacoes/PainelSolicitacoes";
+// import { PainelMinhasSolicitacoes } from "../../components/Painels/PainelMinhasSolicitacoes/PainelMinhasSolicitacoes";
 
 // Assets:
 // import imgLogo from '../../assets/LOGO-BIZSYS_preto.png';
@@ -16,14 +17,14 @@ import { PainelMinhasSolicitacoes } from "../../components/Painels/PainelMinhasS
 import './style.css';
 
 
-export default function MinhasSolicitacoes() {
+export default function Solicitacoes() {
 
     const tokenCookie = Cookies.get('tokenEstoque');
 
 
     useEffect(()=> {
         function verificaCookieToken() {
-            console.log('Effect /Minhas-Solicitacoes');
+            console.log('Effect /Solicitacoes');
             
             if(!tokenCookie) {
                 console.error('tokenCookie sem VALUE ou REMOVIDO');
@@ -36,24 +37,23 @@ export default function MinhasSolicitacoes() {
     
   
     return (
-        <div className="Page MinhasSolicitacoes">
+        <div className="Page Solicitacoes">
             
             <NavMenu />
 
-            <main className='main MinhasSolicitacoes grid'>
+            <main className='main Solicitacoes grid'>
                 <div className="title--subtitle">
                     <h1 className="title">
                         <i className="bi bi-list-ul"></i>
-                        Minhas Solicitações
+                        Solicitações
                     </h1>
 
                     <p className="subtitle">
-                        Abaixo você pode visualizar e acompanhar as solicitações que você efetuou.
+                        Abaixo estão todas as solicitações do ambiente a serem atendidas. 
                     </p>
                 </div>
 
-                <PainelMinhasSolicitacoes />
-                
+                <PainelSolicitacoes />
             </main>
 
         </div>

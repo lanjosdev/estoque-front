@@ -23,7 +23,6 @@ import { primeiraPalavra } from "../../utils/formatStrings";
 // Estilo:
 import './style.css';
 import { toast } from "react-toastify";
-import { ORDER_GET_ME_PER_PARAMS } from "../../API/orderApi";
 
 
 const partialDatasKPI = [

@@ -120,6 +120,14 @@ export function DetailsExit({ close, exitSelect }) {
                 </div>
 
                 <div className="label--input column_full">
+                    <label>Email do usuário</label>
+
+                    <p className="input">
+                        {exitSelect?.email_user}
+                    </p>
+                </div>
+
+                <div className="label--input column_full">
                     <label>Observação</label>
 
                     <p className="input">

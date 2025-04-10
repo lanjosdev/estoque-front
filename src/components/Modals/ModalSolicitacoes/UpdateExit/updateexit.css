@@ -1,0 +1,9 @@
+.Window.UpdateExit {
+
+    .top-window {
+        
+        > p{
+            margin-bottom: 1rem;
+        }
+    }
+}

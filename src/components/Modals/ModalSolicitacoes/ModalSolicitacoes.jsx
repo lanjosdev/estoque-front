@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 
 // Components:
 import { DetailsSolicitacoes } from "./DetailsSolicitacoes/DetailsSolicitacoes";
+import { InSeparationSolicitacoes } from "./InSeparationSolicitacoes/InSeparationSolicitacoes";
 // import { CreateExit } from "./CreateExit/CreateExit";
 // import { UpdateExit } from "./UpdateExit/UpdateExit";
 // import { DeleteExit } from "./DeleteExit/DeleteExit";
@@ -56,6 +57,8 @@ export function ModalSolicitacoes({ close, setRefreshState, optionModal, request
         switch(optionModal) {
             case 'details':
                 return <DetailsSolicitacoes close={close} requestTarget={requestTarget} />;
+            case 'inseparation':
+                return <InSeparationSolicitacoes close={close} requestTarget={requestTarget} setRefreshState={setRefreshState} />;
             default:
                 return <div style={{color: 'red'}}>Opção de modal desconhecida</div>;
         }

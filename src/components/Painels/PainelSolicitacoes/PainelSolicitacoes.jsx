@@ -107,6 +107,7 @@ export function PainelSolicitacoes() {
 
 
     function handleOpenModal(itemTarget, optModal) {
+        console.log(optModal)
         setRequestTarget(itemTarget);
         setOptionModal(optModal);
 
@@ -226,7 +227,8 @@ export function PainelSolicitacoes() {
                                             </button>
 
                                             <DropdownMenuSolicitacoes
-                                            dataRequest={solicitacao}
+                                            itemTarget={solicitacao}
+                                            handleOpenModal={handleOpenModal}
                                             />
                                         </div>
                                     </td>

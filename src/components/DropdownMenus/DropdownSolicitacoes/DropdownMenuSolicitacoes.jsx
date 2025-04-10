@@ -6,49 +6,52 @@ import { useState, useEffect } from "react";
 
 
 DropdownMenuSolicitacoes.propTypes = {
-    dataRequest: PropTypes.object, ////Mudar para requestTarget OU itemTarget
-    setRequestTarget: PropTypes.func, //// tirar
-    handleOpenModalExit: PropTypes.func,
+    itemTarget: PropTypes.object,
+    handleOpenModal: PropTypes.func,
 }
-export function DropdownMenuSolicitacoes({ dataRequest, setRequestTarget, handleOpenModalExit }) {
+export function DropdownMenuSolicitacoes({ itemTarget, handleOpenModal }) {
     const [statusRequest, setStatusRequest] = useState([]);
 
     useEffect(()=> {
         const statusRequestDefault = [
             {
                 status_name: "Recebido",
-                status_done: true
-                ////optModal
+                status_done: true,
+                option_modal: 'recebido'
             },
             {
                 status_name: "Em separação",
-                status_done: false
+                status_done: false,
+                option_modal: 'inseparation'
             },
             {
                 status_name: "Separado",
-                status_done: false
+                status_done: false,
+                option_modal: 'separate'
             },
             {
                 status_name: "Entregue",
-                status_done: false
+                status_done: false,
+                option_modal: 'entregue'
             },
             {
                 status_name: "Devolvido",
-                status_done: false
+                status_done: false,
+                option_modal: 'devolvido'
             },
         ];
-        const index = statusRequestDefault.findIndex(each=> each.status_name == dataRequest.status);
+        const index = statusRequestDefault.findIndex(each=> each.status_name == itemTarget.status);
 
         if(index !== -1) {
             const newStatusRequest = statusRequestDefault.map((each, idx)=> idx <= index ? ({...each, status_done: true}) : each);
-            if(dataRequest.order_type == "Saída") {
+            if(itemTarget.order_type == "Saída") {
                 newStatusRequest.pop();
             }
                 
             // console.log(dataRequest.order_type, newStatusRequest);
             setStatusRequest(newStatusRequest);
         }
-    }, [dataRequest]);
+    }, [itemTarget]);
 
 
     // function handleDelExit() {
@@ -75,7 +78,7 @@ export function DropdownMenuSolicitacoes({ dataRequest, setRequestTarget, handle
             <DropdownMenu.Root>
                 <DropdownMenu.Trigger asChild>
                     <button className="btn secundary">
-                        {dataRequest.status}
+                        {itemTarget.status}
                         <i className="bi bi-caret-down-fill"></i>
                     </button>
                 </DropdownMenu.Trigger>
@@ -83,7 +86,8 @@ export function DropdownMenuSolicitacoes({ dataRequest, setRequestTarget, handle
                 <DropdownMenu.Content className="dropdown-content">
                     {statusRequest.map((item, idx)=> (
                     <DropdownMenu.Item key={idx} 
-                    className={`dropdown-item ${(idx != 0 && !statusRequest[idx-1]?.status_done) ? 'disable' : ''}`} 
+                    className={`dropdown-item ${(idx != 0 && !statusRequest[idx-1]?.status_done) ? 'disable' : ''}`}
+                    onClick={(!item.status_done && statusRequest[idx-1]?.status_done) ? ()=> handleOpenModal(itemTarget, item.option_modal) : null} 
                     disabled={item.status_done || !statusRequest[idx-1].status_done}
                     >
                         {item.status_done && (

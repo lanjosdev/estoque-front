@@ -1,14 +1,16 @@
 // Funcionalidades / Libs:
 import PropTypes from "prop-types";
-import { useEffect, useRef } from 'react';
+import Cookies from "js-cookie";
+import { useEffect, useRef, useState } from 'react';
 
 // API:
+import { ORDER_UPDATE_STATUS } from "../../../../API/orderApi";
 
 // Contexts:
 // import UserContext from "../../../../contexts/userContext";
 
 // Components:
-// import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 // import { SelectAndSearch } from "../../../SelectAndSearch/SelectSearch";
 
 // Utils:
@@ -17,24 +19,25 @@ import { formatToIdCode } from "../../../../utils/formatStrings";
 // Assets:
 
 // Estilo:
-import './detailssolicitacoes.css';
+// import './separatesolicitacoes.css';
 
 
-DetailsSolicitacoes.propTypes = {
+SeparateSolicitacoes.propTypes = {
     close: PropTypes.func,
-    requestTarget: PropTypes.object
+    requestTarget: PropTypes.object,
+    setRefreshState: PropTypes.func,
+    idStatusSubmit: PropTypes.number
 }
-export function DetailsSolicitacoes({ close, requestTarget }) {
+export function SeparateSolicitacoes({ close, requestTarget, setRefreshState, idStatusSubmit }) {
     // Estados do componente:
-    // const [loading, setLoading] = useState(true);
+    const [loadingSubmit, setLoadingSubmit] = useState(false);
 
     // Logica UI:
     const elementFocusRef = useRef(null);
-
+    const [separateProducts, setSeparateProducts] = useState(false);
    
 
-
-    // const tokenCookie = Cookies.get('tokenEstoque');
+    const tokenCookie = Cookies.get('tokenEstoque');
 
 
     useEffect(()=> {
@@ -48,24 +51,73 @@ export function DetailsSolicitacoes({ close, requestTarget }) {
 
 
 
+    // SUBMIT UPDATE STATUS API:
+    async function handleSubmitUpdateStatus(e) 
+    {
+        e.preventDefault();
+        setLoadingSubmit(true);
+
+        console.log('id_solicitacao:', requestTarget.id);
+        console.log('id_status_update:', idStatusSubmit);
+
+        // // Validação de dados
+        // if(!validateSubmit) {
+        //     setLoadingSubmit(false);
+        //     toast.warn('Preencha os campos necessários.');
+        //     return;
+        // }
+
+        // Submit API
+        try {
+            const response = await ORDER_UPDATE_STATUS(JSON.parse(tokenCookie), requestTarget.id, idStatusSubmit);
+            console.log(response);  
+
+            if(response.success) {
+                close();
+                setRefreshState(prev => !prev);
+                toast.success('Status atualizado!');
+            }
+            else if(response.success == false) {
+                console.warn(response.message);
+                toast.warn(response.message);
+            }
+            else {
+                toast.error('Erro inesperado.');
+            }
+        }
+        catch(error) {
+            if(error?.response?.data?.message == 'Unauthenticated.') {
+                console.error('Requisição não autenticada.');
+            }
+            else {
+                toast.error('Houve algum erro.');
+            }
+
+            console.error('DETALHES DO ERRO: ', error);
+        }
+        
+
+        setLoadingSubmit(false);
+    }
+
 
     return (
-        <div className='Window DetailsSolicitacoes grid'>
+        <div className='Window SeparateSolicitacoes DetailsSolicitacoes grid'>
             <div className="window_top">
                 <h3 className="title_modal">
-                    {requestTarget?.order_type == "Saída" ? (
+                    {/* {requestTarget?.order_type == "Saída" ? (
                     <i className="bi bi-box-arrow-left"></i>
                     ) : (
                     <i className="bi bi-calendar-event"></i>
-                    )}
+                    )} */}
 
-                    <span>Detalhes da Solicitação</span>
+                    <span>Mudança de status para: "Separado"</span>
                 </h3>
-                
+
                 <div className="subtitle_modal">
                     <div>
                         <span>Tipo: </span>
-
+                        
                         <span className={`badge ${requestTarget.status_reservation == 'Em atraso' ? 'alert' : ''}`}>
                             {requestTarget.order_type == "Saída" ? (
                             <i className="bi bi-box-arrow-left"></i>
@@ -97,32 +149,12 @@ export function DetailsSolicitacoes({ close, requestTarget }) {
                     </p>
                 </div>
 
-                <div className="label--input">
-                    <label>Criando em</label>
-                    
-                    <p className="input">
-                        {requestTarget?.created_at}
-                    </p>
-                </div>
-                <div className="label--input">
-                    <label>Finalizado em</label>
-                    
-                    <p className="input">
-                        {requestTarget?.finalized_at || 'Ainda não finalizado'}
-                    </p>
-                </div>
 
                 <div className="label--input column_full">
-                    <label>Status (acompanhamento)</label>
-                    
-                    <p className="input timeline">
-                        {requestTarget?.status} (Linha do tempo)
-                    </p>
-                </div>
+                    {/* <p>:</p> */}
 
-                <div className="label--input column_full">
                     <label>Produtos solicitados</label>
-                    
+
                     <div className="input products">
                         <div className="products_title">
                             <span className="id_product">ID</span>
@@ -140,38 +172,31 @@ export function DetailsSolicitacoes({ close, requestTarget }) {
                         ))}
                         {/* </div> */}
                     </div>
-                </div>
-                
 
-                {requestTarget?.order_type == "Empréstmo" && (
-                <>
-                <div className="separator column_full"></div>
+                    <label className="confirm_check">
+                        <input type="checkbox" checked={separateProducts} onChange={()=> setSeparateProducts(!separateProducts)} />
+                        <span className="checkmark">
+                            <i className="bi bi-check"></i>
+                        </span>
 
-                <div className="label--input">
-                    <label>Dias solicitado para empréstimo</label>
-                    
-                    <p className="input">
-                        {requestTarget.reservation_days}
-                    </p>
+                        <span className="text"> Marque se os produtos foram devidamente separados, e confirme o avanço do status clicando em <b>"Produtos separados"</b>.</span>
+                    </label>
                 </div>
-                <div className="label--input">
-                    <label>Status do empréstimo</label>
-                    
-                    <p className="input">
-                        {requestTarget.status !== 'Entregue' ? 'Aguardando aprovação' : requestTarget.status_reservation}
-                    </p>
-                </div>
-                </>
-                )}
-                
-               
             </div>
 
 
 
             <div className="window_bottom">
-                <button ref={elementFocusRef} className="btn cancel" type="button" onClick={close}>Fechar</button>
-            </div>                      
+                <button className="btn primary" type="button" onClick={handleSubmitUpdateStatus} disabled={!separateProducts || loadingSubmit}>
+                    {loadingSubmit && (
+                        <div className="loader"></div>
+                    )}
+
+                    <span> Produtos separados</span>
+                </button>
+
+                <button ref={elementFocusRef} className="btn cancel" type="button" onClick={close}>Cancelar</button>
+            </div>                   
         </div>
     )        
 }

@@ -19,25 +19,28 @@ import { formatToIdCode } from "../../../../utils/formatStrings";
 // Assets:
 
 // Estilo:
-// import './inseparationsolicitacoes.css';
+// import './cancelsolicitacoes.css';
 
 
-InSeparationSolicitacoes.propTypes = {
+CancelSolicitacoes.propTypes = {
     close: PropTypes.func,
     requestTarget: PropTypes.object,
     setRefreshState: PropTypes.func,
     idStatusSubmit: PropTypes.number
 }
-export function InSeparationSolicitacoes({ close, requestTarget, setRefreshState, idStatusSubmit }) {
+export function CancelSolicitacoes({ close, requestTarget, setRefreshState, idStatusSubmit }) {
     // Estados do componente:
     const [loadingSubmit, setLoadingSubmit] = useState(false);
 
     // Logica UI:
     const elementFocusRef = useRef(null);
+    const [confirmCancel, setConfirmCancel] = useState(false);
 
+    // Dados para submiter:
+    const [obs, setObs] = useState('');
+   
 
     const tokenCookie = Cookies.get('tokenEstoque');
-
 
 
     useEffect(()=> {
@@ -59,6 +62,7 @@ export function InSeparationSolicitacoes({ close, requestTarget, setRefreshState
 
         console.log('id_solicitacao:', requestTarget.id);
         console.log('id_status_update:', idStatusSubmit);
+        console.log('obs_cancel:', obs);
 
         // // Validação de dados
         // if(!validateSubmit) {
@@ -69,7 +73,7 @@ export function InSeparationSolicitacoes({ close, requestTarget, setRefreshState
 
         // Submit API
         try {
-            const response = await ORDER_UPDATE_STATUS(JSON.parse(tokenCookie), requestTarget.id, idStatusSubmit);
+            const response = await ORDER_UPDATE_STATUS(JSON.parse(tokenCookie), requestTarget.id, idStatusSubmit, obs);
             console.log(response);  
 
             if(response.success) {
@@ -102,16 +106,16 @@ export function InSeparationSolicitacoes({ close, requestTarget, setRefreshState
 
 
     return (
-        <div className='Window InSeparationSolicitacoes DetailsSolicitacoes grid'>
+        <div className='Window CancelSolicitacoes DetailsSolicitacoes grid'>
             <div className="window_top">
-                <h3 className="title_modal">
+                <h3 className="title_modal danger">
                     {/* {requestTarget?.order_type == "Saída" ? (
                     <i className="bi bi-box-arrow-left"></i>
                     ) : (
                     <i className="bi bi-calendar-event"></i>
                     )} */}
 
-                    <span>Mudança de status para: "Em separação"</span>
+                    <span>Mudança de status para: "Cancelado"</span>
                 </h3>
 
                 <div className="subtitle_modal">
@@ -151,9 +155,7 @@ export function InSeparationSolicitacoes({ close, requestTarget, setRefreshState
 
 
                 <div className="label--input column_full">
-                    {/* <p>Abaixo estão os produtos a serem separados para esta solicitação.</p> */}
-
-                    <label>Confira abaixo os produtos que precisam ser separados para esta solicitação:</label>
+                    <label>Produtos solicitados</label>
 
                     <div className="input products">
                         <div className="products_title">
@@ -172,22 +174,45 @@ export function InSeparationSolicitacoes({ close, requestTarget, setRefreshState
                         ))}
                         {/* </div> */}
                     </div>
+
+                    <label className="confirm_check">
+                        <input type="checkbox" checked={confirmCancel} onChange={()=> setConfirmCancel(!confirmCancel)} />
+                        <span className="checkmark">
+                            <i className="bi bi-check"></i>
+                        </span>
+
+                        <span className="text">Marque se deseja prosseguir com o cancelemento desta solicitação e justifique o motivo.</span>
+                    </label>
                 </div>
+
+                {confirmCancel && (
+                <div className="label--input column_full">
+                    <label>Justificativa do cancelamento</label>
+                    
+                    <textarea className="input" value={obs} onChange={(e)=> setObs(e.target.value)}>
+                    </textarea>
+                </div>
+                )}
             </div>
 
 
 
+            {/* <div className="window_bottom">
+                <button className="btn danger" type="button" onClick={close} disabled={!confirmCancel}>Cancelar solicitação</button>
+
+            </div>            */}
+
             <div className="window_bottom">
-                <button className="btn primary" type="button" onClick={handleSubmitUpdateStatus} disabled={loadingSubmit}>
+                <button className="btn danger" type="button" onClick={handleSubmitUpdateStatus} disabled={!confirmCancel || obs.replace(/\s/g, '').length <= 5 || loadingSubmit}>
                     {loadingSubmit && (
                         <div className="loader"></div>
                     )}
 
-                    <span> Iniciar separação</span>
+                    <span> Cancelar solicitação</span>
                 </button>
 
                 <button ref={elementFocusRef} className="btn cancel" type="button" onClick={close}>Cancelar</button>
-            </div>                      
+            </div>         
         </div>
     )        
 }

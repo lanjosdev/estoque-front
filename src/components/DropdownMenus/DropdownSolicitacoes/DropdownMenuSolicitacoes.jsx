@@ -27,7 +27,7 @@ export function DropdownMenuSolicitacoes({ itemTarget, handleOpenModal }) {
             {
                 status_name: "Separado",
                 status_done: false,
-                option_modal: 'separate'
+                option_modal: 'separado'
             },
             {
                 status_name: "Entregue",
@@ -35,9 +35,9 @@ export function DropdownMenuSolicitacoes({ itemTarget, handleOpenModal }) {
                 option_modal: 'entregue'
             },
             {
-                status_name: "Devolvido",
+                status_name: "Retornado",
                 status_done: false,
-                option_modal: 'devolvido'
+                option_modal: 'retornado'
             },
         ];
         const index = statusRequestDefault.findIndex(each=> each.status_name == itemTarget.status);
@@ -88,6 +88,7 @@ export function DropdownMenuSolicitacoes({ itemTarget, handleOpenModal }) {
                     <DropdownMenu.Item key={idx} 
                     className={`dropdown-item ${(idx != 0 && !statusRequest[idx-1]?.status_done) ? 'disable' : ''}`}
                     onClick={(!item.status_done && statusRequest[idx-1]?.status_done) ? ()=> handleOpenModal(itemTarget, item.option_modal) : null} 
+                    // onClick={()=> handleOpenModal(itemTarget, item.option_modal)} 
                     disabled={item.status_done || !statusRequest[idx-1].status_done}
                     >
                         {item.status_done && (
@@ -128,7 +129,7 @@ export function DropdownMenuSolicitacoes({ itemTarget, handleOpenModal }) {
 
                     <DropdownMenu.Separator className="dropdown-separator" />
 
-                    <DropdownMenu.Item className="dropdown-item del" >
+                    <DropdownMenu.Item className="dropdown-item del" onClick={()=> handleOpenModal(itemTarget, 'cancelado')}>
                         <i className="bi bi-x-lg"></i>
                         <span> Cancelar</span>
                     </DropdownMenu.Item>

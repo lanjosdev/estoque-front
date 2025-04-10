@@ -12,6 +12,11 @@
         span {
             display: none;
         }
+        
+        > i {
+            /* color: red; */
+            font-size: 1.3rem;
+        }
     }
     
     /* Dropdown content styles */

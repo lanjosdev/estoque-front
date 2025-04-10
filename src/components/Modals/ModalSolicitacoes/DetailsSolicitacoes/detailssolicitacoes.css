@@ -6,9 +6,10 @@
         flex-direction: column;
         gap: 0.7rem;
 
-        > p {
+        .subtitle_modal {
+            display: flex;
+            justify-content: space-between;
             font-size: 1.4rem;
-            text-align: right;
         }
     }
 
@@ -16,7 +17,9 @@
         /* border: 1px solid red; */
         height: auto;
         max-height: 40rem;
-        padding-bottom: 2rem;
+        &:has(.timeline) {
+            padding-bottom: 2rem;
+        }
         overflow-y: auto;
 
         display: grid;
@@ -42,7 +45,7 @@
                     /* border: 1px solid red; */
                     display: flex;
                     gap: 0.5rem;
-                    padding: 0.3rem 0;
+                    padding: 0.4rem 0;
 
                     span {
                         /* border: 1px solid greenyellow; */

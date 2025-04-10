@@ -93,6 +93,10 @@ td[data-label="qtd. em estoque"]
     &.saida {
         color: var(--color-neutral);
     }
+    &.danger {
+        background-color: var(--color-danger-bg);
+        color: var(--color-danger);
+    }
 }
 /* TIPOGRAFIA-FIM */
 
@@ -492,6 +496,50 @@ td[data-label="qtd. em estoque"]
     &:hover {
         background-color: var(--color-secundary);
         color: var(--color-w);
+    }
+}
+
+
+/* component */
+.confirm_check {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    user-select: none;
+
+    input {
+        display: none;
+    }
+    .checkmark {
+        background-color: var(--color-w);
+        border: 0.1rem solid var(--color-bg-3);
+        min-width: 2rem;
+        height: 2rem;
+        border-radius: 5px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        transition: all 0.3s ease;
+
+        i {
+            opacity: 0;
+            font-size: 1.8rem;
+        }
+    }
+    input:checked + .checkmark {
+        background-color: var(--color-primary);
+        border-color: var(--color-text);
+
+        color: var(--color-w);
+        i {
+            opacity: 1;
+        }
+    }
+
+    .text {
+        font-weight: 400;
     }
 }
 /* ELEMENTOS-FIM */

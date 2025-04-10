@@ -19,25 +19,25 @@ import { formatToIdCode } from "../../../../utils/formatStrings";
 // Assets:
 
 // Estilo:
-// import './inseparationsolicitacoes.css';
+// import './entreguesolicitacoes.css';
 
 
-InSeparationSolicitacoes.propTypes = {
+EntregueSolicitacoes.propTypes = {
     close: PropTypes.func,
     requestTarget: PropTypes.object,
     setRefreshState: PropTypes.func,
     idStatusSubmit: PropTypes.number
 }
-export function InSeparationSolicitacoes({ close, requestTarget, setRefreshState, idStatusSubmit }) {
+export function EntregueSolicitacoes({ close, requestTarget, setRefreshState, idStatusSubmit }) {
     // Estados do componente:
     const [loadingSubmit, setLoadingSubmit] = useState(false);
 
     // Logica UI:
     const elementFocusRef = useRef(null);
-
+    const [productsDelivered, setProductsDelivered] = useState(false);
+   
 
     const tokenCookie = Cookies.get('tokenEstoque');
-
 
 
     useEffect(()=> {
@@ -102,7 +102,7 @@ export function InSeparationSolicitacoes({ close, requestTarget, setRefreshState
 
 
     return (
-        <div className='Window InSeparationSolicitacoes DetailsSolicitacoes grid'>
+        <div className='Window EntregueSolicitacoes DetailsSolicitacoes grid'>
             <div className="window_top">
                 <h3 className="title_modal">
                     {/* {requestTarget?.order_type == "Saída" ? (
@@ -111,7 +111,7 @@ export function InSeparationSolicitacoes({ close, requestTarget, setRefreshState
                     <i className="bi bi-calendar-event"></i>
                     )} */}
 
-                    <span>Mudança de status para: "Em separação"</span>
+                    <span>Mudança de status para: "Entregue"</span>
                 </h3>
 
                 <div className="subtitle_modal">
@@ -151,9 +151,9 @@ export function InSeparationSolicitacoes({ close, requestTarget, setRefreshState
 
 
                 <div className="label--input column_full">
-                    {/* <p>Abaixo estão os produtos a serem separados para esta solicitação.</p> */}
+                    {/* <p>:</p> */}
 
-                    <label>Confira abaixo os produtos que precisam ser separados para esta solicitação:</label>
+                    <label>Produtos solicitados</label>
 
                     <div className="input products">
                         <div className="products_title">
@@ -172,22 +172,31 @@ export function InSeparationSolicitacoes({ close, requestTarget, setRefreshState
                         ))}
                         {/* </div> */}
                     </div>
+
+                    <label className="confirm_check">
+                        <input type="checkbox" checked={productsDelivered} onChange={()=> setProductsDelivered(!productsDelivered)} />
+                        <span className="checkmark">
+                            <i className="bi bi-check"></i>
+                        </span>
+
+                        <span className="text"> Marque se os produtos foram devidamente entregues ao destinário <b>{requestTarget?.delivery_to}</b>, e confirme clicando em <b>"Produtos entregue"</b>.</span>
+                    </label>
                 </div>
             </div>
 
 
 
             <div className="window_bottom">
-                <button className="btn primary" type="button" onClick={handleSubmitUpdateStatus} disabled={loadingSubmit}>
+                <button className="btn primary" type="button" onClick={handleSubmitUpdateStatus} disabled={!productsDelivered || loadingSubmit}>
                     {loadingSubmit && (
                         <div className="loader"></div>
                     )}
 
-                    <span> Iniciar separação</span>
+                    <span> Produtos entregue</span>
                 </button>
 
                 <button ref={elementFocusRef} className="btn cancel" type="button" onClick={close}>Cancelar</button>
-            </div>                      
+            </div>                       
         </div>
     )        
 }

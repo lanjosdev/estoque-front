@@ -51,3 +51,24 @@ export async function ORDER_CREATE(token, idTypeOrder, productsQuantities, deliv
    // console.log(response.data);
    return response.data;
 }
+
+
+// Atualiza status da solicitação (POST/UPDATE):
+export async function ORDER_UPDATE_STATUS(token, idOrder, idStatus, obsCancel, infoProductsArray) {
+   console.log('CALL FUNCTION API');
+
+   const bodyReq = {
+      fk_status_id: idStatus
+   };
+   if(obsCancel) bodyReq.observation = obsCancel
+   if(infoProductsArray) bodyReq.info = infoProductsArray
+   console.log(bodyReq);
+
+
+   const response = await axios.post(`${API_URL}/update-status-order/${idOrder}`, bodyReq, {
+      headers: { "Accept": "application/json", Authorization: "Bearer " + token } 
+   });
+
+   // console.log(response.data);
+   return response.data;
+}

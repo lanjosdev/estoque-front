@@ -101,7 +101,7 @@ export function PainelSolicitacoes() {
             setLoading(false);
         }
         getAllRequests();
-    }, [tokenCookie, currentPage, paramsQuery]);
+    }, [tokenCookie, refreshState, currentPage, paramsQuery]);
 
 
 

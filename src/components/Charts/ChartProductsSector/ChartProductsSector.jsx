@@ -47,7 +47,7 @@ export function ChartProductsSector({ datas }) {
     return (
         <div className="Chart ChartProductsSector w-full max-w-3xl p-6 bg-white rounded-lg shadow-md">
             <div className="chart_title">
-                <h3 className="text-xl font-bold mb-6 text-gray-800">Produtos catalogados por Setor</h3>
+                <h3 className="text-xl font-bold mb-6 text-gray-800">Produtos catalogados por setor</h3>
             </div>
 
             <div className="chart_data">

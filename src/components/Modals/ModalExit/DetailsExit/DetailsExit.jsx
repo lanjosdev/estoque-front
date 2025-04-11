@@ -65,8 +65,8 @@ export function DetailsExit({ close, exitSelect }) {
                 {exitSelect.sub_type && (
                 <div className="sub_type">
                     <span className={`tag ${exitSelect.sub_type == "DESCARTE" ? 'danger' : ''}`}>
-                        {/* {exitSelect.sub_type} */}
-                        Descarte
+                        {exitSelect.sub_type}
+                        {/* Descarte */}
                     </span>
                 </div>
                 )}
@@ -127,6 +127,7 @@ export function DetailsExit({ close, exitSelect }) {
                     </p>
                 </div>
 
+                {exitSelect.observation && (
                 <div className="label--input column_full">
                     <label>Observação</label>
 
@@ -134,6 +135,7 @@ export function DetailsExit({ close, exitSelect }) {
                         {exitSelect?.observation}
                     </p>
                 </div>
+                )}
                 
 
                 {exitSelect?.expiration_date && (

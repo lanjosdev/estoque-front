@@ -1,0 +1,108 @@
+.Painel.PainelStock {
+
+
+
+    .painel-content {
+
+        table {
+            /* background: red; */
+
+            tr {
+
+                th,
+                td {
+                    text-align: center;
+                }
+
+                th:not(:first-child, :last-child) {
+                    /* background-color: aqua; */
+                    padding: 0.5rem 0.9rem;
+                }
+                td:not(:first-child, :last-child) {
+                    /* background-color: aqua; */
+                    padding: 0.9rem;
+                }
+            }
+
+            tr > [data-label="produto"] {
+                /* text-align: right;
+                display: flex;
+                justify-content: flex-end; */
+                max-width: 20rem;
+
+                @media (max-width: 767px) {
+                    max-width: none;
+                }
+            }   
+
+            tr > td[data-label="qtd. atual"] {
+                font-weight: 700;
+
+                .txt {
+                    font-weight: 700;
+                }
+            }   
+
+            tr > td[data-label="kpi"] {
+                position: relative;
+                /* display: flex;
+                align-items: center;
+                height: 100%; */
+
+                .circle_kpi {
+                    display: inline-block;
+                    background-color: #00C49F;
+                    width: 2.5rem;
+                    min-height: 2.5rem;
+                    border-radius: 50%;
+
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+
+                    &.danger {
+                        background-color: #DC3545;
+                    }
+                    &.warning {
+                        background-color: #FFBB28;
+                    }
+
+                    @media (max-width: 767px) {
+                        position: static;
+                        transform: translate(0, 0);
+                    }
+                }
+            }   
+        }
+    }
+
+
+
+    @media (max-width: 767px) {
+
+
+        .painel-content {
+
+            table {
+                /* background: red; */
+    
+                tr {
+                    th,
+                    td {
+                        text-align: right;
+                    }
+
+                    th:not(:first-child, :last-child) {
+                        /* background-color: rgb(109, 109, 109); */
+                        padding: 0.5rem 0rem;
+                    }
+                    td:not(:first-child, :last-child) {
+                        /* background-color: rgb(109, 122, 122); */
+                        padding: 0.7rem 0rem;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -59,7 +59,7 @@ export default function Login() {
                         <img className="logo" src={imgLogo} alt="Logotipo" />
                     </div>
 
-                    <h1>Faça seu login no ambiente</h1>
+                    {/* <h1>Faça seu login no ambiente</h1> */}
                 </div>
 
                 <form onSubmit={handleSubmitLogin} autoComplete="off">

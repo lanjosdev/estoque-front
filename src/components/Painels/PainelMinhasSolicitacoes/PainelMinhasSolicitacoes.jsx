@@ -116,7 +116,7 @@ export function PainelMinhasSolicitacoes() {
     return (
         <div className="Painel PainelMinhasSolicitacoes">
             <div className="painel-top">
-                <h2>Solicitações ({totalResults}):</h2>
+                <h2>Total ({totalResults}):</h2>
 
                 <div className="search--btnAdd">
                     {(solicitacoes.length > 0) && (
@@ -145,7 +145,7 @@ export function PainelMinhasSolicitacoes() {
                     <div className='feedback_content'>
                         <p>
                             <i className="bi bi-exclamation-triangle"></i>
-                            <span> Erro ao carregar solicitações!</span>
+                            <span> Erro ao carregar solicitações.</span>
                         </p>
                         
                         <a className='btn primary' href='/minhas-solicitacoes'>
@@ -164,7 +164,7 @@ export function PainelMinhasSolicitacoes() {
                             </p>
                             ) : ( */}
                             <>
-                            <p>Você ainda não efetuou nenhuma solicitação!</p>
+                            <p>Você ainda não efetuou nenhuma solicitação.</p>
                             
                             <button className='btn primary' onClick={handleClickNewRequest} disabled={error}>
                                 <i className="bi bi-plus-lg"></i>

@@ -54,7 +54,9 @@
             }
         }
 
-        
+        .link_animate {
+            margin: 2.5rem auto 0;
+        }
     }
 
 

@@ -12,7 +12,7 @@ import Armazens from "../pages/Armazens";
 import Movimentacoes from "../pages/Movimentacoes";
 import Profile from "../pages/Perfil";
 import Solicitacoes from "../pages/Solicitacoes";
-// import Alerts from "../pages/Alertas";
+import Estoque from "../pages/Estoque";
 
 import NovaSolicitacao from "../pages/NovaSolicitacao";
 import MinhasSolicitacoes from "../pages/MinhasSolicitacoes";
@@ -72,10 +72,9 @@ export default function AppRoutes() {
                 </ControllerRouter>
             } />
 
-            {/* <Route path="/alerts" element={ 
-                <ControllerRouter> <Alerts/> </ControllerRouter>
-            } /> */}
-
+            <Route path="/estoque" element={ 
+                <ControllerRouter> <Estoque/> </ControllerRouter>
+            } />
 
             <Route path="/solicitacoes" element={ 
                 <ControllerRouter> <Solicitacoes /> </ControllerRouter>

@@ -116,7 +116,7 @@ export function NavMenu({ onPageAlert=false }) {
     return (
         <header className={'NavMenu ' + profileDetails?.level_name}>
 
-            <nav ref={navMenuRef} className="NavMenuContent grid">
+            <nav ref={navMenuRef} className={`NavMenuContent ${profileDetails.level_name != 'admin' ? 'grid' : ''}`}>
                 <Link className='logo' to='/home' onClick={()=> setIsOpen(false)}>
                     <img src={imgLogo} alt="Logotipo" />
                     {/* <img src={LogoP} className="imgP" alt="Logotipo" /> */}
@@ -173,6 +173,10 @@ export function NavMenu({ onPageAlert=false }) {
                     </li>
                     
                     <li>
+                        <NavLink to='/estoque'>Estoque</NavLink>
+                    </li>
+                    
+                    <li>
                         <NavLink to='/movimentacoes'>Movimentações</NavLink>
                     </li>
 
@@ -192,13 +196,13 @@ export function NavMenu({ onPageAlert=false }) {
                         <NavLink to='/nova-solicitacao'>Nova solicitação</NavLink>
                     </li>
                     )}
+                    </>
+                    )}
+                    {/* nivel user */}
 
                     <li>
                         <NavLink to='/minhas-solicitacoes'>Minhas solicitações</NavLink>
                     </li>  
-                    </>
-                    )}
-                    {/* nivel user */}
 
                     
                     <div className="separator mobile"></div>

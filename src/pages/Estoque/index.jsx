@@ -7,7 +7,7 @@ import { useEffect } from "react";
 
 // Components:
 import { NavMenu } from "../../components/NavMenu/NavMenu";
-import { PainelMinhasSolicitacoes } from "../../components/Painels/PainelMinhasSolicitacoes/PainelMinhasSolicitacoes";
+import { PainelStock } from "../../components/Painels/PainelStock/PainelStock";
 
 // Assets:
 // import imgLogo from '../../assets/LOGO-BIZSYS_preto.png';
@@ -16,14 +16,14 @@ import { PainelMinhasSolicitacoes } from "../../components/Painels/PainelMinhasS
 import './style.css';
 
 
-export default function MinhasSolicitacoes() {
+export default function Estoque() {
 
     const tokenCookie = Cookies.get('tokenEstoque');
 
 
     useEffect(()=> {
         function verificaCookieToken() {
-            console.log('Effect /Minhas-Solicitacoes');
+            console.log('Effect /Estoque');
             
             if(!tokenCookie) {
                 console.error('tokenCookie sem VALUE ou REMOVIDO');
@@ -36,24 +36,23 @@ export default function MinhasSolicitacoes() {
     
   
     return (
-        <div className="Page MinhasSolicitacoes">
+        <div className="Page Estoque">
             
             <NavMenu />
 
-            <main className='main MinhasSolicitacoes grid'>
+            <main className='main Estoque grid'>
                 <div className="title--subtitle">
                     <h1 className="title">
-                        <i className="bi bi-list-ul"></i>
-                        Minhas Solicitações
+                        <i className="bi bi-boxes"></i>
+                        Estoque
                     </h1>
 
                     <p className="subtitle">
-                        Acompanhe o status das suas solicitações.
+                        Abaixo estão as infromações gerais de cada produto em estoque. 
                     </p>
                 </div>
 
-                <PainelMinhasSolicitacoes />
-                
+                <PainelStock />
             </main>
 
         </div>

@@ -11,10 +11,11 @@ export const API_URL = api.api_url;
 
 // End-Points/Rotas da API (TABELA ORDER):
 // Pega todas as solcitacoes por params (GET):
-export async function ORDER_GET_ALL_PER_PARAMS(token, params, page) {
+export async function ORDER_GET_ALL_PER_PARAMS(token, params) {
    console.log('CALL FUNCTION API');
 
-   const response = await axios.get(`${API_URL}/get-all-order?${params}&page=${page}`, { 
+   const response = await axios.get(`${API_URL}/get-all-order`, {
+      params: params,
       headers: { "Accept": "application/json", Authorization: "Bearer " + token } 
    });
 

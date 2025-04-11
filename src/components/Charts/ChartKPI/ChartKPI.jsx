@@ -61,7 +61,7 @@ export function ChartKPI({ datas }) {
     return (
         <div className="Chart ChartKPI">
             <div className="chart_title">
-                <h3>Saúde do Estoque (KPI)</h3>
+                <h3>Saúde do estoque (KPI)</h3>
             </div>
 
             <div className="chart_data">
@@ -105,40 +105,27 @@ export function ChartKPI({ datas }) {
                     </PieChart>
                 </ResponsiveContainer>
 
-                {/* <ResponsiveContainer width="100%" height={400}>
-                    <PieChart>
-                        <Pie
-                        data={dadosComPorcentagem}
-                        dataKey="quantidade"
-                        nameKey="categoria"
-                        cx="50%"
-                        cy="50%"
-                        outerRadius={150}
-                        innerRadius={60}
-                        paddingAngle={2}
-                        label={({ categoria, porcentagem }) => `${categoria}: ${porcentagem}%`}
-                        >
-                            {dadosComPorcentagem.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={CORES[index % CORES.length]} />
-                            ))}
-                        </Pie>
-
-                        <Tooltip formatter={tooltipFormatter} />
-
-                        <Legend 
-                        layout="vertical" 
-                        verticalAlign="middle" 
-                        align="right"
-                        formatter={(value, entry) => {
-                        const item = dadosComPorcentagem.find(d => d.categoria === value);
-                        return `${value} (${item.porcentagem}%)`;
-                        }}
-                        />
-                    </PieChart>
-                </ResponsiveContainer> */}
-
                 <div className="details">
-                    <h4 className="details_title">Detalhamento:</h4>
+                    <div className="legenda">
+                        <label>Legenda:</label>
+
+                        <div className="dots">
+                            {[...dadosComPorcentagem].reverse().map((item, index) => (
+                            <div className="item" key={index}>
+                                <div className={`item_dot`}
+                                style={{ backgroundColor: [...CORES].reverse()[index % CORES.length] }}
+                                >
+                                </div>
+
+                                <div className="text_dot">
+                                    {item.property_api == 'good' ? 'ideal' : item.property_api == 'warning' ? 'alerta' : 'crítico'}
+                                </div>
+                            </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* <h4 className="details_title">Detalhamento:</h4>
 
                     <ul className="details_list">
                         {dadosComPorcentagem.map((item, index) => (
@@ -151,7 +138,7 @@ export function ChartKPI({ datas }) {
                             <span><b>{item.status} ({item.description}):</b> {item.quantity} produtos ({item.percent}%)</span>
                         </li>
                         ))}
-                    </ul>
+                    </ul> */}
                 </div>
             </div>
         </div>

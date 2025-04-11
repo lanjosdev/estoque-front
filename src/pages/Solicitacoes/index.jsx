@@ -1,6 +1,6 @@
 // Hooks / Libs:
 import Cookies from "js-cookie";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 // Contexts:
 // import UserContext from "../../contexts/userContext";
@@ -8,7 +8,6 @@ import { useEffect } from "react";
 // Components:
 import { NavMenu } from "../../components/NavMenu/NavMenu";
 import { PainelSolicitacoes } from "../../components/Painels/PainelSolicitacoes/PainelSolicitacoes";
-// import { PainelMinhasSolicitacoes } from "../../components/Painels/PainelMinhasSolicitacoes/PainelMinhasSolicitacoes";
 
 // Assets:
 // import imgLogo from '../../assets/LOGO-BIZSYS_preto.png';
@@ -18,6 +17,8 @@ import './style.css';
 
 
 export default function Solicitacoes() {
+    // Logica UI:
+    const [filterFinalized, setFilterFinalized] = useState(false);
 
     const tokenCookie = Cookies.get('tokenEstoque');
 
@@ -49,11 +50,31 @@ export default function Solicitacoes() {
                     </h1>
 
                     <p className="subtitle">
-                        Abaixo estão todas as solicitações do ambiente a serem atendidas. 
+                        Visualize e acesse as solicitações recebidas.
                     </p>
                 </div>
 
-                <PainelSolicitacoes />
+                <div className="container tabs">
+                    <div className="tabs">
+                        <button 
+                        className={`tab ${!filterFinalized ? 'active' : ''}`}
+                        onClick={()=> setFilterFinalized(false)}
+                        // disabled={loadingSubmit}
+                        >
+                            Ativos
+                        </button>
+
+                        <button 
+                        className={`tab ${filterFinalized ? 'active' : ''}`}
+                        onClick={()=> setFilterFinalized(true)}
+                        // disabled={loadingSubmit}
+                        >
+                            Finalizados
+                        </button>
+                    </div>
+                </div>
+
+                <PainelSolicitacoes filterFinalized={filterFinalized} />
             </main>
 
         </div>

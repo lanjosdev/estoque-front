@@ -32,6 +32,9 @@
                     /* background-color: aqua; */
                     .btns_actions {
                         /* background-color: rgb(161, 106, 39); */
+                        width: 100%;
+                        max-width: 20rem;
+
                         display: flex;
                         gap: 0.7rem;
                     }

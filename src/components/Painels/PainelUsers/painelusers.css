@@ -1,7 +1,7 @@
 .Painel {
     background-color: var(--color-bg-2);
     border-radius: 15px;
-    padding: 2rem;
+    padding: 2rem 1.5rem;
 
     .painel-top {
         display: flex;
@@ -29,27 +29,21 @@
                 border-bottom: 2px solid var(--color-secundary);
             }
             tbody tr {
-                border-bottom: 1px solid var(--gray-400);
+                border-bottom: 1px solid var(--color-bg-3);
                 transition: all 0.4s ease;
-
-                &:hover {
-                    background-color: #00000015;
-                }
-                /* &:not(:has(.DropdownMenu:hover)) {
-                    transition: filter .3s ease;
-                    
-                    &:hover {
-                        filter: brightness(0.9);
-                    }
-                } */
 
                 &:last-child {
                     border-bottom: none;
                 }
+
+                &:hover {
+                    background-color: #00000015;
+                }
             }
 
-            th, td {
-                text-align: left;
+            th, 
+            td {
+                text-align: center;
                 padding: .5rem .7rem;
             }
             td {
@@ -130,6 +124,12 @@
 
                             border-bottom: none;
                         }
+                    }
+
+                     
+                    td {
+                        text-align: right;
+                        /* padding: .5rem .7rem; */
                     }
                 }
             }

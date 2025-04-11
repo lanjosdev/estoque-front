@@ -1,0 +1,7 @@
+.main.MinhasSolicitacoes {
+    /* border: 0.2rem solid red; */
+
+    .title--subtitle .title i {
+        transform: translateY(0.2rem);
+    }
+}

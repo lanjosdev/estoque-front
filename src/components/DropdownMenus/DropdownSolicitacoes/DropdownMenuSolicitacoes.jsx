@@ -2,7 +2,7 @@ import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 
-// import "./dropdownmenuexit.css";
+import "./dropdownmenusolicitacoes.css";
 
 
 DropdownMenuSolicitacoes.propTypes = {
@@ -74,10 +74,10 @@ export function DropdownMenuSolicitacoes({ itemTarget, handleOpenModal }) {
 
 
 	return (
-		<div className="DropdownMenu">
+		<div className="DropdownMenu DropdownMenuSolicitacoes">
             <DropdownMenu.Root>
                 <DropdownMenu.Trigger asChild>
-                    <button className="btn secundary">
+                    <button className={`btn secundary ${itemTarget.status == "Recebido" ? 'indicator' : ''}`}>
                         {itemTarget.status}
                         <i className="bi bi-caret-down-fill"></i>
                     </button>

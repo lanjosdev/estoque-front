@@ -8,7 +8,7 @@ body:has(.PreviewCart) {
 /* GRID LAYOUT */
 .grid {
     width: 100%;
-    max-width: 1480px;
+    max-width: 1380px;
 
     margin: 0 auto;
 }
@@ -95,6 +95,52 @@ td[data-label="qtd. em estoque"]
     }
     &.danger {
         background-color: var(--color-danger-bg);
+        color: var(--color-danger);
+    }
+}
+
+.link_animate {
+    position: relative;
+    /* border: 1px solid red; */
+    max-width: fit-content;
+
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+
+    color: var(--color-primary);
+    font-weight: 600;
+
+    transition: all .3s ease;
+
+    > i {
+        font-size: 1.8rem;
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        background-color: var(--color-primary);
+        width: 0;
+        height: 0.18rem;
+        left: 0;
+        bottom: 0;
+
+        transition: all .3s ease-in-out;
+    }
+
+    &:hover {
+        transform: scale(1.02);
+    }
+    &:hover::after {
+        width: 100%;
+    }
+}
+
+.txt {
+    font-weight: 500;
+
+    &.danger {
         color: var(--color-danger);
     }
 }

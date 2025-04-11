@@ -11,6 +11,39 @@
             /* background-color: aqua; */
             font-weight: 400;
 
+            .legenda {
+                /* outline: solid; */
+                display: flex;
+                gap: 1.5rem;
+
+                .dots {
+                    display: flex;
+                    /* align-items: center; */
+                    gap: 3rem;
+
+                    .item {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+
+                        .item_dot {
+                            width: 2rem;
+                            min-height: 2rem;
+                            border-radius: 50%;
+                        }
+                        .text_dot {
+                            font-style: italic;
+                            font-size: 1.4rem;
+                            opacity: 0.7;
+                        }
+                    }
+                }
+            }
+
+
+
+
             .details_title {
                 margin-bottom: 1rem;
             }

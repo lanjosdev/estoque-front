@@ -1,4 +1,5 @@
 // Hooks / Libs:
+import PropTypes from "prop-types";
 import Cookies from "js-cookie";
 import { useState, useEffect } from 'react';
 // import { useNavigate } from "react-router-dom";
@@ -24,7 +25,10 @@ import { ModalExit } from "../../Modals/ModalExit/ModalExit";
 import './painelsolicitacoes.css';
 
 
-export function PainelSolicitacoes() {
+PainelSolicitacoes.propTypes = {
+    filterFinalized: PropTypes.bool
+}
+export function PainelSolicitacoes({ filterFinalized }) {
     // Estados do componente:
     const [loading, setLoading] = useState(true);
     const [hasError, setHasError] = useState(null);
@@ -36,9 +40,13 @@ export function PainelSolicitacoes() {
     const [totalPages, setTotalPages] = useState(1);
 
     // Logica UI:
-    const paramsDefault = '';
-    const [paramsQuery, setParamsQuery] = useState(paramsDefault); //ex com pesquisa: 'name=${productInputSearch}&active=true'
+    // Filtros/Query:
+    const [paramsQuery, setParamsQuery] = useState({
+        finalized: false,
+        page: 1
+    }); //ex com pesquisa: 'name=${productInputSearch}&active=true'
     const [currentPage, setCurrentPage] = useState(1);
+    
     // Lógica Modal:
     const [showModal, setShowModal] = useState(false);
     const [optionModal, setOptionModal] = useState(null);
@@ -49,6 +57,17 @@ export function PainelSolicitacoes() {
 
 
 
+    useEffect(()=> {
+        async function updateParamsQuery() {
+            const newParams = {
+                finalized: filterFinalized,
+                page: currentPage
+            };
+
+            setParamsQuery(newParams);
+        }
+        updateParamsQuery();
+    }, [filterFinalized, currentPage]);
 
     useEffect(()=> {
         async function getAllRequests() 
@@ -60,7 +79,7 @@ export function PainelSolicitacoes() {
                 setSolicitacoes([]);
                 setTotalResults(0);
                 
-                const response = await ORDER_GET_ALL_PER_PARAMS(JSON.parse(tokenCookie), paramsQuery, currentPage);
+                const response = await ORDER_GET_ALL_PER_PARAMS(JSON.parse(tokenCookie), paramsQuery);
                 console.log(response);
 
                 if(response.success) {
@@ -101,7 +120,7 @@ export function PainelSolicitacoes() {
             setLoading(false);
         }
         getAllRequests();
-    }, [tokenCookie, refreshState, currentPage, paramsQuery]);
+    }, [tokenCookie, paramsQuery, refreshState]);
 
 
 
@@ -118,7 +137,7 @@ export function PainelSolicitacoes() {
     return (
         <div className="Painel PainelSolicitacoes">
             <div className="painel-top">
-                <h2>Solicitações ({totalResults}):</h2>
+                <h2>Total ({totalResults}):</h2>
 
                 <div className="search--btnAdd">
                     {(solicitacoes.length > 0) && (
@@ -147,7 +166,7 @@ export function PainelSolicitacoes() {
                     <div className='feedback_content'>
                         <p>
                             <i className="bi bi-exclamation-triangle"></i>
-                            <span> Erro ao carregar solicitações!</span>
+                            <span> Erro ao carregar solicitações.</span>
                         </p>
                         
                         <a className='btn primary' href='/solicitacoes'>
@@ -166,12 +185,12 @@ export function PainelSolicitacoes() {
                             </p>
                             ) : ( */}
                             <>
-                            <p>Não há solicitações para exibir</p>
+                            <p>Nenhuma solicitação foi encontrada</p>
                             
-                            <a className='btn primary' href='/solicitacoes'>
+                            {/* <a className='btn primary' href='/solicitacoes'>
                                 <i className="bi bi-arrow-clockwise"></i>
                                 Recarregue a página
-                            </a>
+                            </a> */}
                             </>
                             {/* )} */}
                         </div>

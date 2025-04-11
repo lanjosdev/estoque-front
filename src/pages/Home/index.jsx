@@ -1,6 +1,7 @@
 // Hooks / Libs:
 import Cookies from "js-cookie";
 import { useEffect, useState, useContext } from "react";
+import { Link } from "react-router-dom";
 
 // API:
 import { DASH_GET_ALL } from "../../API/dashApi";
@@ -149,7 +150,7 @@ export default function Home() {
                     <div className="painel_title">
                         <h2>
                             <i className="bi bi-bar-chart"></i> 
-                            <span> Visão geral do Estoque</span>
+                            <span> Visão geral do estoque</span>
                         </h2>
                     </div>
 
@@ -221,6 +222,13 @@ export default function Home() {
                         </div>
 
                         )
+                    )}
+
+                    {(profileDetails.level_name != 'user' && !loading) && (
+                    <Link to='/estoque' className="link_animate">
+                        Veja mais informações do estoque
+                        <i className="bi bi-box-arrow-up-right"></i>
+                    </Link>
                     )}
                 </div>
             </main>

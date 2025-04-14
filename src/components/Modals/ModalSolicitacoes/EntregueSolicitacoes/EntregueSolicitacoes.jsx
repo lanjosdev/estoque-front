@@ -128,7 +128,7 @@ export function EntregueSolicitacoes({ close, requestTarget, setRefreshState, id
                         </span>
                     </div>
 
-                    <p>ID da solicitação: {formatToIdCode(requestTarget.id, 4)}</p>
+                    <p>ID da solicitação: <span className="txt bold">{formatToIdCode(requestTarget.id, 4)}</span></p>
                 </div>
             </div>
 
@@ -137,23 +137,21 @@ export function EntregueSolicitacoes({ close, requestTarget, setRefreshState, id
                 <div className="label--input">
                     <label>Solicitante</label>
                     
-                    <p className="input">
+                    <p className="input read">
                         {requestTarget?.user_solicited.name}
                     </p>
                 </div>
                 <div className="label--input">
-                    <label>Será entregue para</label>
+                    <label>Entregue para</label>
                     
-                    <p className="input">
+                    <p className="input read">
                         {requestTarget?.delivery_to}
                     </p>
                 </div>
 
 
                 <div className="label--input column_full">
-                    {/* <p>:</p> */}
-
-                    <label>Produtos solicitados</label>
+                    <label>Produtos que foram entregues</label>
 
                     <div className="input products">
                         <div className="products_title">

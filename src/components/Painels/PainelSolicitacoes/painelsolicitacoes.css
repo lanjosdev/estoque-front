@@ -10,6 +10,22 @@
                 td[data-label="tipo"] {
                     position: relative;
 
+                    .badge {
+                        display: flex;
+                        justify-content: center;
+                        gap: 0.3rem;
+
+                        max-width: 9.4rem;
+                        margin: 0 auto;
+
+                        i {
+                            transform: translateY(0.1rem);
+                        }
+
+                        @media (max-width: 767px) {
+                            margin: 0;
+                        }
+                    }
                     .badge.alert::after {
                         content: '!';
                         position: absolute;
@@ -28,15 +44,23 @@
                     }
                 }
 
-                td[data-label='ações'] {
-                    /* background-color: aqua; */
+                td:last-child {
+                    /* border: solid red; */
+                    display: flex;
+                    justify-content: flex-end;
+
                     .btns_actions {
                         /* background-color: rgb(161, 106, 39); */
                         width: 100%;
-                        max-width: 20rem;
+                        max-width: 19rem;
 
                         display: flex;
+                        /* justify-content: center; */
                         gap: 0.7rem;
+                    }
+
+                    @media (max-width: 767px) {
+                        justify-content: space-between;
                     }
                 }
             }

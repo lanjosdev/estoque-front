@@ -200,10 +200,10 @@ export function PainelSolicitacoes({ filterFinalized }) {
                             <thead>
                                 <tr>
                                     <th scope="col">ID</th>
-                                    <th scope="col">Tipo</th>
+                                    <th scope="col" data-label="tipo">Tipo</th>
                                     <th scope="col">Criado em</th>
                                     <th scope="col">Finalizado em</th>
-                                    <th scope="col" data-label="ações">Ações/Status</th>
+                                    <th scope="col" data-label="ações">Status</th>
                                 </tr>
                             </thead>
 
@@ -236,7 +236,7 @@ export function PainelSolicitacoes({ filterFinalized }) {
                                         {formatFullToHoursMinutes(solicitacao?.finalized_at)}
                                     </td>
 
-                                    <td data-label="ações">
+                                    <td data-label="status">
                                         <div className="btns_actions">
                                             <button className="btn view" title="Exibir detalhes" 
                                             onClick={()=> handleOpenModal(solicitacao, 'details')}

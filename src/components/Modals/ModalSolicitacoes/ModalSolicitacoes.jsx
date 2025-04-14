@@ -9,6 +9,7 @@ import { InSeparationSolicitacoes } from "./InSeparationSolicitacoes/InSeparatio
 import { SeparateSolicitacoes } from "./SeparateSolicitacoes/SeparateSolicitacoes";
 import { EntregueSolicitacoes } from "./EntregueSolicitacoes/EntregueSolicitacoes";
 import { CancelSolicitacoes } from "./CancelSolicitacoes/CancelSolicitacoes";
+import { DevolvidoSolicitacoes } from "./DevolvidoSolicitacoes/DevolvidoSolicitacoes";
 // import { CreateExit } from "./CreateExit/CreateExit";
 // import { UpdateExit } from "./UpdateExit/UpdateExit";
 // import { DeleteExit } from "./DeleteExit/DeleteExit";
@@ -75,7 +76,7 @@ export function ModalSolicitacoes({ close, setRefreshState, optionModal, request
         entregue: {
             id: 4
         },
-        retornado: {
+        devolvido: {
             id: 5
         },
         cancelado: {
@@ -117,6 +118,8 @@ export function ModalSolicitacoes({ close, setRefreshState, optionModal, request
                 return <SeparateSolicitacoes close={close} requestTarget={requestTarget} setRefreshState={setRefreshState} idStatusSubmit={idsStatusSolicitacoesPorOptModal[optionModal].id} />;
             case 'entregue':
                 return <EntregueSolicitacoes close={close} requestTarget={requestTarget} setRefreshState={setRefreshState} idStatusSubmit={idsStatusSolicitacoesPorOptModal[optionModal].id} />;
+            case 'devolvido':
+                return <DevolvidoSolicitacoes close={close} requestTarget={requestTarget} setRefreshState={setRefreshState} idStatusSubmit={idsStatusSolicitacoesPorOptModal[optionModal].id} />;
             case 'cancelado':
                 return <CancelSolicitacoes close={close} requestTarget={requestTarget} setRefreshState={setRefreshState} idStatusSubmit={idsStatusSolicitacoesPorOptModal[optionModal].id} />;
             default:

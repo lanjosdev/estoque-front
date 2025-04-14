@@ -132,27 +132,29 @@ body, input, textarea, button, select, a {
 
 
 /* Barra scroll */
-/* width */
-::-webkit-scrollbar {
-    width: 7px;
+@media (min-width: 480px) {
+    /* width */
+    ::-webkit-scrollbar {
+        width: 7px;
 
-    transition: all .3s ease;
-}
-  
-/* Track */
-::-webkit-scrollbar-track {
-    background: var(--color-bg-2); 
-}
-   
-/* Handle */
-::-webkit-scrollbar-thumb {
-    background: var(--color-bg-3); 
-    border-radius: 2px;
+        transition: all .3s ease;
+    }
+    
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: var(--color-bg-2); 
+    }
+    
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: var(--color-bg-3); 
+        border-radius: 2px;
 
-    transition: all .3s ease;
-}
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-    background: var(--gray-400); 
+        transition: all .3s ease;
+    }
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--gray-400); 
+    }
 }
 /* Barra scroll */

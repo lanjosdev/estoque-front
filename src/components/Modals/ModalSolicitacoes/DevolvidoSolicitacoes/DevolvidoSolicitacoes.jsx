@@ -19,35 +19,36 @@ import { formatToIdCode } from "../../../../utils/formatStrings";
 // Assets:
 
 // Estilo:
-// import './separatesolicitacoes.css';
+import './devolvidosolicitacoes.css';
 
 
-SeparateSolicitacoes.propTypes = {
+DevolvidoSolicitacoes.propTypes = {
     close: PropTypes.func,
     requestTarget: PropTypes.object,
     setRefreshState: PropTypes.func,
     idStatusSubmit: PropTypes.number
 }
-export function SeparateSolicitacoes({ close, requestTarget, setRefreshState, idStatusSubmit }) {
+export function DevolvidoSolicitacoes({ close, requestTarget, setRefreshState, idStatusSubmit }) {
     // Estados do componente:
     const [loadingSubmit, setLoadingSubmit] = useState(false);
 
     // Logica UI:
     const elementFocusRef = useRef(null);
-    const [separateProducts, setSeparateProducts] = useState(false);
+    const [productsOk, setProductsOk] = useState(false);
    
 
     const tokenCookie = Cookies.get('tokenEstoque');
 
 
     useEffect(()=> {
+        console.log(idStatusSubmit)
         // Inicia dando foco em um elemento do WindowModal
         if(elementFocusRef.current) {
             setTimeout(() => { 
                 elementFocusRef.current.focus(); 
             }, 100);
         }
-    }, []);
+    }, [idStatusSubmit]);
 
 
 
@@ -102,7 +103,7 @@ export function SeparateSolicitacoes({ close, requestTarget, setRefreshState, id
 
 
     return (
-        <div className='Window SeparateSolicitacoes DetailsSolicitacoes grid'>
+        <div className='Window DevolvidoSolicitacoes DetailsSolicitacoes grid'>
             <div className="window_top">
                 <h3 className="title_modal">
                     {/* {requestTarget?.order_type == "Saída" ? (
@@ -111,7 +112,7 @@ export function SeparateSolicitacoes({ close, requestTarget, setRefreshState, id
                     <i className="bi bi-calendar-event"></i>
                     )} */}
 
-                    <span>Mudança de status para: "Separado"</span>
+                    <span>Mudança de status para: "Devolvido"</span>
                 </h3>
 
                 <div className="subtitle_modal">
@@ -141,25 +142,24 @@ export function SeparateSolicitacoes({ close, requestTarget, setRefreshState, id
                         {requestTarget?.user_solicited.name}
                     </p>
                 </div>
+
                 <div className="label--input">
-                    <label>Será entregue para</label>
+                    <label>Foi entregue para</label>
                     
                     <p className="input read">
                         {requestTarget?.delivery_to}
                     </p>
                 </div>
 
-
                 <div className="label--input column_full">
-                    {/* <p>:</p> */}
-
-                    <label>Produtos solicitados</label>
+                    <label>Produtos que devem ser devolvidos</label>
 
                     <div className="input products">
                         <div className="products_title">
                             <span className="id_product">ID</span>
                             <span className="name_product">Produto</span>
                             <span className="qtd_product">Qtd</span>
+                            <span className="pendente">Pendente</span>
                         </div>
 
                         {/* <div className="products_list"> */}
@@ -167,19 +167,35 @@ export function SeparateSolicitacoes({ close, requestTarget, setRefreshState, id
                         <div className="products_item" key={item.id}>
                             <span className="id_product">{formatToIdCode(item.id)}</span>
                             <span className="name_product">{item.name}</span>
-                            <span className="qtd_product">{item.quantity}</span>
+                            <span className="qtd_product">
+                                <input type="number" />
+                            </span>
+                            <span className="pendente">
+                                <input type="checkbox" />
+                            </span>
+
+                            <div className="obs_product">
+                                {/* <label htmlFor="">OBS</label> */}
+
+                                <textarea placeholder="Digite o motivo da pendência"></textarea>
+                            </div>
                         </div>
                         ))}
                         {/* </div> */}
                     </div>
+                    
 
-                    <label className="confirm_check">
-                        <input type="checkbox" checked={separateProducts} onChange={()=> setSeparateProducts(!separateProducts)} />
+                    <small className="obs">Obs: Caso tenha algum produto com a quantidade diferente do que está na solicitação marque como pendente e quantos está sendo devolvido.</small>
+
+                    <span className="ou">OU</span>
+
+                    <label className="confirm_check column_full">
+                        <input type="checkbox" checked={productsOk} onChange={()=> setProductsOk(!productsOk)} />
                         <span className="checkmark">
                             <i className="bi bi-check"></i>
                         </span>
 
-                        <span className="text"> Marque se os produtos foram devidamente separados, e confirme o avanço do status clicando em <b>"Produtos separados"</b>.</span>
+                        <span className="text"> Marque se está tudo certo com a devolução dos produstos.</span>
                     </label>
                 </div>
             </div>
@@ -187,16 +203,16 @@ export function SeparateSolicitacoes({ close, requestTarget, setRefreshState, id
 
 
             <div className="window_bottom">
-                <button className="btn primary" type="button" onClick={handleSubmitUpdateStatus} disabled={!separateProducts || loadingSubmit}>
+                <button className="btn primary" type="button" onClick={handleSubmitUpdateStatus} disabled={!productsOk || loadingSubmit}>
                     {loadingSubmit && (
                         <div className="loader"></div>
                     )}
 
-                    <span> Produtos separados</span>
+                    <span> Tudo certo com a devolução</span>
                 </button>
 
                 <button ref={elementFocusRef} className="btn cancel" type="button" onClick={close}>Cancelar</button>
-            </div>                   
+            </div>                       
         </div>
     )        
 }

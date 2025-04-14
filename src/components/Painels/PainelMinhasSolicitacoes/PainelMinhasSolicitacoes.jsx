@@ -206,10 +206,13 @@ export function PainelMinhasSolicitacoes() {
                                     </td>
 
                                     <td data-label="status">
-                                        {solicitacao.status == 'Cancelado' ? (
-                                        <span>{solicitacao.status}</span>
+                                        {(solicitacao.status == 'Cancelado' || solicitacao.status_id == 6) ? (
+                                            <span className="status danger">{solicitacao.status}</span>
                                         ) : (
-                                        <div>{solicitacao.status} (Linha do tempo...)</div>
+                                            <span className={`status ${((solicitacao.order_type == "Saída" && solicitacao.status == 'Entregue') || (solicitacao.order_type == "Empréstimo" && solicitacao.status == 'Devolvido')) ? 'success' : ''} ${(solicitacao.order_type == "Empréstimo" && solicitacao.status == 'Entregue') ? 'progress' : ''}`}
+                                            >
+                                                {solicitacao.status}
+                                            </span>
                                         )}
                                     </td>
 

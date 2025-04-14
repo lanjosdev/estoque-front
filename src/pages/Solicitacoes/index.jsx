@@ -45,7 +45,7 @@ export default function Solicitacoes() {
             <main className='main Solicitacoes grid'>
                 <div className="title--subtitle">
                     <h1 className="title">
-                        <i className="bi bi-list-ul"></i>
+                        <i className="bi bi-receipt"></i>
                         Solicitações
                     </h1>
 
@@ -61,7 +61,7 @@ export default function Solicitacoes() {
                         onClick={()=> setFilterFinalized(false)}
                         // disabled={loadingSubmit}
                         >
-                            Ativos
+                            Ativas
                         </button>
 
                         <button 
@@ -69,7 +69,7 @@ export default function Solicitacoes() {
                         onClick={()=> setFilterFinalized(true)}
                         // disabled={loadingSubmit}
                         >
-                            Finalizados
+                            Finalizadas
                         </button>
                     </div>
                 </div>

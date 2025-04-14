@@ -6,9 +6,15 @@
     .btn.secundary {
         position: relative;
         padding: 0.5rem 1rem;
+        padding-right: 0.8rem;
         width: 100%;
         max-width: 100%;
         justify-content: space-between;
+
+        i {
+            font-size: 1.1rem;
+            transform: translateY(0.5px);
+        }
 
         &.indicator::after {
             content: '';

@@ -19,6 +19,11 @@
                 td[data-label="tipo"] {
                     position: relative;
 
+                    .badge {
+                        display: flex;
+                        gap: 0.3rem;
+                        justify-content: center;
+                    }
                     .badge.alert::after {
                         content: '!';
                         position: absolute;
@@ -31,9 +36,8 @@
                         font-weight: 500;
                         line-height: 115%;
                         color: var(--color-w);
+
                         transform: translateY(-0.2rem);
-                        /* left: 0; */
-                        /* right: 0;                         */
                     }
                 }
 
@@ -46,6 +50,21 @@
                     white-space: nowrap;
                     /* overflow: hidden; */
                     /* text-overflow: ellipsis; Adiciona reticências (...) no final do texto cortado */
+
+                    .status {
+                        font-size: 14px;
+                        font-weight: 600;
+
+                        &.danger {
+                            color: var(--color-danger);
+                        }
+                        &.success {
+                            color: var(--color-success);
+                        }
+                        &.progress {
+                            color: var(--color-primary);
+                        }
+                    }
                 }
 
                 td[data-label="ações"] {
@@ -93,6 +112,8 @@
             }
         }
     }
+
+
 
 
 

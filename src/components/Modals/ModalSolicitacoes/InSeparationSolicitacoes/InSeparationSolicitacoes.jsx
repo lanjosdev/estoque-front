@@ -128,7 +128,7 @@ export function InSeparationSolicitacoes({ close, requestTarget, setRefreshState
                         </span>
                     </div>
 
-                    <p>ID da solicitação: {formatToIdCode(requestTarget.id, 4)}</p>
+                    <p>ID da solicitação: <span className="txt bold">{formatToIdCode(requestTarget.id, 4)}</span></p>
                 </div>
             </div>
 
@@ -137,14 +137,14 @@ export function InSeparationSolicitacoes({ close, requestTarget, setRefreshState
                 <div className="label--input">
                     <label>Solicitante</label>
                     
-                    <p className="input">
+                    <p className="input read">
                         {requestTarget?.user_solicited.name}
                     </p>
                 </div>
                 <div className="label--input">
                     <label>Será entregue para</label>
                     
-                    <p className="input">
+                    <p className="input read">
                         {requestTarget?.delivery_to}
                     </p>
                 </div>

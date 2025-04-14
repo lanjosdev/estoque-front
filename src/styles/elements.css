@@ -143,6 +143,9 @@ td[data-label="qtd. em estoque"]
     &.danger {
         color: var(--color-danger);
     }
+    &.bold {
+        font-weight: 700;
+    }
 }
 /* TIPOGRAFIA-FIM */
 

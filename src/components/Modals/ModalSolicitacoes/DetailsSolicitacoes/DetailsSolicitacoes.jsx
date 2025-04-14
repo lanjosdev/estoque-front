@@ -76,7 +76,7 @@ export function DetailsSolicitacoes({ close, requestTarget }) {
                         </span>
                     </div>
 
-                    <p>ID da solicitação: {formatToIdCode(requestTarget.id, 4)}</p>
+                    <p>ID da solicitação: <span className="txt bold">{formatToIdCode(requestTarget.id, 4)}</span></p>
                 </div>
             </div>
 
@@ -85,14 +85,14 @@ export function DetailsSolicitacoes({ close, requestTarget }) {
                 <div className="label--input">
                     <label>Solicitante</label>
                     
-                    <p className="input">
+                    <p className="input read">
                         {requestTarget?.user_solicited.name}
                     </p>
                 </div>
                 <div className="label--input">
                     <label>Será entregue para</label>
                     
-                    <p className="input">
+                    <p className="input read">
                         {requestTarget?.delivery_to}
                     </p>
                 </div>
@@ -100,14 +100,14 @@ export function DetailsSolicitacoes({ close, requestTarget }) {
                 <div className="label--input">
                     <label>Criando em</label>
                     
-                    <p className="input">
+                    <p className="input read">
                         {requestTarget?.created_at}
                     </p>
                 </div>
                 <div className="label--input">
                     <label>Finalizado em</label>
                     
-                    <p className="input">
+                    <p className="input read">
                         {requestTarget?.finalized_at || 'Ainda não finalizado'}
                     </p>
                 </div>
@@ -115,7 +115,7 @@ export function DetailsSolicitacoes({ close, requestTarget }) {
                 <div className="label--input column_full">
                     <label>Status (acompanhamento)</label>
                     
-                    <p className="input timeline">
+                    <p className="input timeline read">
                         {requestTarget?.status} (Linha do tempo)
                     </p>
                 </div>
@@ -150,15 +150,15 @@ export function DetailsSolicitacoes({ close, requestTarget }) {
                 <div className="label--input">
                     <label>Dias solicitado para empréstimo</label>
                     
-                    <p className="input">
-                        {requestTarget.reservation_days}
+                    <p className="input read">
+                        {requestTarget.reservation_days || 'Tempo não determinado'}
                     </p>
                 </div>
                 <div className="label--input">
                     <label>Status do empréstimo</label>
                     
-                    <p className="input">
-                        {requestTarget.status !== 'Entregue' ? 'Aguardando aprovação' : requestTarget.status_reservation}
+                    <p className="input read">
+                        {requestTarget.status !== 'Entregue' ? 'Aguardando aprovação' : (requestTarget.status_reservation || 'N/A')}
                     </p>
                 </div>
                 </>

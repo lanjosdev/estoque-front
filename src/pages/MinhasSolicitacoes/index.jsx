@@ -43,7 +43,7 @@ export default function MinhasSolicitacoes() {
             <main className='main MinhasSolicitacoes grid'>
                 <div className="title--subtitle">
                     <h1 className="title">
-                        <i className="bi bi-list-ul"></i>
+                        <i className="bi bi-receipt"></i>
                         Minhas Solicitações
                     </h1>
 
@@ -53,7 +53,6 @@ export default function MinhasSolicitacoes() {
                 </div>
 
                 <PainelMinhasSolicitacoes />
-                
             </main>
 
         </div>

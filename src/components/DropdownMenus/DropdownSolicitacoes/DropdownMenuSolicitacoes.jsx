@@ -15,42 +15,48 @@ export function DropdownMenuSolicitacoes({ itemTarget, handleOpenModal }) {
     useEffect(()=> {
         const statusRequestDefault = [
             {
+                id_status: 1,
                 status_name: "Recebido",
                 status_done: true,
                 option_modal: 'recebido'
             },
             {
+                id_status: 2,
                 status_name: "Em separação",
                 status_done: false,
                 option_modal: 'inseparation'
             },
             {
+                id_status: 3,
                 status_name: "Separado",
                 status_done: false,
                 option_modal: 'separado'
             },
             {
+                id_status: 4,
                 status_name: "Entregue",
                 status_done: false,
                 option_modal: 'entregue'
             },
             {
-                status_name: "Retornado",
+                id_status: 5,
+                status_name: "Devolvido",
                 status_done: false,
-                option_modal: 'retornado'
+                option_modal: 'devolvido'
             },
         ];
-        const index = statusRequestDefault.findIndex(each=> each.status_name == itemTarget.status);
+        // const index = statusRequestDefault.findIndex(each=> each.status_name == itemTarget.status);
 
-        if(index !== -1) {
-            const newStatusRequest = statusRequestDefault.map((each, idx)=> idx <= index ? ({...each, status_done: true}) : each);
-            if(itemTarget.order_type == "Saída") {
-                newStatusRequest.pop();
-            }
-                
-            // console.log(dataRequest.order_type, newStatusRequest);
-            setStatusRequest(newStatusRequest);
+        // if(index !== -1) {
+            // const newStatusRequest = statusRequestDefault.map((each, idx)=> idx <= index ? ({...each, status_done: true}) : each);
+        const newStatusRequest = statusRequestDefault.map((each)=> each.id_status <= itemTarget.status_id ? ({...each, status_done: true}) : each);
+        if(itemTarget.order_type == "Saída") {
+            newStatusRequest.pop();
         }
+            
+        // console.log(dataRequest.order_type, newStatusRequest);
+        setStatusRequest(newStatusRequest);
+        // }
     }, [itemTarget]);
 
 
@@ -76,7 +82,7 @@ export function DropdownMenuSolicitacoes({ itemTarget, handleOpenModal }) {
 	return (
 		<div className="DropdownMenu DropdownMenuSolicitacoes">
             <DropdownMenu.Root>
-                <DropdownMenu.Trigger asChild>
+                <DropdownMenu.Trigger asChild disabled={itemTarget.finalized_at || false}>
                     <button className={`btn secundary ${itemTarget.status == "Recebido" ? 'indicator' : ''}`}>
                         {itemTarget.status}
                         <i className="bi bi-caret-down-fill"></i>

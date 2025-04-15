@@ -149,9 +149,17 @@ export function EntregueSolicitacoes({ close, requestTarget, setRefreshState, id
                     </p>
                 </div>
 
+                <div className="label--input">
+                    <label>Dias de empréstimos</label>
+                    
+                    <p className="input read">
+                        {requestTarget?.reservation_days}
+                    </p>
+                </div>
+
 
                 <div className="label--input column_full">
-                    <label>Produtos que foram entregues</label>
+                    <label>Produtos a serem entregues ({requestTarget?.products.length} {requestTarget?.products.length > 1 ? 'itens' : 'item'})</label>
 
                     <div className="input products">
                         <div className="products_title">
@@ -190,7 +198,7 @@ export function EntregueSolicitacoes({ close, requestTarget, setRefreshState, id
                         <div className="loader"></div>
                     )}
 
-                    <span> Produtos entregue</span>
+                    <span> Produtos entregues</span>
                 </button>
 
                 <button ref={elementFocusRef} className="btn cancel" type="button" onClick={close}>Cancelar</button>

@@ -27,6 +27,8 @@
                     .badge.alert::after {
                         content: '!';
                         position: absolute;
+                        right: -0.2rem;
+
                         width: 1.5rem;
                         height: 1.5rem;
                         background-color: var(--color-danger);
@@ -37,7 +39,7 @@
                         line-height: 115%;
                         color: var(--color-w);
 
-                        transform: translateY(-0.2rem);
+                        transform: translateY(-0.5rem);
                     }
                 }
 

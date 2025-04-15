@@ -153,7 +153,7 @@ export function InSeparationSolicitacoes({ close, requestTarget, setRefreshState
                 <div className="label--input column_full">
                     {/* <p>Abaixo estão os produtos a serem separados para esta solicitação.</p> */}
 
-                    <label>Confira abaixo os produtos que precisam ser separados para esta solicitação:</label>
+                    <label>Confira os produtos que precisam ser separados para esta solicitação ({requestTarget?.products.length} {requestTarget?.products.length > 1 ? 'itens' : 'item'})</label>
 
                     <div className="input products">
                         <div className="products_title">

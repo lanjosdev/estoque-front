@@ -186,6 +186,7 @@ export function PainelMovimentacoes() {
                                 <tr>
                                     <th scope="col">ID</th>
                                     <th scope="col">Tipo</th>
+                                    <th scope="col" data-label="space"></th>
                                     <th scope="col">Produto</th>
                                     <th scope="col">Setor</th>
                                     <th scope="col" data-label="quantidade">Quantidade</th>
@@ -220,6 +221,10 @@ export function PainelMovimentacoes() {
                                             </span>
                                             )}
                                         </div>
+                                    </td>
+                                    
+                                    <td data-label="space">
+                                        
                                     </td>
                                     
                                     <td data-label="Produto">

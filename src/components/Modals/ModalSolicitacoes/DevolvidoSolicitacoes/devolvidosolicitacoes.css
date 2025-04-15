@@ -3,27 +3,12 @@
     
     .window_content {
         /* border: 1px solid red; */
-        height: auto;
-        max-height: 45rem;
-        overflow-y: auto;
-
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 2rem 1rem; 
-
-        &:has(.timeline) {
-            padding-bottom: 2rem;
-        }
-
-
-        .column_full {
-            grid-column: span 2;
-            overflow-y: hidden;
-        }
+        
 
         .label--input {
 
             .input.products {
+                max-height: 25rem;
 
                 .products_title,
                 .products_item {
@@ -32,6 +17,7 @@
                     grid-template-columns: 0.5fr 3fr 1fr 1fr;
                     align-items: center;
                     gap: 0.3rem 0.5rem;
+
                     padding: 0.7rem 0;
 
                     span {
@@ -47,19 +33,25 @@
                     }
                 }
 
-                .products_item {
-                    &:not(:last-child) {
-                        border-bottom: 0.1rem solid var(--color-bg-3);
-                    }
+                .products_title {
+                    background-color: var(--color-bg-2);
+                    padding: 0.7rem 0.7rem;
+                    /* padding-top: -0.7rem; */
+                    margin: 0 -0.7rem;
+                }
 
+                .products_item {
+                    padding: 0.8rem 0;
+                
                     .qtd_product {
                         /* background-color: blue; */
                         width: 100%;
                         max-width: 100%;
 
                         input {
-                            border: 0.1rem solid var(--color-bg-3);
+                            border: 0.1rem solid #4f4f4fbd;
                             padding: 0.5rem;
+                            text-align: center;
                         }
                     }
 
@@ -68,14 +60,16 @@
                         line-height: 0;
 
                         textarea {
-                            border: 0.1rem solid var(--color-bg-3);
+                            border: 0.1rem solid #4f4f4fbd;
                             padding: 0.5rem;
                             resize: vertical; /* Permite apenas o ajuste vertical */
                             width: 100%;
                             max-width: 100%;
-                            height: auto;
-                            min-height: 3.4rem;
+                            height: 4.5rem;
+                            min-height: 3.7rem;
                             max-height: 7.5rem;
+
+                            color: var(--color-text);
                         }
                     }
                 }

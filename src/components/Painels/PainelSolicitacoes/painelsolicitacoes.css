@@ -9,7 +9,7 @@
             .item {
                 td[data-label="tipo"] {
                     position: relative;
-
+                    
                     .badge {
                         display: flex;
                         justify-content: center;
@@ -29,6 +29,8 @@
                     .badge.alert::after {
                         content: '!';
                         position: absolute;
+                        transform: translate(4.5rem, -0.5rem);
+
                         width: 1.5rem;
                         height: 1.5rem;
                         background-color: var(--color-danger);
@@ -38,10 +40,25 @@
                         font-weight: 500;
                         line-height: 115%;
                         color: var(--color-w);
-                        transform: translateY(-0.2rem);
-                        /* left: 0; */
-                        /* right: 0;                         */
                     }
+
+                    /* .badge.alert::after {
+                        content: '!';
+                        position: absolute;
+                        right: -0.3rem;
+
+                        width: 1.5rem;
+                        height: 1.5rem;
+                        background-color: var(--color-danger);
+                        border-radius: 50%;
+
+                        text-align: center;
+                        font-weight: 500;
+                        line-height: 115%;
+                        color: var(--color-w);
+
+                        transform: translateY(-0.5rem);
+                    } */
                 }
 
                 td:last-child {

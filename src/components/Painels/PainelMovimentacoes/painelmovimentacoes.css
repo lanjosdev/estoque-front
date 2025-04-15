@@ -9,12 +9,24 @@
             [data-label="tipo"] {
                 text-align: center;
             }
+
+            [data-label="space"] {
+                /* background-color: aqua; */
+                width: 1.5rem;
+
+                @media (max-width: 767px) {
+                    display: none;
+                }
+            }
+
+
             
             .item {
                 td[data-label="tipo"] {
                     /* background-color: rgba(255, 0, 0, 0.144); */
 
                     .tipo_content {
+                        position: relative;
                         /* border: 1px solid red; */
                         display: flex;
                         justify-content: center;
@@ -39,6 +51,8 @@
                         }   
 
                         .sub_type {
+                            position: absolute;
+                            transform: translateX(3.1rem);
                             /* display: inline-block; */
                             /* width: 1.9rem;
                             height: 1.9rem;
@@ -60,6 +74,11 @@
                             font-weight: 600;
                             line-height: 0;
                             color: var(--color-w);
+
+                            @media (max-width: 767px) {
+                                position: static;
+                                transform: translateX(0);
+                            }
                         } 
                         .sub_type.discard {
                             background-color: var(--color-danger);
@@ -78,7 +97,6 @@
                     }
                 }
             }
-            
         }
 
         

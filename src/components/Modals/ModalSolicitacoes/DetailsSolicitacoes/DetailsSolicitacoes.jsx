@@ -113,15 +113,15 @@ export function DetailsSolicitacoes({ close, requestTarget }) {
                 </div>
 
                 <div className="label--input column_full">
-                    <label>Status (acompanhamento)</label>
+                    <label>Status</label>
                     
                     <p className="input timeline read">
-                        {requestTarget?.status} (Linha do tempo)
+                        {requestTarget?.status}
                     </p>
                 </div>
 
                 <div className="label--input column_full">
-                    <label>Produtos solicitados</label>
+                    <label>Produtos solicitados ({requestTarget?.products.length} {requestTarget?.products.length > 1 ? 'itens' : 'item'})</label>
                     
                     <div className="input products">
                         <div className="products_title">
@@ -143,7 +143,7 @@ export function DetailsSolicitacoes({ close, requestTarget }) {
                 </div>
                 
 
-                {requestTarget?.order_type == "Empréstmo" && (
+                {requestTarget?.order_type == "Empréstimo" && (
                 <>
                 <div className="separator column_full"></div>
 
@@ -158,9 +158,28 @@ export function DetailsSolicitacoes({ close, requestTarget }) {
                     <label>Status do empréstimo</label>
                     
                     <p className="input read">
-                        {requestTarget.status !== 'Entregue' ? 'Aguardando aprovação' : (requestTarget.status_reservation || 'N/A')}
+                        {requestTarget.status || 'Aguardando a entrega'}
                     </p>
                 </div>
+
+                {requestTarget?.finalized_at ? (
+                <div className="label--input">
+                    <label>Data da devolução</label>
+                    
+                    <p className="input read">
+                        {requestTarget.finalized_at}
+                    </p>
+                </div>
+                ) : (
+                <div className="label--input">
+                    <label>Data para devolução</label>
+                    
+                    <p className="input read">
+                        {requestTarget.return_date || 'Aguardando a entrega'}
+                    </p>
+                </div>
+                )}
+                
                 </>
                 )}
                 

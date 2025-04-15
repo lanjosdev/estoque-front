@@ -153,7 +153,7 @@ export function SeparateSolicitacoes({ close, requestTarget, setRefreshState, id
                 <div className="label--input column_full">
                     {/* <p>:</p> */}
 
-                    <label>Produtos solicitados</label>
+                    <label>Produtos solicitados ({requestTarget?.products.length} {requestTarget?.products.length > 1 ? 'itens' : 'item'})</label>
 
                     <div className="input products">
                         <div className="products_title">

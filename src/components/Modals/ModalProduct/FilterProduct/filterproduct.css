@@ -1,3 +1,18 @@
-/* .FilterSector {
+.Window.FilterProduct {
+    /* background-color: aqua; */
 
-} */
+    .content-window {
+
+        .radios-group {
+            flex-wrap: wrap;
+            justify-content: flex-start;
+
+            .btn-filter {
+                max-width: fit-content;
+                /* > input {
+                    display: none;
+                } */
+            }
+        }
+    }
+}

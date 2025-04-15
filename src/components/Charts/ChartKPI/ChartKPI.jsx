@@ -61,7 +61,7 @@ export function ChartKPI({ datas }) {
     return (
         <div className="Chart ChartKPI">
             <div className="chart_title">
-                <h3>Saúde do estoque (KPI)</h3>
+                <h3>Saúde do estoque</h3>
             </div>
 
             <div className="chart_data">

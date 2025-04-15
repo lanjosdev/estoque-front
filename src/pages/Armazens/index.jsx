@@ -49,7 +49,7 @@ export default function Armazens() {
                     </h1>
 
                     <p>
-                        Abaixo estão os armazéns cadastrados. Armazéns são locais/móveis onde os produtos serão armazenados em estoque.
+                        Segue a lista de armazéns cadastrados
                     </p>
                 </div>
 

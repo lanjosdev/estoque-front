@@ -168,13 +168,16 @@ export function NavMenu({ onPageAlert=false }) {
                     {/* nivel manager */}
                     {(profileDetails?.level_name == "admin" || profileDetails?.level_name == "manager") && (
                     <>
+
+                    <li>
+                        <NavLink to='/estoque'>Estoque</NavLink>
+                    </li>
+                    
                     <li>
                         <NavLink to='/armazens'>Armazéns</NavLink>
                     </li>
                     
-                    <li>
-                        <NavLink to='/estoque'>Estoque</NavLink>
-                    </li>
+                    
                     
                     <li>
                         <NavLink to='/movimentacoes'>Movimentações</NavLink>

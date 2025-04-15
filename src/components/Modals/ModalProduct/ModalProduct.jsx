@@ -9,6 +9,7 @@ import { DeleteProduct } from "./DeleteProduct/DeleteProduct";
 import { UpdateProduct } from "./UpdateProduct/UpdateProduct";
 import { SearchProduct } from "./SearchProduct/SearchProduct";
 import { BuscaProduct } from "./BuscaProduct/BuscaProduct";
+import { FilterProduct } from "./FilterProduct/FilterProduct";
 // import { toast } from "react-toastify";
 
 // Utils:
@@ -19,7 +20,6 @@ import { BuscaProduct } from "./BuscaProduct/BuscaProduct";
 
 // Estilo:
 import './modalproduct.css';
-import { FilterSector } from "../ModalSector/FilterSector/FilterSector";
 
 
 ModalProduct.propTypes = {
@@ -31,9 +31,11 @@ ModalProduct.propTypes = {
     productSearchState: PropTypes.any,
     setProductSearchState: PropTypes.func,
     setProductFilterState: PropTypes.func,
+    idsSectorsFilter: PropTypes.any,
+    setIdsSectorsFilter: PropTypes.func,
     clearSearch: PropTypes.func
 }
-export function ModalProduct({ close, setReflashState, optionModal, productSelect, optionUpdate, productSearchState, setProductSearchState, setProductFilterState, clearSearch }) {
+export function ModalProduct({ close, setReflashState, optionModal, productSelect, optionUpdate, productSearchState, setProductSearchState, setProductFilterState, idsSectorsFilter, setIdsSectorsFilter, clearSearch }) {
     // const [loading, setLoading] = useState(false);
 
     // const tokenCookie = Cookies.get('tokenEstoque');
@@ -77,7 +79,8 @@ export function ModalProduct({ close, setReflashState, optionModal, productSelec
                 // return <SearchProduct close={close} searchState={productSearchState} setSearchState={setProductSearchState} setFilterState={setProductFilterState} />;
                 return <BuscaProduct close={close} searchState={productSearchState} setSearchState={setProductSearchState} />;
             case 'filter':
-                return <FilterSector close={close} sectorFilter={sectorFilter} setSectorFilter={setSectorFilter} />;
+                // return <FilterSector close={close} sectorFilter={sectorFilter} setSectorFilter={setSectorFilter} />;
+                return <FilterProduct close={close} idsSectorsFilter={idsSectorsFilter} setIdsSectorsFilter={setIdsSectorsFilter} />;
             // case 'filter':
             //     return <FilterSector close={close} sectorFilter={sectorFilter} setSectorFilter={setSectorFilter} />;
             default:

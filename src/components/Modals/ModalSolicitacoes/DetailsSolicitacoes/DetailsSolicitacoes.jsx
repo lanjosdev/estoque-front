@@ -98,7 +98,7 @@ export function DetailsSolicitacoes({ close, requestTarget }) {
                 </div>
 
                 <div className="label--input">
-                    <label>Criando em</label>
+                    <label>Criado em</label>
                     
                     <p className="input read">
                         {requestTarget?.created_at}
@@ -108,7 +108,7 @@ export function DetailsSolicitacoes({ close, requestTarget }) {
                     <label>Finalizado em</label>
                     
                     <p className="input read">
-                        {requestTarget?.finalized_at || 'Ainda não finalizado'}
+                        {requestTarget?.finalized_at || 'Em andamento'}
                     </p>
                 </div>
 
@@ -121,7 +121,7 @@ export function DetailsSolicitacoes({ close, requestTarget }) {
                 </div>
 
                 <div className="label--input column_full">
-                    <label>Produtos solicitados ({requestTarget?.products.length} {requestTarget?.products.length > 1 ? 'itens' : 'item'})</label>
+                    <label>Produtos da solicitação ({requestTarget?.products.length} {requestTarget?.products.length > 1 ? 'itens' : 'item'})</label>
                     
                     <div className="input products">
                         <div className="products_title">
@@ -158,19 +158,11 @@ export function DetailsSolicitacoes({ close, requestTarget }) {
                     <label>Status do empréstimo</label>
                     
                     <p className="input read">
-                        {requestTarget.status || 'Aguardando a entrega'}
+                        {requestTarget.status_reservation || 'Aguardando a entrega'}
                     </p>
                 </div>
 
-                {requestTarget?.finalized_at ? (
-                <div className="label--input">
-                    <label>Data da devolução</label>
-                    
-                    <p className="input read">
-                        {requestTarget.finalized_at}
-                    </p>
-                </div>
-                ) : (
+                {!requestTarget?.finalized_at && (
                 <div className="label--input">
                     <label>Data para devolução</label>
                     

@@ -40,11 +40,14 @@ export function PainelNovaSolicitacao({ listProductsQuantities, handleUpdateList
     const defaultParams = {
         active: true,
         type: 'exit',
+        ordering: null,
+        category: '',
         name: null,
         page: 1
     };
     const [paramsQuery, setParamsQuery] = useState(defaultParams);
-    const [otherQuery, setOtherQuery] = useState(''); //ex: " category=2,4 "
+    const [order, setOrder] = useState(null); //'A-Z'
+    const [idsSectorsFilter, setIdsSectorsFilter] = useState([]);
     const [productSearchState, setProductSearchState] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -60,13 +63,14 @@ export function PainelNovaSolicitacao({ listProductsQuantities, handleUpdateList
     useEffect(()=> {
         //=> Contagem de pagina reinicia ao ter mudança no filter e/ou search (tudo é params)
         setProductSearchState(null);
+        setIdsSectorsFilter([]);
         setCurrentPage(1);
     }, [typeRequest]);
 
     useEffect(()=> {
         //=> Contagem de pagina reinicia ao ter mudança no filter e/ou search (tudo é params)
         setCurrentPage(1);
-    }, [productSearchState, otherQuery]);
+    }, [productSearchState, idsSectorsFilter]);
 
 
     useEffect(()=> {
@@ -74,6 +78,8 @@ export function PainelNovaSolicitacao({ listProductsQuantities, handleUpdateList
             const newParams = {
                 active: true,
                 type: typeRequest == 'Saída' ? 'exit' : 'reservation',
+                ordering: order || null,
+                category: idsSectorsFilter.join(',') || null,
                 name: productSearchState,
                 page: currentPage
             };
@@ -81,7 +87,7 @@ export function PainelNovaSolicitacao({ listProductsQuantities, handleUpdateList
             setParamsQuery(newParams);
         }
         updateParamsQuery();
-    }, [typeRequest, productSearchState, currentPage]);
+    }, [typeRequest, productSearchState, currentPage, idsSectorsFilter, order]);
 
 
     useEffect(()=> {
@@ -92,14 +98,13 @@ export function PainelNovaSolicitacao({ listProductsQuantities, handleUpdateList
             try {
                 setHasError(true);
                 setProducts([]);
-                console.log(paramsQuery)
                 
                 // const response = await PRODUCT_GET_PER_PARAMS(JSON.parse(tokenCookie), `${productFilterState}&type=${typeRequest == 'Saída' ? 'exit' : 'reservation'}`, currentPage);
-                const response = await PRODUCT_GET_ALL_PER_PARAMS(JSON.parse(tokenCookie), paramsQuery, otherQuery);
+                const response = await PRODUCT_GET_ALL_PER_PARAMS(JSON.parse(tokenCookie), paramsQuery);
                 console.log(response);
 
                 if(response.success) {
-                    setProducts([]);
+                    // setProducts([]);
                     setProducts(response.data.data);
                     setTotalPages(response.data.last_page);
 
@@ -137,7 +142,7 @@ export function PainelNovaSolicitacao({ listProductsQuantities, handleUpdateList
             setLoading(false);
         }
         getProductsPerPage();
-    }, [tokenCookie, paramsQuery, otherQuery]);
+    }, [tokenCookie, paramsQuery]);
 
 
 
@@ -152,6 +157,7 @@ export function PainelNovaSolicitacao({ listProductsQuantities, handleUpdateList
 
     function clearSearch() {
         setProductSearchState(null);
+        setIdsSectorsFilter([]);
         setCurrentPage(1);
     }
 
@@ -159,9 +165,9 @@ export function PainelNovaSolicitacao({ listProductsQuantities, handleUpdateList
     return (
         <div className="Painel PainelNovaSolicitacao">
             <div className="painel-top">
-                <h2>Catálago de produtos:</h2>
+                <h2>Catálago de produtos</h2>
 
-                {(products.length > 0 || productSearchState) && (
+                {/* {(products.length > 0 || productSearchState) && ( */}
                     <div className="filter--search">
                         <button className='btn filter' onClick={()=> handleOpenModal('filter')} title='Filtrar' disabled={loading || hasError}>
                             <i className="bi bi-sliders"></i>
@@ -176,20 +182,20 @@ export function PainelNovaSolicitacao({ listProductsQuantities, handleUpdateList
                             <span>Buscar</span>
                         </button>
                     </div>
-                )}
+                {/* )} */}
             </div>
             
             {/* <div>
                 DIV PARA TER *FILTRO + BUSCA* NA VERSOA MOBILE
             </div> */}
 
-            {(productSearchState && !loading) && (
+            {((productSearchState || idsSectorsFilter.length > 0) && !loading) && (
             <div className='feedback-search'>
-                <strong>{`Resultado(s) para "${productSearchState}"`}</strong>
+                <strong>{`Resultado(s) ${productSearchState ? `para "${productSearchState}"` : ''}`}</strong>
 
                 <button className='btn-filter clear' onClick={clearSearch}>
                     <i className="bi bi-x-circle"></i>
-                    <span> Limpar busca</span>
+                    <span> Limpar busca/filtro</span>
                 </button>
             </div>
             )}
@@ -230,7 +236,7 @@ export function PainelNovaSolicitacao({ listProductsQuantities, handleUpdateList
                                     <th scope="col">ID</th>
                                     <th scope="col">Produto</th>
                                     <th scope="col">Setor</th>
-                                    <th scope="col">Qtd. estoque</th>
+                                    <th scope="col">Qtde</th>
                                     <th scope="col" data-label="ações">Ações</th>
                                 </tr>
                             </thead>
@@ -250,7 +256,7 @@ export function PainelNovaSolicitacao({ listProductsQuantities, handleUpdateList
                                         {product.name_category}
                                     </td>
 
-                                    <td data-label="qtd. estoque">
+                                    <td data-label="qtde">
                                         <span className={product.quantity_stock == 0 ? 'empty' : ''}>{product.quantity_stock || 'Sem estoque'}</span>
                                     </td>
 
@@ -306,7 +312,8 @@ export function PainelNovaSolicitacao({ listProductsQuantities, handleUpdateList
                 optionModal={optionModal}
                 productSearchState={productSearchState}
                 setProductSearchState={setProductSearchState}
-                // setProductFilterState={setProductFilterState}
+                idsSectorsFilter={idsSectorsFilter}
+                setIdsSectorsFilter={setIdsSectorsFilter}
                 // clearSearch={clearSearch}
                 />
             )}

@@ -51,8 +51,8 @@
                         }   
 
                         .sub_type {
-                            position: absolute;
-                            transform: translateX(3.1rem);
+                            /* position: absolute; */
+                            /* transform: translateX(3.1rem); */
                             /* display: inline-block; */
                             /* width: 1.9rem;
                             height: 1.9rem;

@@ -13,9 +13,18 @@
                     width: 100%;       
                     text-align: center;             
                 }
+
+                [data-label="criado em"] {
+                    /* color: red; */
+                    min-width: 10rem;
+                }
             }
 
             .item {
+                height: 100%;
+                min-height: 10rem;
+                max-height: fit-content;
+
                 td[data-label="tipo"] {
                     position: relative;
 
@@ -45,20 +54,30 @@
 
                 td[data-label="status"] {
                     /* display: flex; */
-                    
+                    padding: 0.7rem 4rem 1.5rem;
                     width: 100%;
                     min-width: 44rem;
 
                     white-space: nowrap;
                     /* overflow: hidden; */
                     /* text-overflow: ellipsis; Adiciona reticências (...) no final do texto cortado */
+                    
+                    &:has(.danger) {
+                        padding: 0.7rem;
 
+                        .StatusProgress {
+                            display: none;
+                        }
+                    }
+                    
                     .status {
+                        display: none;
                         font-size: 14px;
                         font-weight: 600;
 
                         &.danger {
                             color: var(--color-danger);
+                            display: inline;
                         }
                         &.success {
                             color: var(--color-success);
@@ -67,6 +86,10 @@
                             color: var(--color-primary);
                         }
                     }
+                }
+
+                td[data-label="criado em"] {
+                    font-size: 1rem;
                 }
 
                 td[data-label="ações"] {
@@ -131,8 +154,26 @@
 
                     td[data-label="status"] {
                         min-width: 100%;
+                        padding: 0.7rem 0;
                         /* justify-content: space-between;
                         gap: 0.5rem; */
+
+                        .status {
+                            display: inline;
+                        }
+                    }
+                    
+                    td[data-label="criado em"] {
+                        /* color: red; */
+                        font-size: 1.6rem;
+                        min-width: 100%;
+                        padding: 0.7rem 0;
+                        /* justify-content: space-between;
+                        gap: 0.5rem; */
+
+                        .status {
+                            display: inline;
+                        }
                     }
                 }
             }

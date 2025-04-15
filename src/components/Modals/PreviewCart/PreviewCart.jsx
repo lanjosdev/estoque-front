@@ -244,18 +244,9 @@ export function PreviewCart({ close, typeRequest, listProductsQuantities, setLis
 
                         <div className="form_others--submit">
                             <div className="label--input question">
-                                <label>Outra pessoa irá retirar no seu lugar?</label>
+                                <label>Quem irá retirar o pedido?</label>
 
                                 <div className="yes--no">
-                                    <label>
-                                        <input
-                                        type="radio"
-                                        name="outherPerson"
-                                        onChange={()=> setOutherPerson(true)}
-                                        required
-                                        /> 
-                                        Sim
-                                    </label>
                                     <label>
                                         <input
                                         type="radio"
@@ -263,7 +254,17 @@ export function PreviewCart({ close, typeRequest, listProductsQuantities, setLis
                                         onChange={()=> setOutherPerson(false)}
                                         required
                                         />
-                                        Não
+                                        Solicitante
+                                    </label>
+
+                                    <label>
+                                        <input
+                                        type="radio"
+                                        name="outherPerson"
+                                        onChange={()=> setOutherPerson(true)}
+                                        required
+                                        /> 
+                                        Terceiro
                                     </label>
                                 </div>
 

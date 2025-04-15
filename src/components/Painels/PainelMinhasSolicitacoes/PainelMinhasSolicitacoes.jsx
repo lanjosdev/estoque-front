@@ -9,10 +9,12 @@ import { ORDER_GET_ME_PER_PARAMS } from "../../../API/orderApi";
 // Components:
 import { toast } from "react-toastify";
 import { Pagination } from "../../Pagination/Pagination";
-// import { ModalSector } from '../../Modals/ModalSector/ModalSector';
+import { ModalSolicitacoes } from "../../Modals/ModalSolicitacoes/ModalSolicitacoes";
+import { StatusProgress } from "../../StatusProgress/StatusProgress";
 
 // Utils:
 import { formatToIdCode } from '../../../utils/formatStrings';
+import { formatFullToHoursMinutes } from "../../../utils/formatDate";
 
 // Assets:
 
@@ -21,6 +23,7 @@ import './painelminhassolicitacoes.css';
 
 
 export function PainelMinhasSolicitacoes() {
+    const navigate = useNavigate();
     // Estados do componente:
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -35,11 +38,13 @@ export function PainelMinhasSolicitacoes() {
     
 
     // Lógica da UI:
+    // Lógica Modal:
     const [showModal, setShowModal] = useState(false);
+    const [optionModal, setOptionModal] = useState(null);
+    const [requestTarget, setRequestTarget] = useState(null);
 
     
     const tokenCookie = Cookies.get('tokenEstoque');
-    const navigate = useNavigate();
 
 
 
@@ -105,6 +110,13 @@ export function PainelMinhasSolicitacoes() {
     //     console.log(opt);
     //     setShowModal(true);
     // }
+    function handleOpenModal(itemTarget, optModal) {
+        console.log(optModal)
+        setRequestTarget(itemTarget);
+        setOptionModal(optModal);
+
+        setShowModal(true);
+    }
 
     function handleClickNewRequest() {
         navigate('/nova-solicitacao');
@@ -116,7 +128,7 @@ export function PainelMinhasSolicitacoes() {
     return (
         <div className="Painel PainelMinhasSolicitacoes">
             <div className="painel-top">
-                <h2>Total ({totalResults}):</h2>
+                <h2>Total: {totalResults}</h2>
 
                 <div className="search--btnAdd">
                     {(solicitacoes.length > 0) && (
@@ -181,6 +193,7 @@ export function PainelMinhasSolicitacoes() {
                                     <th scope="col">ID</th>
                                     <th scope="col">Tipo</th>
                                     <th scope="col" data-label="status">Status</th>
+                                    <th scope="col" data-label="criado em">Criado em</th>
                                     <th scope="col" data-label="ações">Ações</th>
                                 </tr>
                             </thead>
@@ -214,10 +227,16 @@ export function PainelMinhasSolicitacoes() {
                                                 {solicitacao.status}
                                             </span>
                                         )}
+                                        
+                                        <StatusProgress typeRequest={solicitacao.order_type} idStatus={solicitacao.status_id} />
+                                    </td>
+
+                                    <td data-label="criado em">
+                                        {formatFullToHoursMinutes(solicitacao?.created_at)}
                                     </td>
 
                                     <td data-label="ações">
-                                        <button className="btn view">
+                                        <button className="btn view" onClick={()=> handleOpenModal(solicitacao, 'details')}>
                                             <i className="bi bi-eye"></i>
                                             <span>Ver detalhes</span>
                                         </button>
@@ -252,7 +271,12 @@ export function PainelMinhasSolicitacoes() {
 
 
             {showModal && (
-                <h1>FUNÇÃO RENDER MODAL</h1>
+                <ModalSolicitacoes
+                close={()=> setShowModal(false)}
+                // setRefreshState={setRefreshState}
+                optionModal={optionModal}
+                requestTarget={requestTarget}
+                />
             )}
         </div>
     )        

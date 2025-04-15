@@ -110,7 +110,8 @@ export default function NovaSolicitacao() {
                     </h1>
 
                     <p className="subtitle">
-                        Abaixo você pode selecione os produtos que deseja adicionar na sua solicitação.
+                        {/* Abaixo você pode selecione os produtos que deseja adicionar na sua solicitação. */}
+                        Abaixo, selecione os produtos que deseja adicionar à sua solicitação.
                     </p>
                 </div>
 

@@ -439,19 +439,21 @@ td[data-label="qtd. em estoque"]
     background-color: transparent;
     padding: .2rem .5rem;
     border: 1px solid var(--color-text);
-    border-radius: 7px;
+    border-radius: 10px;
 
     font-weight: 500;
     transition: all .3s ease;
     &:hover {
-        background-color: var(--color-secundary);
-        color: var(--color-w);
+        background-color: var(--color-bg-2);
+        /* color: var(--color-w); */
     }
 
-    input[type='radio'] {
+    input[type='radio'],
+    input[type='checkbox'] {
         display: none;
     }
-    &:has(input[type='radio']:checked) {
+    &:has(input[type='radio']:checked), 
+    &:has(input[type='checkbox']:checked) {
         background-color: var(--color-secundary);
         color: var(--color-w);
     }

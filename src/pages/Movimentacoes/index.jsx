@@ -50,7 +50,7 @@ export default function Movimentacoes() {
                     </h1>
 
                     <p>
-                        Abaixo você visualiza as entradas e saídas do estoque. Também é possível registrar entradas e saída/descarte.
+                        Gerencie entradas, saídas e descartes: visualize, edite, adicione ou exclua registros conforme necessário
                     </p>
                 </div>
 

@@ -132,7 +132,7 @@ export function PainelStock() {
     return (
         <div className="Painel PainelStock">
             <div className="painel-top">
-                <h2>Produtos ({totalResults})</h2>
+                <h2>Total: {totalResults}</h2>
 
                 <div className="search--btnAdd">
                     {(products.length > 0 || productSearchState) && (

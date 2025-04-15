@@ -5,11 +5,9 @@ import { useState, useEffect } from 'react';
 
 // API:
 import { CATEGORY_GET_ALL } from "../../../../API/categoryApi";
-import { toast } from "react-toastify";
-import { PRODUCT_GET_ALL_PER_PARAMS } from "../../../../API/productApi";
 
 // Components:
-// import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 // Utils:
 //import { formatarHora } from '../../../utils/formatarNumbers';
@@ -18,15 +16,15 @@ import { PRODUCT_GET_ALL_PER_PARAMS } from "../../../../API/productApi";
 // import LogoHeader from '../../assets/logo-header.png';
 
 // Estilo:
-// import './filterproduct.css';
+import './filterproduct.css';
 
 
 FilterProduct.propTypes = {
     close: PropTypes.func,
-    sectorFilter: PropTypes.string,
-    setSectorFilter: PropTypes.func
+    idsSectorsFilter: PropTypes.any,
+    setIdsSectorsFilter: PropTypes.func
 }
-export function FilterProduct({ close, sectorFilter, setSectorFilter }) {
+export function FilterProduct({ close, idsSectorsFilter, setIdsSectorsFilter }) {
     // Estados do componente:
     const [loading, setLoading] = useState(true);
     const [hasError, setHasError] = useState(true);
@@ -34,17 +32,10 @@ export function FilterProduct({ close, sectorFilter, setSectorFilter }) {
     // Dados a ser pré-carregados:
     const [sectors, setSectors] = useState([]);
 
+    // Logica UI: 
+    const [idsSectorsActives, setIdsSectorsActives] = useState(idsSectorsFilter || []);
 
-    const [sectorsActives, setSectorsActives] = useState([]);
-
-
-    const [sectorFilterModal, setSectorFilterModal] = useState(sectorFilter);
-
-    const optionsFilter = [
-        {title: 'Ativados', value: 'active=true'},
-        {title: 'Deletados', value: 'active=false'},
-        {title: 'Ambos', value: ''}
-    ];
+    const tokenCookie = Cookies.get('tokenEstoque');
 
 
 
@@ -53,96 +44,111 @@ export function FilterProduct({ close, sectorFilter, setSectorFilter }) {
             setLoading(true);
             console.log('Effect Window FilterProduct');
             
-            // try {
-            //     setHasError(true);
-            //     setProducts([]);
-            //     console.log(paramsQuery)
+            try {
+                setHasError(true);
                 
-            //     // const response = await PRODUCT_GET_PER_PARAMS(JSON.parse(tokenCookie), `${productFilterState}&type=${typeRequest == 'Saída' ? 'exit' : 'reservation'}`, currentPage);
-            //     const response = await PRODUCT_GET_ALL_PER_PARAMS(JSON.parse(tokenCookie), paramsQuery, otherQuery);
-            //     console.log(response);
+                const response = await CATEGORY_GET_ALL(JSON.parse(tokenCookie), 'active=true');
+                console.log(response);
 
-            //     if(response.success) {
-            //         setProducts([]);
-            //         setProducts(response.data.data);
-            //         setTotalPages(response.data.last_page);
+                if(response.success) {
+                    // setSectors([]);
+                    setSectors(response.data);
 
-            //         setHasError(false);
-            //     }
-            //     else if(response.success == false) {
-            //         console.warn(response.message);
+                    setHasError(false);
+                }
+                else if(response.success == false) {
+                    console.warn(response.message);
+                    toast.warn(response.message);
+                }
+                else {
+                    toast.error('Erro inesperado.');
+                }
+            }
+            catch(error) {
+                if(error?.response?.data?.message == 'Unauthenticated.') {
+                    console.error('Requisição não autenticada.');
+                }
+                else {
+                    console.error('Houve algum erro.');
+                }
 
-            //         if(response.message == "Nenhum produto encontrado com o nome informado.") {
-            //             setHasError(false);
-            //         } 
-            //         else {
-            //             toast.error(response.message);
-            //         }
-            //         //setProductSearchState(null);
-            //         //setProductFilterState('active=true');
-            //     }
-            //     else {
-            //         toast.error('Erro inesperado.');
-            //         // setProductSearchState(null);
-            //         // setProductFilterState(filterDefault);
-            //     }
-            // }
-            // catch(error) {
-            //     if(error?.response?.data?.message == 'Unauthenticated.') {
-            //         console.error('Requisição não autenticada.');
-            //     }
-            //     else {
-            //         console.error('Houve algum erro.');
-            //     }
-
-            //     console.error('DETALHES DO ERRO:', error);
-            // }
+                console.error('DETALHES DO ERRO:', error);
+            }
             
             setLoading(false);
         }
         getAllSectors();
-    }, []);
+    }, [tokenCookie]);
 
 
 
 
-    // FILTER/READ:
+    function handleChangeIdsSectors(idTarget) {
+        const index = idsSectorsActives.findIndex(each=> each == idTarget);
+        const newIdsSectorsActives = [...idsSectorsActives];
+
+        if(index == -1) {
+            newIdsSectorsActives.push(idTarget);
+        } 
+        else {
+            newIdsSectorsActives.splice(index, 1);
+        }
+
+        console.log(newIdsSectorsActives);
+        setIdsSectorsActives(newIdsSectorsActives);
+    }
+
+
+    // APLY FILTER:
     async function handleConfirmFilterSector() {
-        setSectorFilter(sectorFilterModal);
+        setIdsSectorsFilter(idsSectorsActives);
         close();
     }
 
     
 
     return (
-        <div className='Window FilterSector grid WindowFilterUser'>
-            <h3>Filtrar Setores</h3>
+        <div className='Window FilterProduct grid WindowFilterUser'>
+            <h3>Filtro por setores</h3>
 
-            <div className="content-window">
-                <div className="radios-group">
-                    {optionsFilter.map((item, idx)=> (
-                    <label className='btn-filter' key={idx}>
-                        <input 
-                        type="radio" 
-                        value={item.value}
-                        onChange={()=> setSectorFilterModal(item.value)}
-                        checked={item.value == sectorFilterModal}
-                        />
-                        {item.title}
-                    </label>
-                    ))}
-                </div>
+            {loading ? (
+                <p className='result-empty'>Carregando dados...</p>
+            ) : (
 
-                <div className="btns">
-                    <button className="btn primary" onClick={handleConfirmFilterSector} disabled={sectorFilterModal == sectorFilter}>
-                        Aplicar filtro
-                    </button>
+                hasError ? (
+                    <p className='result-empty'>Erro ao carregar dados</p>
+                ) : (
+                    <div className="content-window">
+                        <div className="radios-group">
+                            {sectors.map((item, idx)=> (
+                            <label className='btn-filter' key={idx}>
+                                <input 
+                                type="checkbox" 
+                                // value={item.value}
+                                checked={idsSectorsActives.some(each=> each == item.id)}
+                                onChange={()=> handleChangeIdsSectors(item.id)}
+                                />
+                                {item.name}
+                            </label>
+                            ))}
+                        </div>
 
-                    <button className="btn cancel" type="button" onClick={close}>
-                        Cancelar
-                    </button>
-                </div>
-            </div>           
+                        <div className="btns">
+                            <button className="btn primary" 
+                            onClick={handleConfirmFilterSector} 
+                            // disabled={sectorFilterModal == sectorFilter}
+                            // disabled={idsSectorsActives.length == 0}
+                            >
+                                Aplicar filtro
+                            </button>
+
+                            <button className="btn cancel" type="button" onClick={close}>
+                                Cancelar
+                            </button>
+                        </div>
+                    </div>
+                )
+            )}           
         </div>
     )        
 }

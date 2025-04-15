@@ -128,7 +128,7 @@ export function PainelArmazens() {
     return (
         <div className="Painel PainelArmazens">
             <div className="painel-top">
-                <h2>Armazéns ({totalResults}):</h2>
+                <h2>Total: {totalResults}</h2>
 
                 <div className="search--btnAdd">
                     {armazens.length > 0 && (
@@ -203,7 +203,7 @@ export function PainelArmazens() {
                                     <th scope="col">ID</th>
                                     <th scope="col">Setor</th>
                                     <th scope="col">Armazém</th>
-                                    <th scope="col">Detalhamento</th>
+                                    <th scope="col">Endereçamento</th>
                                     <th scope="col" data-label="ações">Ações</th>
                                 </tr>
                             </thead>

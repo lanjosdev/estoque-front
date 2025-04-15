@@ -44,12 +44,12 @@ export default function MinhasSolicitacoes() {
                 <div className="title--subtitle">
                     <h1 className="title">
                         <i className="bi bi-receipt"></i>
-                        Minhas Solicitações
+                        Acompanhe o status de suas solicitações
                     </h1>
 
-                    <p className="subtitle">
+                    {/* <p className="subtitle">
                         Acompanhe o status das suas solicitações.
-                    </p>
+                    </p> */}
                 </div>
 
                 <PainelMinhasSolicitacoes />

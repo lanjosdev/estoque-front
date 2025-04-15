@@ -50,7 +50,7 @@ export default function Solicitacoes() {
                     </h1>
 
                     <p className="subtitle">
-                        Visualize e acesse as solicitações recebidas.
+                        Acompanhe e visualize todas as solicitações, ativas e finalizadas
                     </p>
                 </div>
 

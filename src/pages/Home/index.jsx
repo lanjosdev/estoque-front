@@ -141,7 +141,7 @@ export default function Home() {
                     </h1>
 
                     <p>
-                        Seja bem-vindo(a) ao ambiente de estoque Bizsys.
+                        Seja bem-vindo(a) ao ambiente de estoque Bizsys
                     </p>
                 </div>
 

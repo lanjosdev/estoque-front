@@ -137,7 +137,7 @@ export function PainelSolicitacoes({ filterFinalized }) {
     return (
         <div className="Painel PainelSolicitacoes">
             <div className="painel-top">
-                <h2>Total ({totalResults}):</h2>
+                <h2>Total: {totalResults}</h2>
 
                 <div className="search--btnAdd">
                     {(solicitacoes.length > 0) && (

@@ -134,7 +134,7 @@ export function PainelUsers() {
     return (
         <div className="Painel PainelUsers">
             <div className="painel-top">
-                <h2>Usuários ({users.length}):</h2>
+                <h2>Total: {users.length}</h2>
 
                 <div className="search--btnAdd">
                     {/* <form className="search" onSubmit={handleSubmitSearch}>

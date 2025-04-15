@@ -216,7 +216,7 @@ export function PainelMovimentacoes() {
                                             </span>
                                             
                                             {item.sub_type && (
-                                            <span className={`sub_type ${item.sub_type == 'DESCARTE' ? 'discard alert' : ''}`}>
+                                            <span className={`sub_type ${item.sub_type == 'DESCARTE' ? 'discard alert' : ''}`} title={item.sub_type}>
                                                 {item.sub_type == 'DESCARTE' ? 'D' : 'E'}
                                             </span>
                                             )}

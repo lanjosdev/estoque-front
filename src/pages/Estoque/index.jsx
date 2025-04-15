@@ -48,7 +48,7 @@ export default function Estoque() {
                     </h1>
 
                     <p className="subtitle">
-                        Abaixo estão as infromações gerais de cada produto em estoque. 
+                        Visualize as informações detalhadas dos produtos em estoque
                     </p>
                 </div>
 

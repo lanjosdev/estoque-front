@@ -3,7 +3,7 @@
 
     &:has(.SearchProduct) {
         .bg-modal {
-            background-color: #0000004f;
+            background-color: #00000021;
         }
     }
 }

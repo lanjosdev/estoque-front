@@ -4,18 +4,17 @@ import Cookies from "js-cookie";
 import { useState, useEffect } from 'react';
 
 // API:
-import { PRODUCT_GET_PER_PARAMS } from '../../../API/productApi';
+import { PRODUCT_GET_ALL_PER_PARAMS } from '../../../API/productApi';
 
 // Components:
 import { toast } from 'react-toastify';
 import { Pagination } from '../../Pagination/Pagination';
-// import { ModalProduct } from "../../Modals/ModalProduct/ModalProduct";
+import { ModalProduct } from "../../Modals/ModalProduct/ModalProduct";
 
 // Utils:
 import { formatToIdCode } from '../../../utils/formatStrings';
 
 // Assets:
-
 
 // Estilo:
 import './painelnovasolicitacao.css';
@@ -33,19 +32,26 @@ export function PainelNovaSolicitacao({ listProductsQuantities, handleUpdateList
 
     // Dados a ser pré-carregados:
     const [products, setProducts] = useState([]);
+    const [totalPages, setTotalPages] = useState(1);
 
-    // Logica do modal
-    // const [showModal, setShowModal] = useState(false);
-    // const [optionModal, setOptionModal] = useState(null);
 
     // Logica da UI:
-    // const [productSelect, setProductSelect] = useState(null);
-
-    const filterDefault = 'active=true';
-    const [productFilterState, setProductFilterState] = useState(filterDefault); //ex com pesquisa: 'name=${productInputSearch}&active=true'
-    const [currentPage, setCurrentPage] = useState(1);
-    const [pages, setPages] = useState([]);
+    // Filtros/Query
+    const defaultParams = {
+        active: true,
+        type: 'exit',
+        name: null,
+        page: 1
+    };
+    const [paramsQuery, setParamsQuery] = useState(defaultParams);
+    const [otherQuery, setOtherQuery] = useState(''); //ex: " category=2,4 "
     const [productSearchState, setProductSearchState] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+
+
+    // Lógica Modal:
+    const [showModal, setShowModal] = useState(false);
+    const [optionModal, setOptionModal] = useState(null);
     
     const tokenCookie = Cookies.get('tokenEstoque');
 
@@ -53,30 +59,50 @@ export function PainelNovaSolicitacao({ listProductsQuantities, handleUpdateList
 
     useEffect(()=> {
         //=> Contagem de pagina reinicia ao ter mudança no filter e/ou search (tudo é params)
+        setProductSearchState(null);
         setCurrentPage(1);
-    }, [productFilterState, typeRequest]);
+    }, [typeRequest]);
 
     useEffect(()=> {
-        async function getProductsPerPage() 
-        {
+        //=> Contagem de pagina reinicia ao ter mudança no filter e/ou search (tudo é params)
+        setCurrentPage(1);
+    }, [productSearchState, otherQuery]);
+
+
+    useEffect(()=> {
+        async function updateParamsQuery() {
+            const newParams = {
+                active: true,
+                type: typeRequest == 'Saída' ? 'exit' : 'reservation',
+                name: productSearchState,
+                page: currentPage
+            };
+
+            setParamsQuery(newParams);
+        }
+        updateParamsQuery();
+    }, [typeRequest, productSearchState, currentPage]);
+
+
+    useEffect(()=> {
+        async function getProductsPerPage() {
             setLoading(true);
             console.log('Effect Component PainelNovaSolicitacao');
             
             try {
                 setHasError(true);
                 setProducts([]);
+                console.log(paramsQuery)
                 
-                const response = await PRODUCT_GET_PER_PARAMS(JSON.parse(tokenCookie), `${productFilterState}&type=${typeRequest == 'Saída' ? 'exit' : 'reservation'}`, currentPage);
+                // const response = await PRODUCT_GET_PER_PARAMS(JSON.parse(tokenCookie), `${productFilterState}&type=${typeRequest == 'Saída' ? 'exit' : 'reservation'}`, currentPage);
+                const response = await PRODUCT_GET_ALL_PER_PARAMS(JSON.parse(tokenCookie), paramsQuery, otherQuery);
                 console.log(response);
 
                 if(response.success) {
-                    let arrayPages = [];
-                    for(let i = 1; i <= response.data.last_page; i++) {
-                        arrayPages.push(i);
-                    }
-                    // console.log(arrayPages);
-                    setPages(arrayPages);
+                    setProducts([]);
                     setProducts(response.data.data);
+                    setTotalPages(response.data.last_page);
+
                     setHasError(false);
                 }
                 else if(response.success == false) {
@@ -93,8 +119,8 @@ export function PainelNovaSolicitacao({ listProductsQuantities, handleUpdateList
                 }
                 else {
                     toast.error('Erro inesperado.');
-                    setProductSearchState(null);
-                    setProductFilterState(filterDefault);
+                    // setProductSearchState(null);
+                    // setProductFilterState(filterDefault);
                 }
             }
             catch(error) {
@@ -111,34 +137,41 @@ export function PainelNovaSolicitacao({ listProductsQuantities, handleUpdateList
             setLoading(false);
         }
         getProductsPerPage();
-    }, [tokenCookie, productFilterState, currentPage, typeRequest]);
+    }, [tokenCookie, paramsQuery, otherQuery]);
 
 
 
-    // function handleOpenModal(opt) {
-    //     // console.log(opt);
-    //     setOptionModal(opt);
-    //     setShowModal(true);
-    // }
 
-    // function clearSearch() {
-    //     setProductSearchState(null);
-    //     setProductFilterState(filterDefault);
-    // }
+    
+    function handleOpenModal(optModal) {
+        console.log(optModal)
+
+        setOptionModal(optModal);
+        setShowModal(true);
+    }
+
+    function clearSearch() {
+        setProductSearchState(null);
+        setCurrentPage(1);
+    }
 
 
     return (
         <div className="Painel PainelNovaSolicitacao">
             <div className="painel-top">
-                <h2>Produtos (Catálago):</h2>
+                <h2>Catálago de produtos:</h2>
 
-                {products.length > 0 && (
+                {(products.length > 0 || productSearchState) && (
                     <div className="filter--search">
-                        {/* <button className='btn filter' title='Filtrar' disabled={loading || hasError}>
+                        <button className='btn filter' onClick={()=> handleOpenModal('filter')} title='Filtrar' disabled={loading || hasError}>
                             <i className="bi bi-sliders"></i>
-                        </button> */}
+                        </button>
 
-                        <button className='btn' title='Filtrar' disabled={loading || hasError}>
+                        <button className='btn secundary' 
+                        onClick={()=> handleOpenModal('search')}
+                        title='Buscar por nome de produto' 
+                        disabled={loading || hasError}
+                        >
                             <i className="bi bi-search"></i>
                             <span>Buscar</span>
                         </button>
@@ -154,7 +187,7 @@ export function PainelNovaSolicitacao({ listProductsQuantities, handleUpdateList
             <div className='feedback-search'>
                 <strong>{`Resultado(s) para "${productSearchState}"`}</strong>
 
-                <button className='btn-filter clear'>
+                <button className='btn-filter clear' onClick={clearSearch}>
                     <i className="bi bi-x-circle"></i>
                     <span> Limpar busca</span>
                 </button>
@@ -245,7 +278,7 @@ export function PainelNovaSolicitacao({ listProductsQuantities, handleUpdateList
                         setHasError={setHasError} 
                         currentPage={currentPage} 
                         setCurrentPage={setCurrentPage} 
-                        pages={pages}
+                        totalPages={totalPages}
                         />
                         </>
                         )
@@ -267,6 +300,16 @@ export function PainelNovaSolicitacao({ listProductsQuantities, handleUpdateList
                 clearSearch={clearSearch}
                 />
             )} */}
+            {showModal && (
+                <ModalProduct
+                close={()=> setShowModal(false)} 
+                optionModal={optionModal}
+                productSearchState={productSearchState}
+                setProductSearchState={setProductSearchState}
+                // setProductFilterState={setProductFilterState}
+                // clearSearch={clearSearch}
+                />
+            )}
         </div>
     )        
 }

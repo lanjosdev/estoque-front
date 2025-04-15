@@ -45,6 +45,18 @@ export async function PRODUCT_GET_PER_PARAMS(token, params, page) {
    // console.log(response.data);
    return response.data;
 }
+// Pega todas produtos por params (GET):
+export async function PRODUCT_GET_ALL_PER_PARAMS(token, params, otherQuery) {
+   console.log('CALL FUNCTION API');
+
+   const response = await axios.get(`${API_URL}/get-all-product-equipaments?${otherQuery}`, {
+      params: params,
+      headers: { "Accept": "application/json", Authorization: "Bearer " + token } 
+   });
+
+   // console.log(response.data);
+   return response.data;
+}
 
 // Pega produtos por pagina (GET):
 export async function PRODUCT_GET_PER_PAGE(token, page) {

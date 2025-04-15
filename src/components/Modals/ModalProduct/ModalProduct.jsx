@@ -8,6 +8,7 @@ import { CreateProduct } from "./CreateProduct/CreateProduct";
 import { DeleteProduct } from "./DeleteProduct/DeleteProduct";
 import { UpdateProduct } from "./UpdateProduct/UpdateProduct";
 import { SearchProduct } from "./SearchProduct/SearchProduct";
+import { BuscaProduct } from "./BuscaProduct/BuscaProduct";
 // import { toast } from "react-toastify";
 
 // Utils:
@@ -18,6 +19,7 @@ import { SearchProduct } from "./SearchProduct/SearchProduct";
 
 // Estilo:
 import './modalproduct.css';
+import { FilterSector } from "../ModalSector/FilterSector/FilterSector";
 
 
 ModalProduct.propTypes = {
@@ -72,7 +74,12 @@ export function ModalProduct({ close, setReflashState, optionModal, productSelec
             case 'update':
                 return <UpdateProduct close={close} setReflashState={setReflashState} productSelect={productSelect} optionUpdate={optionUpdate} />;
             case 'search':
-                return <SearchProduct close={close} searchState={productSearchState} setSearchState={setProductSearchState} setFilterState={setProductFilterState} />;
+                // return <SearchProduct close={close} searchState={productSearchState} setSearchState={setProductSearchState} setFilterState={setProductFilterState} />;
+                return <BuscaProduct close={close} searchState={productSearchState} setSearchState={setProductSearchState} />;
+            case 'filter':
+                return <FilterSector close={close} sectorFilter={sectorFilter} setSectorFilter={setSectorFilter} />;
+            // case 'filter':
+            //     return <FilterSector close={close} sectorFilter={sectorFilter} setSectorFilter={setSectorFilter} />;
             default:
                 return <div style={{color: 'red'}}>Modal indefinido</div>;
         }

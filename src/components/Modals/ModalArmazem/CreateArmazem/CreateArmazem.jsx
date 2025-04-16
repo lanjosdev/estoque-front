@@ -149,11 +149,6 @@ export function CreateArmazem({ close, setReflashState }) {
 
             <form className="content-window" onSubmit={handleSubmitCreteStorage} autoComplete="off">
                 <div className="label--input">
-                    <label htmlFor="nome">Nome do armazém</label>
-                    <input ref={nameRef} className="input" id='nome' type="text" required />
-                </div>
-
-                <div className="label--input">
                     <label>Setor do armazém</label>
                     
                     <div className="radio-group">
@@ -179,8 +174,13 @@ export function CreateArmazem({ close, setReflashState }) {
                 </div>
 
                 <div className="label--input">
-                    <label htmlFor="obs">Detalhamento do armazém</label>
-                    <textarea ref={detailingRef} className="input" id="obs"></textarea>
+                    <label htmlFor="obs">Armazém</label>
+                    <input ref={detailingRef} className="input" id="obs" placeholder="Ex: Escritório central" required></input>
+                </div>
+
+                <div className="label--input">
+                    <label htmlFor="nome">Endereçamento do armazém</label>
+                    <input ref={nameRef} className="input" id='nome' type="text" placeholder="Ex: Armário1/Gaveteiro2" required />
                 </div>
 
 

@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 import { useState, useEffect } from 'react';
 
 // API:
-import { STORAGE_GET_PER_PARAMS } from "../../../API/storageApi";
+import { STORAGE_GET_ALL_PER_PARAMS } from "../../../API/storageApi";
 
 // Components:
 import { toast } from 'react-toastify';
@@ -30,64 +30,90 @@ export function PainelArmazens() {
     // Dados a ser pré-carregados:
     const [armazens, setArmazens] = useState([]);
     const [totalResults, setTotalResults] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
+
+    // Logica da UI:
+    // Filtros/Query
+    const defaultParams = {
+        active: true,
+        category: null,
+        name: null,
+        ordering: null,
+        page: 1
+    };
+    const [paramsQuery, setParamsQuery] = useState(defaultParams);
+    const [idsSectorsFilter, setIdsSectorsFilter] = useState([]);
+    const [storageSearchState, setStorageSearchState] = useState(null);
+    const [order, setOrder] = useState(null); //'A-Z'
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const [armazemSelect, setArmazemSelect] = useState(null);
 
     // Logica do modal
     const [showModal, setShowModal] = useState(false);
     const [optionModal, setOptionModal] = useState(null);
     
-    // Logica da UI:
-    const [armazemSelect, setArmazemSelect] = useState(null);
-
-    const filterDefault = 'active=true';
-    const [storageSearchState, setStorageSearchState] = useState(null);
-    const [storageFilterState, setStorageFilterState] = useState(filterDefault); //ex com pesquisa: 'name=${searchStateAqui}&active=true'
-    const [currentPage, setCurrentPage] = useState(1);
-    // const [pages, setPages] = useState([]);
-    const [totalPages, setTotalPages] = useState(0);
-    
     const tokenCookie = Cookies.get('tokenEstoque');
+
 
 
 
     useEffect(()=> {
         //=> Contagem de pagina reinicia ao ter mudança no filter e/ou search (tudo é params)
         setCurrentPage(1);
-    }, [storageFilterState]);
+    }, [storageSearchState, idsSectorsFilter]);
+
+
+    useEffect(()=> {
+        async function updateParamsQuery() {
+            const newParams = {
+                active: true,
+                category: idsSectorsFilter.join(',') || null,
+                name: storageSearchState,
+                ordering: order || null,
+                page: currentPage
+            };
+
+            setParamsQuery(newParams);
+        }
+        updateParamsQuery();
+    }, [idsSectorsFilter, storageSearchState, order, currentPage]);
 
     useEffect(()=> {
         async function getArmazensPerParams() 
         {
-            console.log('Effect Component PainelArmazens');
             setLoading(true);
+            console.log('Effect Component PainelArmazens');
             
             try {
+                setArmazens([]);
                 setHasError(true);
                 
-                const response = await STORAGE_GET_PER_PARAMS(JSON.parse(tokenCookie), storageFilterState, currentPage);
+                // const response = await STORAGE_GET_PER_PARAMS(JSON.parse(tokenCookie), storageFilterState, currentPage);
+                const response = await STORAGE_GET_ALL_PER_PARAMS(JSON.parse(tokenCookie), paramsQuery);
                 console.log(response);
 
                 if(response.success) {
-                    // let arrayPages = [];
-                    // for(let i = 1; i <= response.data.last_page; i++) {
-                    //     arrayPages.push(i);
-                    // }
-                    // // console.log(arrayPages);
-                    // setPages(arrayPages);
-
-                    setTotalResults(response.data.total);
-                    setTotalPages(response.data.last_page);
+                    // setArmazens([]);
                     setArmazens(response.data.data);
+                    setTotalPages(response.data.last_page);
+                    setTotalResults(response.data.total);
+
                     setHasError(false);
                 }
                 else if(response.success == false) {
-                    toast.error(response.message);
-                    setStorageSearchState(null);
-                    setStorageFilterState('active=true');
+                    console.warn(response.message);
+
+                    toast.warn(response.message);                  
+                    // if(response.message == "Nenhum produto encontrado com o nome informado.") {
+                    //     setHasError(false);
+                    // } 
+                    // else {
+                    //     toast.error(response.message);
+                    // }
                 }
                 else {
                     toast.error('Erro inesperado.');
-                    setStorageSearchState(null);
-                    setStorageFilterState('active=true');
                 }
             }
             catch(error) {
@@ -100,17 +126,21 @@ export function PainelArmazens() {
 
                 console.error('DETALHES DO ERRO:', error);
             }
+
             
             setLoading(false);
         }
         getArmazensPerParams();
-    }, [tokenCookie, reflashState, storageFilterState, currentPage]);
+    }, [tokenCookie, paramsQuery, reflashState]);
 
 
 
-    function handleOpenModal(opt) {
-        // console.log(opt);
-        setOptionModal(opt);
+
+    
+    function handleOpenModal(optModal) {
+        console.log(optModal)
+
+        setOptionModal(optModal);
         setShowModal(true);
     }
     function handleViewProductsArmazem(itemTarget) {
@@ -121,7 +151,8 @@ export function PainelArmazens() {
 
     function clearSearch() {
         setStorageSearchState(null);
-        setStorageFilterState('active=true');
+        setIdsSectorsFilter([]);
+        setCurrentPage(1);
     }
 
 
@@ -131,22 +162,24 @@ export function PainelArmazens() {
                 <h2>Total: {totalResults}</h2>
 
                 <div className="search--btnAdd">
-                    {armazens.length > 0 && (
+                    {/* {armazens.length > 0 && ( */}
                     <>
-                    {/* <button className='btn filter' title='Filtrar' disabled={loading || hasError}>
+                    <button className='btn filter' onClick={()=> handleOpenModal('filter')} title='Filtrar' disabled={loading || hasError}>
                         <i className="bi bi-sliders"></i>
-                    </button> */}
-                    {/* <button className='btn' title='Filtrar' onClick={()=> handleOpenModal('search')} disabled={loading || hasError}>
+                    </button>
+                    
+                    <button className='btn secundary' title='Filtrar' onClick={()=> handleOpenModal('search')} disabled={loading || hasError}>
                         <i className="bi bi-search"></i>
                         <span>Buscar</span>
-                    </button> */}
+                    </button>
+
                     
                     <button className="btn primary" onClick={()=> handleOpenModal('create')} disabled={loading || hasError}>
                         <i className="bi bi-plus-lg"></i>
                         <span>Novo armazém</span>
                     </button>
                     </>
-                    )}
+                    {/* )} */}
                 </div>
             </div>
             
@@ -154,13 +187,13 @@ export function PainelArmazens() {
                 DIV PARA TER *FILTRO + BUSCA* NA VERSOA MOBILE
             </div> */}
 
-            {(storageSearchState && !loading) && (
+            {((storageSearchState || idsSectorsFilter.length > 0) && !loading) && (
             <div className='feedback-search'>
-                <strong>{`Resultado(s) para "${storageSearchState}"`}</strong>
+                <strong>{`Resultado(s) ${storageSearchState ? `para "${storageSearchState}"` : ''}`}</strong>
 
-                <button onClick={clearSearch}>
-                    X 
-                    Limpar busca
+                <button className='btn-filter clear' onClick={clearSearch}>
+                    <i className="bi bi-x-circle"></i>
+                    <span> Limpar busca/filtro</span>
                 </button>
             </div>
             )}
@@ -187,14 +220,20 @@ export function PainelArmazens() {
 
                     ) : (
                     armazens.length === 0 ? (
-                        <div className='result-empty'>
-                            <p>Nenhum armazém foi cadastrado!</p>
-                            
-                            <button className='btn primary' onClick={()=> handleOpenModal('create')} disabled={hasError}>
-                                <i className="bi bi-plus-lg"></i>
-                                Cadastrar um armazém
-                            </button>
-                        </div>
+                        (paramsQuery.category || paramsQuery.name) ? (
+                            <div className='result-empty'>
+                                <p>Nada encontrado</p>
+                            </div>
+                        ) : (
+                            <div className='result-empty'>
+                                <p>Nenhum armazém foi cadastrado!</p>
+                                
+                                <button className='btn primary' onClick={()=> handleOpenModal('create')} disabled={hasError}>
+                                    <i className="bi bi-plus-lg"></i>
+                                    Cadastrar um armazém
+                                </button>
+                            </div>
+                        )
                     ) : (
                         <>
                         <table className=''>
@@ -221,12 +260,12 @@ export function PainelArmazens() {
 
                                     <td data-label="armazém">
                                         <span>
-                                        {item.name}
+                                        {item.observation || 'Não informado'}
                                         </span>
                                     </td>
                                     
-                                    <td data-label="detalhamento">
-                                        {item.observation || 'Não informado'}
+                                    <td data-label="endereçamento">
+                                        {item.name}
                                     </td>
 
                                     <td data-label="ações">
@@ -272,7 +311,8 @@ export function PainelArmazens() {
                 armazemSelect={armazemSelect}
                 storageSearchState={storageSearchState}
                 setStorageSearchState={setStorageSearchState}
-                setStorageFilterState={setStorageFilterState}
+                idsSectorsFilter={idsSectorsFilter}
+                setIdsSectorsFilter={setIdsSectorsFilter}
                 />
             )}
         </div>

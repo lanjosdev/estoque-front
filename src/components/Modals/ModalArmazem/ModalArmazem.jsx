@@ -8,6 +8,8 @@ import { CreateArmazem } from "./CreateArmazem/CreateArmazem";
 import { UpdateArmazem } from "./UpdateArmazem/UpdateArmazem";
 import { DeleteArmazem } from "./DeleteArmazem/DeleteArmazem";
 import { ViewArmazem } from "./ViewArmazem/ViewArmazem";
+import { FilterArmazem } from "./FilterArmazem/FilterArmazem";
+import { BuscaProduct } from "../ModalProduct/BuscaProduct/BuscaProduct";
 // import { SearchProduct } from "./SearchProduct/SearchProduct";
 // import { toast } from "react-toastify";
 
@@ -25,19 +27,21 @@ ModalArmazem.propTypes = {
     close: PropTypes.func,
     setReflashState: PropTypes.func,
     optionModal: PropTypes.any,
-    armazemSelect: PropTypes.object
-    // storageSearchState: PropTypes.any,
-    // setStorageSearchState: PropTypes.func,
-    // setStorageFilterState: PropTypes.func
+    armazemSelect: PropTypes.object,
+    storageSearchState: PropTypes.any,
+    setStorageSearchState: PropTypes.func,
+    idsSectorsFilter: PropTypes.any,
+    setIdsSectorsFilter: PropTypes.func
 }
 export function ModalArmazem({ 
     close, 
     setReflashState, 
     optionModal, 
-    armazemSelect, 
-    // storageSearchState, 
-    // setStorageSearchState, 
-    // setStorageFilterState 
+    armazemSelect,
+    storageSearchState,
+    setStorageSearchState,
+    idsSectorsFilter,
+    setIdsSectorsFilter
 }) {
     // const [loading, setLoading] = useState(false);
 
@@ -76,8 +80,10 @@ export function ModalArmazem({
                 return <UpdateArmazem close={close} setReflashState={setReflashState} armazemSelect={armazemSelect} />;
             case 'delete':
                 return <DeleteArmazem close={close} setReflashState={setReflashState} armazemSelect={armazemSelect} />;
-            // case 'search':
-            //     return <SearchProduct close={close} searchState={storageSearchState} setSearchState={setStorageSearchState} setFilterState={setStorageFilterState} />;
+            case 'filter':
+                return <FilterArmazem close={close} idsSectorsFilter={idsSectorsFilter} setIdsSectorsFilter={setIdsSectorsFilter} />;
+            case 'search':
+                return <BuscaProduct close={close} searchState={storageSearchState} setSearchState={setStorageSearchState} titleTop="Busca por Endereçamento" />;
             default:
                 return <div style={{color: 'red'}}>Modal indefinido</div>;
         }
@@ -85,7 +91,7 @@ export function ModalArmazem({
 
 
     return (
-        <div className="Modal">
+        <div className="Modal ModalProduct">
             <div className='bg-modal' onClick={close}></div>
 
             {renderWindowModal()}

@@ -1,5 +1,20 @@
 .Painel.PainelArmazens {
 
+    .painel-top {
+
+        .search--btnAdd {
+
+            >.btn.secundary {
+                
+                @media (max-width: 440px) {
+                    span {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+
     .painel-content {
         /* border: 2px solid red; */
 

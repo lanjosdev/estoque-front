@@ -51,7 +51,7 @@ export default function Sectors() {
                     </h1>
 
                     <p>
-                        Abaixo estão os setores cadastrados. Você pode cadastrar, editar e deletar setores.
+                        Nesta página será possível visualizar todos os setores cadastrados no sistema, além de cadastrar, editar e deletar setores
                     </p>
                 </div>
 

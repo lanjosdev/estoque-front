@@ -50,7 +50,7 @@ export default function Users() {
                     </h1>
 
                     <p>
-                        Abaixo estão os usuários cadastrados. Você pode cadastrar, editar e deletar usuários
+                        Visualize, crie, edite e exclua usuários do ambiente
                     </p>
                 </div>
 

@@ -1,6 +1,6 @@
 .Window.SearchProduct {
     /* border: 1px solid red; */
-    transform: translateY(-7.5rem);
+    transform: translateY(-175%);
 
     .top-window {
         display: flex;

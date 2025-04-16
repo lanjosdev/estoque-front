@@ -1,5 +1,6 @@
 .Window.ViewArmazem {
     /* border: 2px solid red; */
+    gap: 1.5rem;
 
     .window_top {
         /* border: 2px solid yellow; */
@@ -14,30 +15,63 @@
 
     .window_content {
         /* border: 1px solid red; */
+        .total_result {
+            /* color: red; */
+            font-size: 1.4rem;
+            font-weight: 600;
+
+            margin-bottom: 0.5rem;
+        }
 
         .list_items {
             background-color: var(--color-w);
-            border-radius: 7px;
+            border-radius: 10px;
 
             height: auto;
             max-height: 35rem;
             overflow-y: auto;
 
-        
-            .item {
-                padding: 0.7rem;
+            .title_list,
+            .item_list {
+                /* border: 1px solid red; */
                 display: flex;
+                padding: 0.5rem 0.7rem;
                 align-items: center;
-                /* gap: 2rem; */
+                gap: 1rem;
 
-                span {
-                    flex: 1;
-                }
-                .qtd {
-                    opacity: 0.6;
-                    font-size: 1.4rem;
+                > span {
+                    width: 100%;
+                    text-align: center;
+
+                    &.product_name {
+                        min-width: 13rem;
+                    }
+                    &.product_qtd {
+                        max-width: 10rem;
+                    }
                 }
             }
+
+            .title_list {
+                font-size: 1.4rem;
+                font-weight: 700;
+
+                position: sticky;
+                top: 0;
+                background-color: var(--color-w);
+
+                border-bottom: 0.1rem solid var(--color-bg-2);
+            }
+            .item_list {
+                border-bottom: 0.1rem solid var(--color-bg-1);
+
+                &:last-child {
+                    border-bottom: none;
+                }
+            }
+        
+
+
 
             .show-more {
                 width: 100%;

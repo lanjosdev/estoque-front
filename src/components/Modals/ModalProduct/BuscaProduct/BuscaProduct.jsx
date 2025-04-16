@@ -21,9 +21,10 @@ import { useEffect, useRef, useState } from 'react';
 BuscaProduct.propTypes = {
     close: PropTypes.func,
     searchState: PropTypes.any,
-    setSearchState: PropTypes.func
+    setSearchState: PropTypes.func,
+    titleTop: PropTypes.string
 }
-export function BuscaProduct({ close, searchState, setSearchState }) {
+export function BuscaProduct({ close, searchState, setSearchState, titleTop='Busca por produto' }) {
     // const [loading, setLoading] = useState(true);
     // const [hasError, setHasError] = useState(true);
     // const elementFocusRef = useRef(null);
@@ -83,7 +84,7 @@ export function BuscaProduct({ close, searchState, setSearchState }) {
     return (
         <div className='Window BuscaProduct SearchProduct grid'>
             <div className="top-window">
-                <h3>Busca por produto</h3>
+                <h3>{titleTop}</h3>
 
                 <i className="bi bi-x-lg" onClick={close}></i>
             </div>

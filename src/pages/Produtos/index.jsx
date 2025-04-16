@@ -49,7 +49,7 @@ export default function Products() {
                     </h1>
 
                     <p>
-                        Abaixo estão os produtos cadastrados. Você pode cadastrar, editar e deletar produtos.
+                        Visualize, cadastre, edite e exclua produtos do catálogo
                     </p>
                 </div>
 

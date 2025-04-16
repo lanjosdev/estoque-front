@@ -28,6 +28,7 @@ ViewArmazem.propTypes = {
     armazemSelect: PropTypes.object
 }
 export function ViewArmazem({ close, armazemSelect }) {
+    console.log(armazemSelect)
     // Estados do componente:
     const [loading, setLoading] = useState(true);
     const [hasError, setHasError] = useState(false);
@@ -101,7 +102,7 @@ export function ViewArmazem({ close, armazemSelect }) {
     return (
         <div className='Window ViewArmazem grid'>
             <div className="window_top">
-                <h3>Produtos contidos neste armazém ({totalResults})</h3>
+                <h3>Produtos armazenados em: "{armazemSelect.name}"</h3>
 
                 <button type="button" onClick={close}>
                     <i className="bi bi-x-lg"></i>
@@ -131,18 +132,27 @@ export function ViewArmazem({ close, armazemSelect }) {
                             Sem produtos neste armazém.
                         </p>
                     ) : (
+                        <>
+                        <p className="total_result">Total de produtos: {totalResults}</p>
+
                         <ul className="list_items">
+                            <li className="title_list">
+                                <span className="product_name">Produto</span>                                
+                                <span className="product_qtd">Qtd. estoque</span>                                
+                            </li>
+
                             {productsArmazem.map(item=> (
-                            <li key={item.id_product} className="item">
-                                <span>{item.product}</span>
-                                <span className="qtd">Qtd em estoque: {item.quantity}</span>
+                            <li className="item_list" key={item.id_product} >
+                                <span className="product_name">{item.product}</span>
+                                <span className="product_qtd">{item.quantity}</span>
                             </li>
                             ))}
 
+
                             {currentPage < totalPages && (
                             <p className="show-more">
-                                <button type="button" 
-                                onClick={()=> setCurrentPage(currentPage + 1)} 
+                                <button type="button"
+                                onClick={()=> setCurrentPage(currentPage + 1)}
                                 disabled={loading || hasError}
                                 >
                                     Mostrar mais {(hasError && !loading) && '(Houve algum erro)'}
@@ -150,6 +160,7 @@ export function ViewArmazem({ close, armazemSelect }) {
                             </p>
                             )}
                         </ul>
+                        </>
                     )
                     
                     )

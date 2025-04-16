@@ -167,12 +167,8 @@ export function UpdateArmazem({ close, setReflashState, armazemSelect }) {
             <h3>Editar armazém</h3>
 
             <form className="content-window" onSubmit={handleSubmitUpdateStorage} autoComplete="off">
-                <p>Abaixo você pode editar as informações do armazém <b className="item-edit">{`"${armazemSelect.name}"`}</b>.</p> 
-
-                <div className="label--input">
-                    <label htmlFor="nome">Nome do armazém</label>
-                    <input ref={nameRef} className="input" id='nome' type="text" required onFocus={()=> setUpdateStorage(true)} />
-                </div>
+                {/* <p>Abaixo você pode editar as informações do armazém <b className="item-edit">{`"${armazemSelect.name}"`}</b>.</p>  */}
+                <p>Abaixo você pode editar as informações do armazém.</p> 
 
                 <div className="label--input">
                     <label>Setor do armazém</label>
@@ -196,11 +192,18 @@ export function UpdateArmazem({ close, setReflashState, armazemSelect }) {
                         
                     </div>
                 </div>
-                
+
                 <div className="label--input">
-                    <label htmlFor="obs">Detalhamento do armazém</label>
-                    <textarea ref={detailingRef} className="input" id="obs" onFocus={()=> setUpdateStorage(true)} ></textarea>
+                    <label htmlFor="obs">Armazém</label>
+                    <input ref={detailingRef} className="input" id="obs" onFocus={()=> setUpdateStorage(true)} ></input>
                 </div>
+
+                <div className="label--input">
+                    <label htmlFor="nome">Endereçamento do armazém</label>
+                    <input ref={nameRef} className="input" id='nome' type="text" required onFocus={()=> setUpdateStorage(true)} />
+                </div>
+                
+                
 
 
                 <div className="btns">

@@ -6,6 +6,7 @@
     .painel-top {
         display: flex;
         justify-content: space-between;
+        align-items: center;
         gap: 1.5rem;
 
         .search--btnAdd,

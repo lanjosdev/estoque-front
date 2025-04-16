@@ -102,7 +102,7 @@ export function DeleteArmazem({ close, setReflashState, armazemSelect }) {
                           
                 {profileDetails.level_name == 'admin' ?  (
                 <p>
-                    Deseja deletar o armazém <b>{armazemSelect.name}</b>?
+                    Deseja deletar <b>{armazemSelect.name} {armazemSelect.observation ? `(${armazemSelect.observation})` : ''}</b> ?
                 </p>
                 ) : (
                 <p className="text-not-access">

@@ -187,7 +187,9 @@ export function PreviewCart({ close, typeRequest, listProductsQuantities, setLis
                 </div>
 
                 <div className="window_content">
-                    <h3>Produtos selecionados ({listProductsQuantities.length}):</h3>
+                    {listProductsQuantities.length > 0 && (
+                        <h3>Produtos selecionados ({listProductsQuantities.length}):</h3>
+                    )}
 
 
                     {listProductsQuantities.length > 0 ? (

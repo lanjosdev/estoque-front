@@ -118,7 +118,7 @@ export function PainelMovimentacoes() {
     return (
         <div className="Painel PainelMovimentacoes">
             <div className="painel-top">
-                <h2>Registros:</h2>
+                <h2>Registros</h2>
 
                 <div className="search--btnAdd">
                     {/* <form className="search" onSubmit={handleSubmitSearch}>
@@ -236,7 +236,10 @@ export function PainelMovimentacoes() {
                                     </td>
 
                                     <td data-label="quantidade">
-                                        <span>{item.type == 'ENTRADA' ? '+' : '-'}{item.quantity}</span>
+                                        <span>
+                                            {item.quantity > 0 ? (item.type == 'ENTRADA' ? '+' : '-') : ''}
+                                            {item.quantity}
+                                        </span>
                                     </td>
 
                                     <td data-label="usuário">

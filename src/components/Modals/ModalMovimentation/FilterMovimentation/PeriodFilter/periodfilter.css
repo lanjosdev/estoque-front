@@ -1,0 +1,16 @@
+.TypeFilter {
+
+    h4 {
+        margin-bottom: 0.5rem;
+    }
+
+    .content {
+        display: flex;
+        gap: 1rem;
+
+        .label--input {
+            /* background-color: red; */
+            flex: 1;
+        }
+    }
+}

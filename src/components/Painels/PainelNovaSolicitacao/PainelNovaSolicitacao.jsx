@@ -36,19 +36,20 @@ export function PainelNovaSolicitacao({ listProductsQuantities, handleUpdateList
 
 
     // Logica da UI:
-    // Filtros/Query
     const defaultParams = {
         active: true,
-        type: 'exit',
-        ordering: null,
-        category: '',
-        name: null,
+        type: null, //'exit' 'reservation'
+        name: null, //ex: 'nome produto'
+        category: null, //ex: '1,2,3,4'
+        expiration_date: null, // 0  1
+        ordering: null, //‘A-Z’ ‘Z-A’
         page: 1
     };
     const [paramsQuery, setParamsQuery] = useState(defaultParams);
-    const [order, setOrder] = useState(null); //'A-Z'
-    const [idsSectorsFilter, setIdsSectorsFilter] = useState([]);
     const [productSearchState, setProductSearchState] = useState(null);
+    const [idsSectorsFilter, setIdsSectorsFilter] = useState([]);
+    const [filterIsExpiration, setFilterIsExpiration] = useState(null);
+    // const [order, setOrder] = useState(null); //'A-Z'
     const [currentPage, setCurrentPage] = useState(1);
 
 
@@ -64,13 +65,14 @@ export function PainelNovaSolicitacao({ listProductsQuantities, handleUpdateList
         //=> Contagem de pagina reinicia ao ter mudança no filter e/ou search (tudo é params)
         setProductSearchState(null);
         setIdsSectorsFilter([]);
+        setFilterIsExpiration(null);
         setCurrentPage(1);
     }, [typeRequest]);
 
     useEffect(()=> {
         //=> Contagem de pagina reinicia ao ter mudança no filter e/ou search (tudo é params)
         setCurrentPage(1);
-    }, [productSearchState, idsSectorsFilter]);
+    }, [productSearchState, idsSectorsFilter, filterIsExpiration]);
 
 
     useEffect(()=> {
@@ -78,16 +80,16 @@ export function PainelNovaSolicitacao({ listProductsQuantities, handleUpdateList
             const newParams = {
                 active: true,
                 type: typeRequest == 'Saída' ? 'exit' : 'reservation',
-                ordering: order || null,
+                name: productSearchState || null,
                 category: idsSectorsFilter.join(',') || null,
-                name: productSearchState,
+                expiration_date: filterIsExpiration,
                 page: currentPage
             };
 
             setParamsQuery(newParams);
         }
         updateParamsQuery();
-    }, [typeRequest, productSearchState, currentPage, idsSectorsFilter, order]);
+    }, [typeRequest, productSearchState, currentPage, idsSectorsFilter, filterIsExpiration]);
 
 
     useEffect(()=> {
@@ -96,8 +98,9 @@ export function PainelNovaSolicitacao({ listProductsQuantities, handleUpdateList
             console.log('Effect Component PainelNovaSolicitacao');
             
             try {
-                setHasError(true);
                 setProducts([]);
+                setTotalPages(1);
+                setHasError(true);
                 
                 // const response = await PRODUCT_GET_PER_PARAMS(JSON.parse(tokenCookie), `${productFilterState}&type=${typeRequest == 'Saída' ? 'exit' : 'reservation'}`, currentPage);
                 const response = await PRODUCT_GET_ALL_PER_PARAMS(JSON.parse(tokenCookie), paramsQuery);
@@ -112,15 +115,15 @@ export function PainelNovaSolicitacao({ listProductsQuantities, handleUpdateList
                 }
                 else if(response.success == false) {
                     console.warn(response.message);
+                    toast.warn(response.message);
 
-                    if(response.message == "Nenhum produto encontrado com o nome informado.") {
-                        setHasError(false);
-                    } 
-                    else {
-                        toast.error(response.message);
-                    }
-                    //setProductSearchState(null);
-                    //setProductFilterState('active=true');
+                    // if(response.message == "Nenhum produto encontrado com o nome informado.") {
+                    //     setHasError(false);
+                    // } 
+                    // else {
+                    //     toast.error(response.message);
+                    // }
+                    
                 }
                 else {
                     toast.error('Erro inesperado.');
@@ -158,6 +161,7 @@ export function PainelNovaSolicitacao({ listProductsQuantities, handleUpdateList
     function clearSearch() {
         setProductSearchState(null);
         setIdsSectorsFilter([]);
+        setFilterIsExpiration(null);
         setCurrentPage(1);
     }
 
@@ -168,20 +172,20 @@ export function PainelNovaSolicitacao({ listProductsQuantities, handleUpdateList
                 <h2>Catálago de produtos</h2>
 
                 {/* {(products.length > 0 || productSearchState) && ( */}
-                    <div className="filter--search">
-                        <button className='btn filter' onClick={()=> handleOpenModal('filter')} title='Filtrar' disabled={loading || hasError}>
-                            <i className="bi bi-sliders"></i>
-                        </button>
+                <div className="filter--search">
+                    <button className='btn filter' onClick={()=> handleOpenModal('filter')} title='Filtrar' disabled={loading || hasError}>
+                        <i className="bi bi-sliders"></i>
+                    </button>
 
-                        <button className='btn secundary' 
-                        onClick={()=> handleOpenModal('search')}
-                        title='Buscar por nome de produto' 
-                        disabled={loading || hasError}
-                        >
-                            <i className="bi bi-search"></i>
-                            <span>Buscar</span>
-                        </button>
-                    </div>
+                    <button className='btn secundary' 
+                    onClick={()=> handleOpenModal('search')}
+                    title='Buscar por nome de produto' 
+                    disabled={loading || hasError}
+                    >
+                        <i className="bi bi-search"></i>
+                        <span>Buscar</span>
+                    </button>
+                </div>
                 {/* )} */}
             </div>
             
@@ -189,7 +193,7 @@ export function PainelNovaSolicitacao({ listProductsQuantities, handleUpdateList
                 DIV PARA TER *FILTRO + BUSCA* NA VERSOA MOBILE
             </div> */}
 
-            {((productSearchState || idsSectorsFilter.length > 0) && !loading) && (
+            {((productSearchState || idsSectorsFilter.length > 0 || paramsQuery.expiration_date != null) && !loading) && (
             <div className='feedback-search'>
                 <strong>{`Resultado(s) ${productSearchState ? `para "${productSearchState}"` : ''}`}</strong>
 
@@ -314,6 +318,8 @@ export function PainelNovaSolicitacao({ listProductsQuantities, handleUpdateList
                 setProductSearchState={setProductSearchState}
                 idsSectorsFilter={idsSectorsFilter}
                 setIdsSectorsFilter={setIdsSectorsFilter}
+                filterIsExpiration={filterIsExpiration}
+                setFilterIsExpiration={setFilterIsExpiration}
                 // clearSearch={clearSearch}
                 />
             )}

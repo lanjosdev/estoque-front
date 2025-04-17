@@ -1,4 +1,23 @@
-.PainelProducts {
+.Painel.PainelProducts {
+
+    .painel-top {
+        
+
+        @media (max-width: 444px) {
+
+            .search--btnAdd {
+                /* background-color: red; */
+                
+                >.secundary {
+                    
+                    span {
+                        display: none;
+                    }
+                }
+            }
+        }
+        
+    }
 
     .painel-content {
 

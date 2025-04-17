@@ -21,3 +21,17 @@ export async function MOVIMENTATION_GET_PER_PARAMS(token, params, page) {
    // console.log(response.data);
    return response.data;
 }
+
+// Pega todas as movimentações por params (GET):
+export async function MOVIMENTATION_GET_ALL_PER_PARAMS(token, params) {
+   console.log('CALL FUNCTION API');
+   console.log(params);
+
+   const response = await axios.get(`${API_URL}/get-all-movimentations`, {
+      params: params,
+      headers: { "Accept": "application/json", Authorization: "Bearer " + token } 
+   });
+
+   // console.log(response.data);
+   return response.data;
+}

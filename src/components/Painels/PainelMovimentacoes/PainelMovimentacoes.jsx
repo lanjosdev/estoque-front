@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import Cookies from "js-cookie";
 
 // API:
-import { MOVIMENTATION_GET_PER_PARAMS } from '../../../API/movimentationApi';
+import { MOVIMENTATION_GET_ALL_PER_PARAMS } from '../../../API/movimentationApi';
 
 // Components:
 import { toast } from 'react-toastify';
@@ -14,13 +14,13 @@ import { Pagination } from '../../Pagination/Pagination';
 import { ModalTypeMovimentation } from '../../Modals/ModalTypeMovimentation/ModalTypeMovimentation';
 import { ModalInput } from '../../Modals/ModalInput/ModalInput';
 import { ModalExit } from '../../Modals/ModalExit/ModalExit';
+import { ModalMovimentation } from '../../Modals/ModalMovimentation/ModalMovimentation';
 
 // Utils:
 import { formatToIdCode } from '../../../utils/formatStrings';
 import { formatFullToHoursMinutes } from '../../../utils/formatDate';
 
 // Assets:
-
 
 // Estilo:
 import './painelmovimentacoes.css';
@@ -35,10 +35,27 @@ export function PainelMovimentacoes() {
     // Dados a ser pré-carregados:
     const [movimentations, setMovimentations] = useState([]);
     const [totalPages, setTotalPages] = useState(1);
+
+    // Logica da UI:
+    // Filtros/Query
+    const defaultParams = {
+        type: null,
+        // discarded: null, //1
+        period: null,
+        product: null,
+        date: null,
+        page: 1
+    };
+    const [paramsQuery, setParamsQuery] = useState(defaultParams);
+    const [typeFilter, setTypeFilter] = useState(null);
+    const [periodFilter, setPeriodFilter] = useState([]); //array data inicia e fim
+    const [productSearchState, setProductSearchState] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
 
 
     // Logica Modals:
+    const [showModal, setShowModal] = useState(false);
+    const [optionModal, setOptionModal] = useState(null);
     const [showModalNewMovimentation, setShowModalNewMovimentation] = useState(false);
     const [showModalInput, setShowModalInput] = useState(false);
     const [optionModalInput, setOptionModalInput] = useState(null);
@@ -53,6 +70,26 @@ export function PainelMovimentacoes() {
 
 
 
+    useEffect(()=> {
+        //=> Contagem de pagina reinicia ao ter mudança no filter e/ou search (tudo é params)
+        setCurrentPage(1);
+    }, [productSearchState, typeFilter]);
+
+
+    useEffect(()=> {
+        async function updateParamsQuery() {
+            const newParams = {
+                type: typeFilter || null,
+                period: periodFilter[1] ? periodFilter.join(',') : null,
+                product: productSearchState || null,
+                date: null,
+                page: currentPage || 1
+            };
+
+            setParamsQuery(newParams);
+        }
+        updateParamsQuery();
+    }, [productSearchState, typeFilter, periodFilter, currentPage]);
 
     useEffect(()=> {
         async function getMoviments() 
@@ -61,17 +98,23 @@ export function PainelMovimentacoes() {
             console.log('Effect Component PainelMovimentacoes');
             
             try {
+                setMovimentations([]);
+                setTotalPages(1);
                 setHasError(true);
-                const response = await MOVIMENTATION_GET_PER_PARAMS(JSON.parse(tokenCookie), '', currentPage);
+
+                // const response = await MOVIMENTATION_GET_PER_PARAMS(JSON.parse(tokenCookie), '', currentPage);
+                const response = await MOVIMENTATION_GET_ALL_PER_PARAMS(JSON.parse(tokenCookie), paramsQuery);
                 console.log(response);
 
                 if(response.success) {
-                    setTotalPages(response.data.last_page);
                     setMovimentations(response.data.data);
+                    setTotalPages(response.data.last_page);
+
                     setHasError(false);
                 }
                 else if(response.success == false) {
-                    console.error(response.message);
+                    console.warn(response.message);
+                    toast.warn(response.message);
                 }
                 else {
                     toast.error('Erro inesperado.');
@@ -87,11 +130,12 @@ export function PainelMovimentacoes() {
 
                 console.error('DETALHES DO ERRO:', error);
             }
+
             
             setLoading(false);
         }
         getMoviments();
-    }, [tokenCookie, reflashState, currentPage]);
+    }, [tokenCookie, paramsQuery, reflashState]);
 
 
 
@@ -115,29 +159,37 @@ export function PainelMovimentacoes() {
     }
 
 
+
+    function handleOpenModal(optModal) {
+        console.log(optModal)
+
+        setOptionModal(optModal);
+        setShowModal(true);
+    }
+
+    function clearSearch() {
+        setTypeFilter(null);
+        setPeriodFilter([]);
+        setProductSearchState(null);
+
+        setCurrentPage(1);
+    }
+
+
     return (
         <div className="Painel PainelMovimentacoes">
             <div className="painel-top">
                 <h2>Registros</h2>
 
                 <div className="search--btnAdd">
-                    {/* <form className="search" onSubmit={handleSubmitSearch}>
-                        <input
-                        type="text"
-                        placeholder="Pesquisa"
-                        value={inputBUSCA}
-                        onChange={handleChangeInputSearch}
-                        />
-                        
-                        {tarefasBUSCA &&
-                        <button type='button' onClick={clearSearch}>
-                            <ion-icon name="close-outline"></ion-icon>
-                        </button>}
+                    <button className='btn filter' onClick={()=> handleOpenModal('filter')} title='Filtrar' disabled={loading || hasError}>
+                        <i className="bi bi-sliders"></i>
+                    </button>
 
-                        <button type='submit' disabled={!inputBUSCA || loading}>
-                            <ion-icon name="search"></ion-icon>
-                        </button>
-                    </form> */}
+                    <button className='btn secundary' title='Buscar' onClick={()=> handleOpenModal('search')} disabled={loading || hasError}>
+                        <i className="bi bi-search"></i>
+                        <span>Buscar</span>
+                    </button>
 
                     {movimentations.length > 0 && (
                     <button className="btn primary" onClick={handleOpenNewMovimentation} disabled={loading || hasError}>
@@ -147,6 +199,18 @@ export function PainelMovimentacoes() {
                     )}
                 </div>
             </div>
+
+
+            {((productSearchState || typeFilter || periodFilter[0]) && !loading) && (
+            <div className='feedback-search'>
+                <strong>{`Resultado(s) ${productSearchState ? `para "${productSearchState}"` : ''}`}</strong>
+
+                <button className='btn-filter clear' onClick={clearSearch}>
+                    <i className="bi bi-x-circle"></i>
+                    <span> Limpar busca/filtro</span>
+                </button>
+            </div>
+            )}
 
 
 
@@ -171,14 +235,21 @@ export function PainelMovimentacoes() {
                     </div>
 
                     ) : (movimentations.length === 0 ? (
-                        <div className='result-empty'>
-                            <p>Nenhuma movimentação registrada!</p>
-                            
-                            <button className='btn primary' onClick={handleOpenNewMovimentation} disabled={hasError}>
-                                <i className="bi bi-plus-lg"></i>
-                                Registrar movimentação
-                            </button>
-                        </div>
+                        (paramsQuery.type || paramsQuery.period || paramsQuery.name) ? (
+                            <div className='result-empty'>
+                                <p>Nada encontrado</p>
+                            </div>
+                        ) : (
+                            <div className='result-empty'>
+                                <p>Nenhuma movimentação registrada!</p>
+                                
+                                <button className='btn primary' onClick={handleOpenNewMovimentation} disabled={hasError}>
+                                    <i className="bi bi-plus-lg"></i>
+                                    Registrar movimentação
+                                </button>
+                            </div>
+                        )
+                        
                     ) : (
                         <>
                         <table className=''>
@@ -311,6 +382,19 @@ export function PainelMovimentacoes() {
                 close={()=> setShowModalNewMovimentation(false)}
                 handleOpenModalInput={handleOpenModalInput}
                 handleOpenModalExit={handleOpenModalExit}
+                />
+            )}
+
+            {showModal && (
+                <ModalMovimentation 
+                close={()=> setShowModal(false)} 
+                optionModal={optionModal}
+                productSearchState={productSearchState}
+                setProductSearchState={setProductSearchState}
+                typeFilter={typeFilter}
+                setTypeFilter={setTypeFilter}
+                periodFilter={periodFilter}
+                setPeriodFilter={setPeriodFilter}
                 />
             )}
 

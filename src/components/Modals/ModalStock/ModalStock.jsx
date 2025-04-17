@@ -4,12 +4,9 @@ import { useEffect } from 'react';
 // import Cookies from "js-cookie";
 
 // Components:
-import { CreateProduct } from "./CreateProduct/CreateProduct";
-import { DeleteProduct } from "./DeleteProduct/DeleteProduct";
-import { UpdateProduct } from "./UpdateProduct/UpdateProduct";
-import { SearchProduct } from "./SearchProduct/SearchProduct";
-import { BuscaProduct } from "./BuscaProduct/BuscaProduct";
-import { FilterProduct } from "./FilterProduct/FilterProduct";
+import { FilterStock } from "./FilterStock/FilterStock";
+import { BuscaProduct } from "../ModalProduct/BuscaProduct/BuscaProduct";
+// import { BuscaProduct } from "./BuscaProduct/BuscaProduct";
 // import { toast } from "react-toastify";
 
 // Utils:
@@ -19,10 +16,10 @@ import { FilterProduct } from "./FilterProduct/FilterProduct";
 // import LogoHeader from '../../assets/logo-header.png';
 
 // Estilo:
-import './modalproduct.css';
+// import './modalstock.css';
 
 
-ModalProduct.propTypes = {
+ModalStock.propTypes = {
     close: PropTypes.func,
     setReflashState: PropTypes.func,
     optionModal: PropTypes.any,
@@ -30,34 +27,16 @@ ModalProduct.propTypes = {
     optionUpdate: PropTypes.any,
     productSearchState: PropTypes.any,
     setProductSearchState: PropTypes.func,
+    setProductFilterState: PropTypes.func,
     idsSectorsFilter: PropTypes.any,
     setIdsSectorsFilter: PropTypes.func,
     clearSearch: PropTypes.func
 }
-export function ModalProduct({ 
-    close, 
-    setReflashState, 
-    optionModal, 
-    productSelect, 
-    optionUpdate, 
-    productSearchState, 
-    setProductSearchState, 
-    idsSectorsFilter, 
-    setIdsSectorsFilter,
-    filterIsExpiration,
-    setFilterIsExpiration,
-    clearSearch 
-}) {
+export function ModalStock({ close, optionModal, productSearchState, setProductSearchState, idKpiFilter, setIdKpiFilter, idsSectorsFilter, setIdsSectorsFilter, clearSearch }) {
     // const [loading, setLoading] = useState(false);
 
     // const tokenCookie = Cookies.get('tokenEstoque');
 
-
-    useEffect(()=> {
-        if(optionModal == 'create' && (productSearchState || idsSectorsFilter.length > 0)) {
-            clearSearch();
-        }
-    }, [optionModal, clearSearch, productSearchState, idsSectorsFilter]);
 
     useEffect(()=> {
         // function initialComponent() {
@@ -84,17 +63,10 @@ export function ModalProduct({
     // Função que retorna JSX baseado no switch
     const renderWindowModal = ()=> {
         switch(optionModal) {
-            case 'create':
-                return <CreateProduct close={close} setReflashState={setReflashState} />;
-            case 'delete':
-                return <DeleteProduct close={close} setReflashState={setReflashState} productSelect={productSelect} />;
-            case 'update':
-                return <UpdateProduct close={close} setReflashState={setReflashState} productSelect={productSelect} optionUpdate={optionUpdate} />;
             case 'search':
                 return <BuscaProduct close={close} searchState={productSearchState} setSearchState={setProductSearchState} />;
-                // return <SearchProduct close={close} searchState={productSearchState} setSearchState={setProductSearchState} setFilterState={setProductFilterState} />;
             case 'filter':
-                return <FilterProduct close={close} idsSectorsFilter={idsSectorsFilter} setIdsSectorsFilter={setIdsSectorsFilter} filterIsExpiration={filterIsExpiration} setFilterIsExpiration={setFilterIsExpiration} />;
+                return <FilterStock close={close} idKpiFilter={idKpiFilter} setIdKpiFilter={setIdKpiFilter} />;
             // case 'filter':
             //     return <FilterSector close={close} sectorFilter={sectorFilter} setSectorFilter={setSectorFilter} />;
             default:

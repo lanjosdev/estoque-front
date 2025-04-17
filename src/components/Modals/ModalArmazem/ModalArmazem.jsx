@@ -31,7 +31,8 @@ ModalArmazem.propTypes = {
     storageSearchState: PropTypes.any,
     setStorageSearchState: PropTypes.func,
     idsSectorsFilter: PropTypes.any,
-    setIdsSectorsFilter: PropTypes.func
+    setIdsSectorsFilter: PropTypes.func,
+    clearSearch: PropTypes.func
 }
 export function ModalArmazem({ 
     close, 
@@ -41,12 +42,18 @@ export function ModalArmazem({
     storageSearchState,
     setStorageSearchState,
     idsSectorsFilter,
-    setIdsSectorsFilter
+    setIdsSectorsFilter,
+    clearSearch
 }) {
     // const [loading, setLoading] = useState(false);
 
     // const tokenCookie = Cookies.get('tokenEstoque');
 
+    useEffect(()=> {
+        if(optionModal == 'create' && (storageSearchState || idsSectorsFilter.length > 0)) {
+            clearSearch();
+        }
+    }, [clearSearch, optionModal, storageSearchState, idsSectorsFilter]);
 
     useEffect(()=> {
         // function initialComponent() {

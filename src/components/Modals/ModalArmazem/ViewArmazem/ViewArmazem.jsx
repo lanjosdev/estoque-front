@@ -58,7 +58,7 @@ export function ViewArmazem({ close, armazemSelect }) {
             try {
                 setHasError(true);
                 //=> GET ALL CATEGORY
-                const response = await STORAGE_VIEW_PRODUCTS(JSON.parse(tokenCookie), armazemSelect.id, 1)
+                const response = await STORAGE_VIEW_PRODUCTS(JSON.parse(tokenCookie), armazemSelect.id, currentPage)
                 console.log(response);
 
                 if(response.success) {

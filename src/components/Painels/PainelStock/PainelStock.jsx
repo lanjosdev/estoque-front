@@ -12,7 +12,7 @@ import UserContext from '../../../contexts/userContext';
 // Components:
 import { toast } from 'react-toastify';
 import { Pagination } from '../../Pagination/Pagination';
-// import { ModalProduct } from "../../Modals/ModalProduct/ModalProduct";
+import { ModalStock } from "../../Modals/ModalStock/ModalStock";
 
 // Utils:
 import { formatToIdCode } from '../../../utils/formatStrings';
@@ -28,34 +28,57 @@ export function PainelStock() {
     const { profileDetails } = useContext(UserContext);
     // Estados do componente:
     const [loading, setLoading] = useState(true);
+    const [hasError, setHasError] = useState(false);
     // const [reflashState, setReflashState] = useState(false);
-    const [hasError, setHasError] = useState(true);
 
     // Dados a ser pré-carregados:
     const [products, setProducts] = useState([]);
-    const [totalPages, setTotalPages] = useState([]);
     const [totalResults, setTotalResults] = useState(0);
+    const [totalPages, setTotalPages] = useState(1);
 
+    // Logica da UI:
+    // Filtros/Query
+    const defaultParams = {
+        active: true,
+        kpi: null,
+        name: null,
+        page: 1
+    };
+    const [paramsQuery, setParamsQuery] = useState(defaultParams);
+    const [idKpiFilter, setIdKpiFilter] = useState(null);
+    const [productSearchState, setProductSearchState] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
 
     // Logica do modal
     const [showModal, setShowModal] = useState(false);
     const [optionModal, setOptionModal] = useState(null);
 
-    // Logica da UI:
-    // const [productSelect, setProductSelect] = useState(null);
-    const filterDefault = 'active=true';
-    const [productFilterState, setProductFilterState] = useState(filterDefault); //ex com pesquisa: 'name=${productInputSearch}&active=true'
-    const [productSearchState, setProductSearchState] = useState(null);
-    const [currentPage, setCurrentPage] = useState(1);
-    
+
     const tokenCookie = Cookies.get('tokenEstoque');
+
+
 
 
 
     useEffect(()=> {
         //=> Contagem de pagina reinicia ao ter mudança no filter e/ou search (tudo é params)
         setCurrentPage(1);
-    }, [productFilterState]);
+    }, [productSearchState, idKpiFilter]);
+
+
+    useEffect(()=> {
+        async function updateParamsQuery() {
+            const newParams = {
+                active: true,
+                kpi: idKpiFilter || null,
+                name: productSearchState,
+                page: currentPage
+            };
+
+            setParamsQuery(newParams);
+        }
+        updateParamsQuery();
+    }, [idKpiFilter, productSearchState, currentPage]);
 
     useEffect(()=> {
         async function getStockPerPage() 
@@ -64,11 +87,12 @@ export function PainelStock() {
             console.log('Effect Component PainelStock');
             
             try {
-                setHasError(true);
                 setProducts([]);
+                setHasError(true);
                 setTotalResults(0);
+                setTotalPages(1);
                 
-                const response = await STOCK_GET_ALL_PER_PARAMS(JSON.parse(tokenCookie), productFilterState, currentPage);
+                const response = await STOCK_GET_ALL_PER_PARAMS(JSON.parse(tokenCookie), paramsQuery);
                 console.log(response);
 
                 if(response.success) {
@@ -83,19 +107,19 @@ export function PainelStock() {
                     console.warn(response.message);
                     toast.warn(response.message);
 
-                    if(response.message == "Nenhum produto encontrado com o nome informado.") {
-                        setHasError(false);
-                    } 
-                    else {
-                        toast.warn(response.message);
-                    }
+                    // if(response.message == "Nenhum produto encontrado com o nome informado.") {
+                    //     setHasError(false);
+                    // } 
+                    // else {
+                    //     toast.warn(response.message);
+                    // }
                     //setProductSearchState(null);
                     //setProductFilterState('active=true');
                 }
                 else {
                     toast.error('Erro inesperado.');
-                    setProductSearchState(null);
-                    setProductFilterState(filterDefault);
+                    // setProductSearchState(null);
+                    // setProductFilterState(filterDefault);
                 }
             }
             catch(error) {
@@ -108,24 +132,29 @@ export function PainelStock() {
 
                 console.error('DETALHES DO ERRO:', error);
             }
+
             
             setLoading(false);
         }
         getStockPerPage();
-    }, [tokenCookie, productFilterState, currentPage]);
+    }, [tokenCookie, paramsQuery]);
 
 
 
 
-    function handleOpenModal(opt) {
-        // console.log(opt);
-        setOptionModal(opt);
+
+
+    function handleOpenModal(optModal) {
+        console.log(optModal)
+
+        setOptionModal(optModal);
         setShowModal(true);
     }
 
     function clearSearch() {
+        setIdKpiFilter(null);
         setProductSearchState(null);
-        setProductFilterState(filterDefault);
+        setCurrentPage(1);
     }
 
 
@@ -134,23 +163,15 @@ export function PainelStock() {
             <div className="painel-top">
                 <h2>Total: {totalResults}</h2>
 
-                <div className="search--btnAdd">
-                    {(products.length > 0 || productSearchState) && (
-                    <>
-                    {/* <button className='btn filter' title='Filtrar' disabled={loading || hasError}>
+                <div className="filter--search">
+                    <button className='btn filter' onClick={()=> handleOpenModal('filter')} title='Filtrar' disabled={loading || hasError}>
                         <i className="bi bi-sliders"></i>
-                    </button> */}
-                    <button className='btn' title='Filtrar' onClick={()=> handleOpenModal('search')} disabled={loading || hasError}>
+                    </button>
+                    
+                    <button className='btn secundary' onClick={()=> handleOpenModal('search')} title='Buscar' disabled={loading || hasError}>
                         <i className="bi bi-search"></i>
                         <span>Buscar</span>
                     </button>
-                    
-                    {/* <button className="btn primary" onClick={()=> handleOpenModal('create')} disabled={loading || hasError}>
-                        <i className="bi bi-plus-lg"></i>
-                        <span>Novo produto</span>
-                    </button> */}
-                    </>
-                    )}
                 </div>
             </div>
             
@@ -158,13 +179,13 @@ export function PainelStock() {
                 DIV PARA TER *FILTRO + BUSCA* NA VERSOA MOBILE
             </div> */}
 
-            {(productSearchState && !loading) && (
+            {((productSearchState || idKpiFilter) && !loading) && (
             <div className='feedback-search'>
-                <strong>{`Resultado(s) para "${productSearchState}"`}</strong>
+                <strong>{`Resultado(s) ${productSearchState ? `para "${productSearchState}"` : ''}`}</strong>
 
                 <button className='btn-filter clear' onClick={clearSearch}>
                     <i className="bi bi-x-circle"></i>
-                    <span> Limpar busca</span>
+                    <span> Limpar busca/filtro</span>
                 </button>
             </div>
             )}
@@ -192,25 +213,26 @@ export function PainelStock() {
                     ) : (
                         products.length === 0 ? (
                         <div className='result-empty'>
-                            {productSearchState ? (
+                            {(paramsQuery.kpi || paramsQuery.name) ? (
                             <p>
                                 Nada encontrado
                             </p>
                             ) : (
                             <>
                             <p>Nenhum produto foi cadastrado no catálogo.</p>
-                            {profileDetails.level_name == 'manager' && (
-                            <p>Contate o administrador do sistema.</p>
-                            )}
 
-                            {profileDetails.level_name == 'admin' && (
-                            <Link to='/products' className='btn primary' disabled={hasError}>
-                                <i className="bi bi-plus-lg"></i>
-                                Cadastrar um produto
-                            </Link>
-                            )}
+                            {profileDetails.level_name == 'admin' ? (
+                                <Link to='/products' className='btn primary' disabled={hasError}>
+                                    <i className="bi bi-plus-lg"></i>
+                                    Cadastrar um produto
+                                </Link>
+                            ) : (
+                                <p>Contate o administrador do sistema.</p>
+                            )}                            
                             </>
                             )}
+
+
                         </div>
                         ) : (
                         <>
@@ -244,7 +266,17 @@ export function PainelStock() {
                                     </td>
 
                                     <td data-label="armazenado em">
-                                        <span className={!product.name_storage_location ? 'txt danger' : ''}>{product.name_storage_location || 'Sem entrada'}</span>
+                                        <div>
+                                            {product.detailing_storage_location && (
+                                                <p className="">
+                                                    {product.detailing_storage_location}
+                                                </p>
+                                            )}
+
+                                            <span className={!product.name_storage_location ? 'txt danger' : 'local'}>
+                                                {product.name_storage_location || 'Sem'}
+                                            </span>
+                                        </div>
                                     </td>
 
                                     <td data-label="qtd. ideal">
@@ -289,19 +321,17 @@ export function PainelStock() {
             </div>
 
 
-            {/* {showModal && (
-                <ModalProduct
+            {showModal && (
+                <ModalStock
                 close={()=> setShowModal(false)} 
-                setReflashState={setReflashState} 
                 optionModal={optionModal}
-                productSelect={productSelect}
-                optionUpdate={optionUpdate}
                 productSearchState={productSearchState}
                 setProductSearchState={setProductSearchState}
-                setProductFilterState={setProductFilterState}
-                clearSearch={clearSearch}
+                idKpiFilter={idKpiFilter}
+                setIdKpiFilter={setIdKpiFilter}
+                // clearSearch={clearSearch}
                 />
-            )} */}
+            )}
         </div>
     )        
 }

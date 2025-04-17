@@ -94,7 +94,7 @@ export function PainelSectors() {
     return (
         <div className="Painel PainelSectors">
             <div className="painel-top">
-                <h2>Setores ({sectors.length}):</h2>
+                <h2>Total: {sectors.length}</h2>
 
                 <div className="search--btnAdd">
                     {(sectors.length > 0 || sectorFilter != filterDefault) && (

@@ -30,7 +30,7 @@ export function PainelArmazens() {
     // Dados a ser pré-carregados:
     const [armazens, setArmazens] = useState([]);
     const [totalResults, setTotalResults] = useState(0);
-    const [totalPages, setTotalPages] = useState(0);
+    const [totalPages, setTotalPages] = useState(1);
 
     // Logica da UI:
     // Filtros/Query
@@ -168,7 +168,7 @@ export function PainelArmazens() {
                         <i className="bi bi-sliders"></i>
                     </button>
                     
-                    <button className='btn secundary' title='Filtrar' onClick={()=> handleOpenModal('search')} disabled={loading || hasError}>
+                    <button className='btn secundary' title='Buscar' onClick={()=> handleOpenModal('search')} disabled={loading || hasError}>
                         <i className="bi bi-search"></i>
                         <span>Buscar</span>
                     </button>
@@ -313,6 +313,7 @@ export function PainelArmazens() {
                 setStorageSearchState={setStorageSearchState}
                 idsSectorsFilter={idsSectorsFilter}
                 setIdsSectorsFilter={setIdsSectorsFilter}
+                clearSearch={clearSearch}
                 />
             )}
         </div>

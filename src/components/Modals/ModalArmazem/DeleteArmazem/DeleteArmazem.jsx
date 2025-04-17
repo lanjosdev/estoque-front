@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 import { useState, useEffect, useRef, useContext } from 'react';
 
 // API:
-import { STORAGE_DELETE } from "../../../../API/storageApi";
+import { STORAGE_DELETE, STORAGE_VIEW_PRODUCTS } from "../../../../API/storageApi";
 
 // Context:
 import UserContext from "../../../../contexts/userContext";
@@ -28,17 +28,65 @@ DeleteArmazem.propTypes = {
     armazemSelect: PropTypes.object
 }
 export function DeleteArmazem({ close, setReflashState, armazemSelect }) {
-    const [loading, setLoading] = useState(false);
+    const {profileDetails} = useContext(UserContext);
+
+    const [loading, setLoading] = useState(true);
+    const [hasError, setHasError] = useState(false);
+    const [loadingSubmit, setLoadingSubmit] = useState(false);
     const elementFocusRef = useRef(null);
 
-    const {profileDetails} = useContext(UserContext); 
+    // Logica UI:
+    const [productsArmazem, setProductsArmazem] = useState([]);
+
+
+
+
 
     const tokenCookie = Cookies.get('tokenEstoque') || null;
 
+    useEffect(()=> {
+        async function getProductsArmazem() {
+            setLoading(true);
+            console.log('Effect Window DeleteArmazem');
 
+            try {
+                setHasError(true);
+                //=> GET ALL CATEGORY
+                const response = await STORAGE_VIEW_PRODUCTS(JSON.parse(tokenCookie), armazemSelect.id, 1);
+                console.log(response);
+
+                if(response.success) {
+                    // setProductsArmazem([]);
+                    setProductsArmazem(response.data.data);
+                    
+                    setHasError(false);
+                }
+                else if(response.success == false) {
+                    console.warn(response.message);
+                    // toast.error(response.message);
+                }
+                else {
+                    toast.error('Erro inesperado.');
+                }
+            }
+            catch(error) {
+                if(error?.response?.data?.message == 'Unauthenticated.') {
+                    console.error('Requisição não autenticada.');
+                }
+                else {
+                    console.error('Houve algum erro.');
+                }
+
+                console.error('DETALHES DO ERRO:', error);
+            }
+
+            setLoading(false);
+        }
+        getProductsArmazem();
+    }, [tokenCookie, armazemSelect]);
+    
     useEffect(()=> {
         function initializeComponent() {
-            console.log('Effect Window DeleteArmazem');
 
             // Coloca foco no elemento em questão
             if(elementFocusRef.current) {
@@ -56,7 +104,7 @@ export function DeleteArmazem({ close, setReflashState, armazemSelect }) {
     // DELETE:
     async function handleSubmitDeleteStorage() 
     {
-        setLoading(true);
+        setLoadingSubmit(true);
 
         try {
             const response = await STORAGE_DELETE(JSON.parse(tokenCookie), armazemSelect.id);
@@ -86,7 +134,7 @@ export function DeleteArmazem({ close, setReflashState, armazemSelect }) {
             console.error('DETALHES DO ERRO: ', error);
         }
 
-        setLoading(false);
+        setLoadingSubmit(false);
     }
 
     
@@ -99,31 +147,46 @@ export function DeleteArmazem({ close, setReflashState, armazemSelect }) {
             </h3>       
 
             <div className="content-window">
-                          
-                {profileDetails.level_name == 'admin' ?  (
-                <p>
-                    Deseja deletar <b>{armazemSelect.name} {armazemSelect.observation ? `(${armazemSelect.observation})` : ''}</b> ?
-                </p>
+                {loading ? (
+                    <p className="">
+                        Carregando...
+                    </p>
                 ) : (
-                <p className="text-not-access">
-                    <i className="bi bi-exclamation-triangle"></i> 
-                    Você não pode seguir com esta ação, contate o administrador do ambiente.
-                </p>   
-                )}            
+                hasError ? (
+                    <p className="">
+                        Erro ao carregar
+                    </p>
+                ) : (
+                    productsArmazem.length > 0 ? (
+                        <p>Este armazém não pode ser excluído, pois ainda há produtos armazenados nele.</p>
+                    ) : (
+                        profileDetails.level_name == 'admin' ?  (
+                        <p>
+                            Deseja deletar <b>{armazemSelect.name} {armazemSelect.observation ? `(${armazemSelect.observation})` : ''}</b> ?
+                        </p>
+                        ) : (
+                        <p className="text-not-access">
+                            <i className="bi bi-exclamation-triangle"></i> 
+                            Você não pode seguir com esta ação, contate o administrador do ambiente.
+                        </p>   
+                        )
+                    )
+                ))}
+                          
+                           
 
 
                 <div className="btns">
                     {profileDetails.level_name == 'admin' && (
-                    <button className="btn danger" onClick={handleSubmitDeleteStorage} disabled={loading}>
-                        {loading ? 'Deletando...' : 'Deletar'}
+                    <button className="btn danger" onClick={handleSubmitDeleteStorage} disabled={loading || hasError || productsArmazem.length > 0 || loadingSubmit}>
+                        {loadingSubmit ? 'Deletando...' : 'Deletar'}
                     </button>
                     )}
 
-                    <button ref={elementFocusRef} className="btn cancel" onClick={close} disabled={loading}>
+                    <button ref={elementFocusRef} className="btn cancel" onClick={close} disabled={loadingSubmit}>
                         {profileDetails.level_name == 'admin' ? 'Cancelar' : 'Fechar'}
                     </button>
                 </div>
-
             </div>     
         </div>
     )        

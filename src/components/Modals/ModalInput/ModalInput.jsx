@@ -18,7 +18,7 @@ import { DetailsInput } from "./DetailsInput/DetailsInput";
 // import LogoHeader from '../../assets/logo-header.png';
 
 // Estilo:
-import './modalinput.css';
+// import './modalinput.css';
 
 
 ModalInput.propTypes = {

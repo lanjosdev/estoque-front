@@ -194,6 +194,14 @@
                     .label--input .input {
                         max-width: 100%;
                     }
+
+                    .label--input.question {
+                        /* border: 1px solid; */
+
+                        .label--input {
+                            margin-top: 0.7rem;
+                        }
+                    }
                 
                     .container_submit {
                         margin-top: 2rem;

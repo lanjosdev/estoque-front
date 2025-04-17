@@ -74,6 +74,13 @@
                     }
                 }
             }   
+
+            tr > td[data-label="armazenado em"] {
+                .local {
+                    /* color: red; */
+                    font-size: 1.3rem;
+                }
+            }   
         }
     }
 

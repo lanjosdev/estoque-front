@@ -2,19 +2,6 @@
     /* background-color: aqua; */
 
     .content-window {
-        gap: 2.2rem;
-
-        .component_child {
-            
-            .title_child {
-                font-size: 1.5rem;
-                margin-bottom: 0.8rem;
-            }
-
-            .feedback_child {
-                text-align: center;
-            }
-        }
 
         .radios-group {
             flex-wrap: wrap;

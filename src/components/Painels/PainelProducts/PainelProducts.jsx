@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 import { useState, useEffect } from 'react';
 
 // API:
-import { PRODUCT_GET_PER_PARAMS } from '../../../API/productApi';
+import { PRODUCT_GET_ALL_PER_PARAMS } from '../../../API/productApi';
 
 // Components:
 import { toast } from 'react-toastify';
@@ -15,7 +15,6 @@ import { ModalProduct } from "../../Modals/ModalProduct/ModalProduct";
 import { formatToIdCode } from '../../../utils/formatStrings';
 
 // Assets:
-
 
 // Estilo:
 import './painelproducts.css';
@@ -29,7 +28,25 @@ export function PainelProducts() {
 
     // Dados a ser pré-carregados:
     const [products, setProducts] = useState([]);
+    const [totalPages, setTotalPages] = useState(1);
     const [totalResults, setTotalResults] = useState(0);
+
+    // Filtros/Query
+    const defaultParams = {
+        active: true,
+        type: null, //'exit' 'reservation'
+        ordering: null, //‘A-Z’ ‘Z-A’
+        category: null, //ex: '1,2,3,4'
+        name: null, //ex: 'nome produto'
+        expiration_date: null, // 0  1
+        page: 1
+    };
+    const [paramsQuery, setParamsQuery] = useState(defaultParams);
+    const [productSearchState, setProductSearchState] = useState(null);
+    const [idsSectorsFilter, setIdsSectorsFilter] = useState([]);
+    const [filterIsExpiration, setFilterIsExpiration] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+
 
     // Logica do modal
     const [showModal, setShowModal] = useState(false);
@@ -39,20 +56,34 @@ export function PainelProducts() {
     // Logica da UI:
     const [productSelect, setProductSelect] = useState(null);
 
-    const filterDefault = 'active=true';
-    const [productSearchState, setProductSearchState] = useState(null);
-    const [productFilterState, setProductFilterState] = useState(filterDefault); //ex com pesquisa: 'name=${productInputSearch}&active=true'
-    const [currentPage, setCurrentPage] = useState(1);
-    const [pages, setPages] = useState([]);
+    // const filterDefault = 'active=true';
+    // const [productFilterState, setProductFilterState] = useState(filterDefault); //ex com pesquisa: 'name=${productInputSearch}&active=true'
     
+
+
+
+
     const tokenCookie = Cookies.get('tokenEstoque');
-
-
 
     useEffect(()=> {
         //=> Contagem de pagina reinicia ao ter mudança no filter e/ou search (tudo é params)
         setCurrentPage(1);
-    }, [productFilterState]);
+    }, [productSearchState, idsSectorsFilter, filterIsExpiration]);
+
+    useEffect(()=> {
+        async function updateParamsQuery() {
+            const newParams = {
+                active: true,
+                name: productSearchState || null,
+                category: idsSectorsFilter.join(',') || null,
+                expiration_date: filterIsExpiration,
+                page: currentPage
+            };
+
+            setParamsQuery(newParams);
+        }
+        updateParamsQuery();
+    }, [idsSectorsFilter, productSearchState, currentPage, filterIsExpiration]);
 
     useEffect(()=> {
         async function getProductsPerPage() 
@@ -61,42 +92,39 @@ export function PainelProducts() {
             console.log('Effect Component PainelProducts');
             
             try {
-                setHasError(true);
                 setProducts([]);
+                setTotalPages(1);
                 setTotalResults(0);
+                setHasError(true);
                 
-                const response = await PRODUCT_GET_PER_PARAMS(JSON.parse(tokenCookie), productFilterState, currentPage);
+                // const response = await PRODUCT_GET_PER_PARAMS(JSON.parse(tokenCookie), productFilterState, currentPage);
+                // console.log(productSearchState);
+                // console.log(idsSectorsFilter);
+                // console.log(filterIsExpiration);
+                const response = await PRODUCT_GET_ALL_PER_PARAMS(JSON.parse(tokenCookie), paramsQuery);
                 console.log(response);
 
                 if(response.success) {
-                    let arrayPages = [];
-                    for(let i = 1; i <= response.data.last_page; i++) {
-                        arrayPages.push(i);
-                    }
-                    // console.log(arrayPages);
-                    setPages(arrayPages);
-
+                    // setProducts([]);
                     setProducts(response.data.data);
+                    setTotalPages(response.data.last_page);
                     setTotalResults(response.data.total);
+
                     setHasError(false);
                 }
                 else if(response.success == false) {
                     console.warn(response.message);
                     toast.error(response.message);
 
-                    if(response.message == "Nenhum produto encontrado com o nome informado.") {
-                        setHasError(false);
-                    } 
-                    else {
-                        toast.error(response.message);
-                    }
-                    //setProductSearchState(null);
-                    //setProductFilterState('active=true');
+                    // if(response.message == "Nenhum produto encontrado com o nome informado.") {
+                    //     setHasError(false);
+                    // } 
+                    // else {
+                    //     toast.error(response.message);
+                    // }
                 }
                 else {
                     toast.error('Erro inesperado.');
-                    setProductSearchState(null);
-                    setProductFilterState(filterDefault);
                 }
             }
             catch(error) {
@@ -113,66 +141,68 @@ export function PainelProducts() {
             setLoading(false);
         }
         getProductsPerPage();
-    }, [tokenCookie, reflashState, productFilterState, currentPage]);
+    }, [tokenCookie, reflashState, paramsQuery]);
+
+
 
 
 
     function handleOpenModal(opt) {
-        // console.log(opt);
+        console.log(opt);
         setOptionModal(opt);
         setShowModal(true);
     }
 
     function clearSearch() {
         setProductSearchState(null);
-        setProductFilterState(filterDefault);
+        setIdsSectorsFilter([]);
+        setFilterIsExpiration(null);
+        setCurrentPage(1);
     }
-
 
     return (
         <div className="Painel PainelProducts">
             <div className="painel-top">
-                <h2>Produtos ({totalResults}):</h2>
+                <h2>Total: {totalResults}</h2>
 
-                <div className="search--btnAdd">
-                    {(products.length > 0 || productSearchState) && (
-                    <>
-                    {/* <button className='btn filter' title='Filtrar' disabled={loading || hasError}>
-                        <i className="bi bi-sliders"></i>
-                    </button> */}
-                    <button className='btn' title='Filtrar' onClick={()=> handleOpenModal('search')} disabled={loading || hasError}>
-                        <i className="bi bi-search"></i>
-                        <span>Buscar</span>
-                    </button>
-                    
-                    <button className="btn primary" onClick={()=> handleOpenModal('create')} disabled={loading || hasError}>
-                        <i className="bi bi-plus-lg"></i>
-                        <span>Novo produto</span>
-                    </button>
-                    </>
-                    )}
-                </div>
+                {!(products.length == 0 && !paramsQuery.name && !paramsQuery.category && !paramsQuery.expiration_date) && (
+                    <div className="search--btnAdd">
+                        <button className='btn filter' onClick={()=> handleOpenModal('filter')} title='Filtrar' disabled={loading || hasError}>
+                            <i className="bi bi-sliders"></i>
+                        </button>
+                        
+                        <button className='btn secundary' title='Buscar' onClick={()=> handleOpenModal('search')} disabled={loading || hasError}>
+                            <i className="bi bi-search"></i>
+                            <span>Buscar</span>
+                        </button>
+                        
+                        <button className="btn primary" onClick={()=> handleOpenModal('create')} disabled={loading || hasError}>
+                            <i className="bi bi-plus-lg"></i>
+                            <span>Novo produto</span>
+                        </button>
+                    </div>
+                )}
             </div>
             
             {/* <div>
                 DIV PARA TER *FILTRO + BUSCA* NA VERSOA MOBILE
             </div> */}
-
-            {(productSearchState && !loading) && (
+            {(!loading && (paramsQuery.name || paramsQuery.category || paramsQuery.expiration_date != null)) && (
             <div className='feedback-search'>
-                <strong>{`Resultado(s) para "${productSearchState}"`}</strong>
+                <strong>{`Resultado(s) ${paramsQuery.name ? `para "${paramsQuery.name}"` : ''}`}</strong>
 
                 <button className='btn-filter clear' onClick={clearSearch}>
                     <i className="bi bi-x-circle"></i>
-                    <span> Limpar busca</span>
+                    <span> Limpar busca/filtro</span>
                 </button>
             </div>
             )}
+        
 
             <div className="painel-content">
                 {loading ? (
 
-                    <p className='result-empty'>{productSearchState ? 'Buscando produtos...' : 'Carregando produtos...'}</p>
+                    <p className='result-empty'>{paramsQuery.name ? 'Buscando produtos...' : 'Carregando produtos...'}</p>
 
                 ) : (
                     hasError ? (
@@ -192,7 +222,7 @@ export function PainelProducts() {
                     ) : (
                         products.length === 0 ? (
                         <div className='result-empty'>
-                            {productSearchState ? (
+                            {(paramsQuery.name || paramsQuery.category || paramsQuery.expiration_date) ? (
                             <p>
                                 Nada encontrado
                             </p>
@@ -275,7 +305,7 @@ export function PainelProducts() {
                         setHasError={setHasError} 
                         currentPage={currentPage} 
                         setCurrentPage={setCurrentPage} 
-                        pages={pages}
+                        totalPages={totalPages}
                         />
                         </>
                         )
@@ -293,7 +323,10 @@ export function PainelProducts() {
                 optionUpdate={optionUpdate}
                 productSearchState={productSearchState}
                 setProductSearchState={setProductSearchState}
-                setProductFilterState={setProductFilterState}
+                idsSectorsFilter={idsSectorsFilter}
+                setIdsSectorsFilter={setIdsSectorsFilter}
+                filterIsExpiration={filterIsExpiration}
+                setFilterIsExpiration={setFilterIsExpiration}
                 clearSearch={clearSearch}
                 />
             )}

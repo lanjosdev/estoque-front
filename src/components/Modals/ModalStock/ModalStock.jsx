@@ -1,5 +1,5 @@
 // Funcionalidades / Libs:
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import { useEffect } from 'react';
 // import Cookies from "js-cookie";
 
@@ -19,20 +19,25 @@ import { BuscaProduct } from "../ModalProduct/BuscaProduct/BuscaProduct";
 // import './modalstock.css';
 
 
-ModalStock.propTypes = {
-    close: PropTypes.func,
-    setReflashState: PropTypes.func,
-    optionModal: PropTypes.any,
-    productSelect: PropTypes.object,
-    optionUpdate: PropTypes.any,
-    productSearchState: PropTypes.any,
-    setProductSearchState: PropTypes.func,
-    setProductFilterState: PropTypes.func,
-    idsSectorsFilter: PropTypes.any,
-    setIdsSectorsFilter: PropTypes.func,
-    clearSearch: PropTypes.func
-}
-export function ModalStock({ close, optionModal, productSearchState, setProductSearchState, idKpiFilter, setIdKpiFilter, idsSectorsFilter, setIdsSectorsFilter, clearSearch }) {
+// ModalStock.propTypes = {
+//     close: PropTypes.func,
+//     optionModal: PropTypes.any,
+//     productSearchState: PropTypes.any,
+//     setProductSearchState: PropTypes.func,
+//     setProductFilterState: PropTypes.func,
+//     idsSectorsFilter: PropTypes.any,
+//     setIdsSectorsFilter: PropTypes.func,
+// }
+export function ModalStock({ 
+    close, 
+    optionModal, 
+    productSearchState, 
+    setProductSearchState, 
+    idKpiFilter, 
+    setIdKpiFilter, 
+    idsSectorsFilter, 
+    setIdsSectorsFilter, 
+}) {
     // const [loading, setLoading] = useState(false);
 
     // const tokenCookie = Cookies.get('tokenEstoque');
@@ -66,7 +71,7 @@ export function ModalStock({ close, optionModal, productSearchState, setProductS
             case 'search':
                 return <BuscaProduct close={close} searchState={productSearchState} setSearchState={setProductSearchState} />;
             case 'filter':
-                return <FilterStock close={close} idKpiFilter={idKpiFilter} setIdKpiFilter={setIdKpiFilter} />;
+                return <FilterStock close={close} idKpiFilter={idKpiFilter} setIdKpiFilter={setIdKpiFilter} idsSectorsFilter={idsSectorsFilter} setIdsSectorsFilter={setIdsSectorsFilter} />;
             // case 'filter':
             //     return <FilterSector close={close} sectorFilter={sectorFilter} setSectorFilter={setSectorFilter} />;
             default:

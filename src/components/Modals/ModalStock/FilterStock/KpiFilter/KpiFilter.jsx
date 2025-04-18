@@ -92,8 +92,8 @@ export function KpiFilter({ idKpiSelect, setIdKpiSelect }) {
     
 
     return (
-        <div className='KpiFilter'>
-            {/* <h4>Filtro por KPI</h4> */}
+        <div className='KpiFilter component_child'>
+            <h4 className="title_child">Filtro por KPI</h4>
 
             {loading ? (
                 <p className=''>Carregando...</p>

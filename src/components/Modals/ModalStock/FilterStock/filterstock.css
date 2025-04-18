@@ -14,5 +14,16 @@
                 } */
             }
         }
+
+        .KpiFilter {
+            .radios-group {
+            
+                flex-wrap: nowrap;
+                .btn-filter {
+                    max-width: 100%;
+                }
+            }
+
+        }
     }
 }

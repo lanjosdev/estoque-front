@@ -42,11 +42,13 @@ export function PainelStock() {
         active: true,
         kpi: null,
         name: null,
+        category: null,
         page: 1
     };
     const [paramsQuery, setParamsQuery] = useState(defaultParams);
     const [idKpiFilter, setIdKpiFilter] = useState(null);
     const [productSearchState, setProductSearchState] = useState(null);
+    const [idsSectorsFilter, setIdsSectorsFilter] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
 
     // Logica do modal
@@ -63,7 +65,7 @@ export function PainelStock() {
     useEffect(()=> {
         //=> Contagem de pagina reinicia ao ter mudança no filter e/ou search (tudo é params)
         setCurrentPage(1);
-    }, [productSearchState, idKpiFilter]);
+    }, [productSearchState, idKpiFilter, idsSectorsFilter]);
 
 
     useEffect(()=> {
@@ -72,13 +74,14 @@ export function PainelStock() {
                 active: true,
                 kpi: idKpiFilter || null,
                 name: productSearchState,
+                category: idsSectorsFilter.join(',') || null,
                 page: currentPage
             };
 
             setParamsQuery(newParams);
         }
         updateParamsQuery();
-    }, [idKpiFilter, productSearchState, currentPage]);
+    }, [idKpiFilter, productSearchState, idsSectorsFilter, currentPage]);
 
     useEffect(()=> {
         async function getStockPerPage() 
@@ -154,6 +157,7 @@ export function PainelStock() {
     function clearSearch() {
         setIdKpiFilter(null);
         setProductSearchState(null);
+        setIdsSectorsFilter([]);
         setCurrentPage(1);
     }
 
@@ -179,7 +183,7 @@ export function PainelStock() {
                 DIV PARA TER *FILTRO + BUSCA* NA VERSOA MOBILE
             </div> */}
 
-            {((productSearchState || idKpiFilter) && !loading) && (
+            {(!loading && (productSearchState || idKpiFilter || idsSectorsFilter.length > 0)) && (
             <div className='feedback-search'>
                 <strong>{`Resultado(s) ${productSearchState ? `para "${productSearchState}"` : ''}`}</strong>
 
@@ -329,7 +333,8 @@ export function PainelStock() {
                 setProductSearchState={setProductSearchState}
                 idKpiFilter={idKpiFilter}
                 setIdKpiFilter={setIdKpiFilter}
-                // clearSearch={clearSearch}
+                idsSectorsFilter={idsSectorsFilter}
+                setIdsSectorsFilter={setIdsSectorsFilter}
                 />
             )}
         </div>

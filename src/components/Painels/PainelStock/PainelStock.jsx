@@ -13,6 +13,7 @@ import UserContext from '../../../contexts/userContext';
 import { toast } from 'react-toastify';
 import { Pagination } from '../../Pagination/Pagination';
 import { ModalStock } from "../../Modals/ModalStock/ModalStock";
+import { GenerateCsv } from "../../GenerateCsv/GenerateCsv";
 
 // Utils:
 import { formatToIdCode } from '../../../utils/formatStrings';
@@ -176,6 +177,8 @@ export function PainelStock() {
                         <i className="bi bi-search"></i>
                         <span>Buscar</span>
                     </button>
+
+                    <GenerateCsv />
                 </div>
             </div>
             
@@ -217,7 +220,7 @@ export function PainelStock() {
                     ) : (
                         products.length === 0 ? (
                         <div className='result-empty'>
-                            {(paramsQuery.kpi || paramsQuery.name) ? (
+                            {(paramsQuery.kpi || paramsQuery.name || paramsQuery.category) ? (
                             <p>
                                 Nada encontrado
                             </p>

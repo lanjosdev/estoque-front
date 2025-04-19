@@ -15,6 +15,22 @@
             display: flex;
             /* align-items: center; */
             gap: 0.7rem;
+
+            @media (max-width: 444px) {
+
+                .btn.secundary {
+
+                    span {
+                        display: none;
+                    }
+                }
+                .btn.primary {
+
+                    span > span {
+                        display: none;
+                    }
+                }
+            }
         }
     }
 

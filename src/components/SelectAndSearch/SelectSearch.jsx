@@ -187,9 +187,13 @@ export function SelectAndSearch({ typeData='produto', loading, arrayItems, total
         setItemSelect(null);
 
         // setShowError(false);
-        if(e.target.value == '') {
+        if(e.target.value.replaceAll(' ', '').length <= 1) {
             console.log('Zera busca');
             setProductsSearch(null);
+        }
+
+        if(e.target.value.replaceAll(' ', '').length >= 2) {
+            handleSubmitSearchProduct();
         }
     }
     function handleClickItemSelect(productSelect) 
@@ -197,6 +201,7 @@ export function SelectAndSearch({ typeData='produto', loading, arrayItems, total
         console.log(productSelect);
         setItemSelect(productSelect);
         setSearchProduct(productSelect.name || productSelect.id);
+        setFocusSelect(false);
     }
 
 
@@ -310,8 +315,8 @@ export function SelectAndSearch({ typeData='produto', loading, arrayItems, total
         }      
     }
 
-    async function handleSubmitSearchProduct(e) {
-        e.preventDefault();
+    async function handleSubmitSearchProduct() {
+        // e.preventDefault();
         setLoadingSubmit(true);
 
         switch(typeData) {
@@ -330,7 +335,7 @@ export function SelectAndSearch({ typeData='produto', loading, arrayItems, total
     
 
     return (
-        <form className="SelectAndSearch" onSubmit={handleSubmitSearchProduct} autoComplete="off" ref={thisComponentRef}>
+        <div className="SelectAndSearch" autoComplete="off" ref={thisComponentRef}>
 
             <div className="label--select">
                 <label htmlFor={typeData}>{textsComponent[typeData]['label']}</label>
@@ -372,7 +377,8 @@ export function SelectAndSearch({ typeData='produto', loading, arrayItems, total
                             className={`item-group ${itemSelect?.id == itemS.id ? 'selecionado' : ''}`}
                             onClick={()=> handleClickItemSelect(itemS)}
                             >
-                                {formatToIdCode(itemS.id)} - {itemS.name}
+                                {/* {formatToIdCode(itemS.id)} - {itemS.name} */}
+                                {itemS.name} {itemS.observation?.length > 0 && `(${itemS.observation})`}
                             </li>
                             ))
                         ) : (
@@ -411,7 +417,8 @@ export function SelectAndSearch({ typeData='produto', loading, arrayItems, total
                                 className={`item-group ${itemSelect?.id == item.id ? 'selecionado' : ''}`}
                                 onClick={()=> handleClickItemSelect(item)}
                                 >
-                                    {formatToIdCode(item.id)} - {item.name}
+                                    {/* {formatToIdCode(item.id)} - {item.name} */}
+                                    {item.name} {item.observation?.length > 0 && `(${item.observation})`}
                                 </li>
                             ))
                         )}
@@ -427,6 +434,6 @@ export function SelectAndSearch({ typeData='produto', loading, arrayItems, total
                 </div>
             </div>
             
-        </form>
+        </div>
     )        
 }

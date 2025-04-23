@@ -281,7 +281,7 @@ export function PainelStock() {
                                             )}
 
                                             <span className={!product.name_storage_location ? 'txt danger' : 'local'}>
-                                                {product.name_storage_location || 'Sem'}
+                                                {product.name_storage_location || 'Sem estoque'}
                                             </span>
                                         </div>
                                     </td>

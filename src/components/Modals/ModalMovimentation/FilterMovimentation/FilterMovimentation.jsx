@@ -71,7 +71,7 @@ export function FilterMovimentation({ close, typeFilter, setTypeFilter, periodFi
             <div className="btns">
                 <button className="btn primary" 
                 onClick={handleConfirmFilters} 
-                disabled={!typeFilterSelect && (!periodFilterSelect[0] || !periodFilterSelect[1])}
+                disabled={periodFilterSelect[0] && !periodFilterSelect[1]}
                 >
                     Aplicar filtro(s)
                 </button>

@@ -149,6 +149,10 @@ export function PainelMovimentacoes() {
 
         setOptionModalInput(opt);
         setShowModalInput(true);
+
+        if(opt == 'create') {
+            clearSearch();
+        }
     }
     function handleOpenModalExit(opt) {
         console.log(opt);
@@ -156,6 +160,10 @@ export function PainelMovimentacoes() {
 
         setOptionModalExit(opt);
         setShowModalExit(true);
+
+        if(opt == 'create') {
+            clearSearch();
+        }
     }
 
 
@@ -225,7 +233,7 @@ export function PainelMovimentacoes() {
                     <div className='feedback_content'>
                         <p>
                             <i className="bi bi-exclamation-triangle"></i>
-                            <span> Erro ao carregar as movimentações!</span>
+                            <span> Erro ao carregar as movimentações</span>
                         </p>
                         
                         <a className='btn primary' href='/movimentacoes'>
@@ -234,14 +242,15 @@ export function PainelMovimentacoes() {
                         </a>
                     </div>
 
-                    ) : (movimentations.length === 0 ? (
-                        (paramsQuery.type || paramsQuery.period || paramsQuery.name) ? (
+                    ) : (
+                    movimentations.length === 0 ? (
+                        (paramsQuery.type || paramsQuery.period || paramsQuery.product) ? (
                             <div className='result-empty'>
                                 <p>Nada encontrado</p>
                             </div>
                         ) : (
                             <div className='result-empty'>
-                                <p>Nenhuma movimentação registrada!</p>
+                                <p>Nenhuma movimentação registrada</p>
                                 
                                 <button className='btn primary' onClick={handleOpenNewMovimentation} disabled={hasError}>
                                     <i className="bi bi-plus-lg"></i>
@@ -257,7 +266,7 @@ export function PainelMovimentacoes() {
                                 <tr>
                                     <th scope="col">ID</th>
                                     <th scope="col">Tipo</th>
-                                    <th scope="col" data-label="space"></th>
+                                    {/* <th scope="col" data-label="space"></th> */}
                                     <th scope="col">Produto</th>
                                     <th scope="col">Setor</th>
                                     <th scope="col" data-label="quantidade">Quantidade</th>
@@ -294,9 +303,9 @@ export function PainelMovimentacoes() {
                                         </div>
                                     </td>
                                     
-                                    <td data-label="space">
+                                    {/* <td data-label="space">
                                         
-                                    </td>
+                                    </td> */}
                                     
                                     <td data-label="Produto">
                                         <span>{item.product_name}</span>
@@ -310,6 +319,10 @@ export function PainelMovimentacoes() {
                                         <span>
                                             {item.quantity > 0 ? (item.type == 'ENTRADA' ? '+' : '-') : ''}
                                             {item.quantity}
+                                            
+                                            {(item.type == 'ENTRADA' && item.pending == 1) && (
+                                                <span className='pending'>!</span>
+                                            )}
                                         </span>
                                     </td>
 
@@ -359,6 +372,11 @@ export function PainelMovimentacoes() {
                                 <small>
                                     <span>E</span>
                                     Empréstimo
+                                </small>
+
+                                <small>
+                                    <span className='pending'>!</span>
+                                    Pendência
                                 </small>
                             </div>
                         </div>

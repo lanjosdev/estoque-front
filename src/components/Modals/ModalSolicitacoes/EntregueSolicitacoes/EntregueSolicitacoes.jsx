@@ -185,7 +185,7 @@ export function EntregueSolicitacoes({ close, requestTarget, setRefreshState, id
                             <i className="bi bi-check"></i>
                         </span>
 
-                        <span className="text"> Marque se os produtos foram devidamente entregues ao destinário <b>{requestTarget?.delivery_to}</b>, e confirme clicando em <b>"Produtos entregue"</b>.</span>
+                        <span className="text"> Marque se os produtos foram devidamente entregues ao destinatário <b>{requestTarget?.delivery_to}</b>, e confirme clicando em <b>"Produtos entregues"</b>.</span>
                     </label>
                 </div>
             </div>

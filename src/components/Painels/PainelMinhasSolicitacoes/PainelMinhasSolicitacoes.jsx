@@ -240,6 +240,13 @@ export function PainelMinhasSolicitacoes() {
                                             <i className="bi bi-eye"></i>
                                             <span>Ver detalhes</span>
                                         </button>
+
+                                        <div>
+                                            <button className="btn view" onClick={()=> handleOpenModal(solicitacao, 'details')}>
+                                                <i className="bi bi-eye"></i>
+                                                <span>Ver detalhes</span>
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))}

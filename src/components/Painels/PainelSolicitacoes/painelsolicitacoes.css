@@ -64,7 +64,7 @@
                 td:last-child {
                     /* border: solid red; */
                     display: flex;
-                    justify-content: flex-end;
+                    justify-content: center;
 
                     .btns_actions {
                         /* background-color: rgb(161, 106, 39); */

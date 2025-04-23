@@ -141,8 +141,12 @@ export function DetailsInput({ close, inputSelect }) {
                 <div className="sub_type">
                     <span className={`tag ${inputSelect.sub_type == "DESCARTE" ? 'danger' : ''}`}>
                         {/* {inputSelect.sub_type} */}
-                        Empréstimo (retorno)
+                        Empréstimo (devolução)
                     </span>
+                    
+                    {inputSelect.pending == 1 && (
+                    <span className='pending'>!</span>
+                    )}
                 </div>
                 )}
             </div>
@@ -168,14 +172,14 @@ export function DetailsInput({ close, inputSelect }) {
                     <label>Quantidade</label>
 
                     <p className="input">
-                        +{inputSelect.quantity}
+                        {inputSelect.quantity > 0 ? `+${inputSelect.quantity}` : inputSelect.quantity}
                     </p>
                 </div>
                 <div className="label--input">
                     <label>Armazenado em</label>
 
                     <p className="input">
-                        {inputSelect.name_storage_location}
+                        {inputSelect.name_storage_location} {inputSelect.detailing_storage_location?.replaceAll(' ', '')?.length > 0 && `(${inputSelect.detailing_storage_location})`}
                     </p>
                 </div>
 
@@ -202,6 +206,34 @@ export function DetailsInput({ close, inputSelect }) {
                     </p>
                 </div>
                 
+                {inputSelect?.info_order && (
+                <>
+                <div className="separator column_full"></div>
+
+                <div className="label--input column_full">
+                    <label>ID da solicitação</label>
+
+                    <p className="input">
+                        {formatToIdCode(inputSelect?.info_order?.fk_order_id, 4)}
+                    </p>
+                </div>
+
+                <div className="label--input">
+                    <label>Solicitante</label>
+
+                    <p className="input">
+                        {inputSelect?.info_order?.name_user_create_order}
+                    </p>
+                </div>                                       
+                <div className="label--input">
+                    <label>Entregue para</label>
+
+                    <p className="input">
+                        {inputSelect?.info_order?.delivery_to}
+                    </p>
+                </div>                                       
+                </>
+                )}
 
                 {inputSelect?.expiration_date && (
                 <>
@@ -230,6 +262,23 @@ export function DetailsInput({ close, inputSelect }) {
                     </p>
                 </div>                    
                 </>
+                )}
+
+                {inputSelect.pending == 1 && (
+                    <>
+                    <div className="separator column_full"></div>
+
+                    <div className="label--input column_full">
+                        <label> 
+                            <span className='pending'>!</span>
+                            Pendência
+                        </label>
+
+                        <p className="input">
+                            {inputSelect.observation}
+                        </p>
+                    </div>
+                    </>
                 )}
             </div>
 

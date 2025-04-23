@@ -100,7 +100,7 @@ export function DetailsExit({ close, exitSelect }) {
                     <label>Armazenado em</label>
 
                     <p className="input">
-                        {exitSelect?.name_storage_location}
+                        {exitSelect?.name_storage_location} {exitSelect.detailing_storage_location?.replaceAll(' ', '')?.length > 0 && `(${exitSelect.detailing_storage_location})`}
                     </p>
                 </div>
 
@@ -127,7 +127,7 @@ export function DetailsExit({ close, exitSelect }) {
                     </p>
                 </div>
 
-                {exitSelect.observation && (
+                {/* {exitSelect.observation && (
                 <div className="label--input column_full">
                     <label>Observação</label>
 
@@ -135,8 +135,37 @@ export function DetailsExit({ close, exitSelect }) {
                         {exitSelect?.observation}
                     </p>
                 </div>
-                )}
+                )} */}
                 
+
+                {exitSelect?.info_order && (
+                <>
+                <div className="separator column_full"></div>
+
+                <div className="label--input column_full">
+                    <label>ID da solicitação</label>
+
+                    <p className="input">
+                        {formatToIdCode(exitSelect?.info_order?.fk_order_id, 4)}
+                    </p>
+                </div>
+
+                <div className="label--input">
+                    <label>Solicitante</label>
+
+                    <p className="input">
+                        {exitSelect?.info_order?.name_user_create_order}
+                    </p>
+                </div>                                       
+                <div className="label--input">
+                    <label>Entregue para</label>
+
+                    <p className="input">
+                        {exitSelect?.info_order?.delivery_to}
+                    </p>
+                </div>                                       
+                </>
+                )}
 
                 {exitSelect?.expiration_date && (
                 <>

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 import './statusprogress.css';
 
-export function StatusProgress({ typeRequest, idStatus }) {
+export function StatusProgress({ typeRequest, idStatus, vertical=false }) {
     const [statusList, setStatusList] = useState([]);
 
 
@@ -27,9 +27,9 @@ export function StatusProgress({ typeRequest, idStatus }) {
    
 
     return (
-        <div className="StatusProgress">
+        <div className={`StatusProgress ${vertical ? 'vertical' : 'horizontal'}`}>
             {statusList.map((item)=> (
-                <div className={`step ${item.status_done ? 'active' : ''}`} data-label={item.status_name}>
+                <div className={`step ${item.status_done ? 'active' : ''} ${item.id_status == idStatus ? 'atual' : ''}`} data-label={item.status_name} key={item.id_status}>
                     
                 </div>
             ))}

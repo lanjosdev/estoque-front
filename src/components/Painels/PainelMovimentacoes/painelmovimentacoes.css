@@ -1,6 +1,24 @@
 .Painel.PainelMovimentacoes {
     /* background-color: aqua; */
 
+    .painel-top {
+
+        .search--btnAdd {
+
+
+            @media (max-width:418px) {
+
+                .btn.primary {
+                    font-size: 2.2rem;
+                    
+                    > span {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+
     .painel-content {
 
         table {
@@ -88,12 +106,49 @@
 
                 td[data-label="quantidade"] {
                     font-weight: 600;
+                    
+                    > span {
+
+                        &:has(.pending) {
+                            display: flex;
+                            justify-content: center;
+                            gap: 0.4rem;
+                        }
+
+                        span.pending {
+                            display: inline-block;
+                            width: 1.9rem;
+                            height: 1.9rem;
+                            background-color: var(--color-warning);
+                            border-radius: 50%;
+        
+                            padding: 0.2rem;
+        
+                            text-align: center;
+                            font-weight: 600;
+                            line-height: 116%;
+                            color: var(--color-b);
+                        }
+                    }
                 }
                 &:has(.success) {
                     td[data-label="quantidade"] {
                         span {
                             color: var(--color-success);
                         }
+                    }
+                }
+                &:has(.pending) {
+
+                    td[data-label="quantidade"] {
+                        span {
+                            color: var(--color-warning-border);
+                        }
+                    }
+
+                    @media (max-width: 767px) {
+                        border: 0.1rem solid var(--color-warning-border);
+                        border-left: 0.3rem solid var(--color-warning-border);
                     }
                 }
             }
@@ -132,6 +187,10 @@
                     }
                     span.discard {
                         background-color: var(--color-danger);
+                    }
+                    span.pending {
+                        background-color: var(--color-warning);
+                        color: var(--color-b);
                     }
                 }
             }

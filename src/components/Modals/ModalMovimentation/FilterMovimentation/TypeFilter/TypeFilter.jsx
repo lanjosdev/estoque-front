@@ -34,7 +34,12 @@ export function TypeFilter({ typeFilterSelect, setTypeFilterSelect }) {
 
 
 
-    
+    function handleClick(valueId) {
+        if(valueId == typeFilterSelect) {
+            setTypeFilterSelect(null);
+        }
+    }
+
 
     return (
         <div className='TypeFilter'>
@@ -50,6 +55,7 @@ export function TypeFilter({ typeFilterSelect, setTypeFilterSelect }) {
                         // value={item.value}
                         checked={typeFilterSelect == 'input'}
                         onChange={()=> setTypeFilterSelect('input')}
+                        onClick={()=> handleClick('input')}
                         />
                         Entradas
                     </label>
@@ -60,6 +66,7 @@ export function TypeFilter({ typeFilterSelect, setTypeFilterSelect }) {
                         // value={item.value}
                         checked={typeFilterSelect == 'exit'}
                         onChange={()=> setTypeFilterSelect('exit')}
+                        onClick={()=> handleClick('exit')}
                         />
                         Saídas
                     </label>

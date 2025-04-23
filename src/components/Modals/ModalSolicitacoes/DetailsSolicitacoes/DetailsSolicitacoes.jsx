@@ -8,8 +8,8 @@ import { useEffect, useRef } from 'react';
 // import UserContext from "../../../../contexts/userContext";
 
 // Components:
+import { StatusProgress } from "../../../StatusProgress/StatusProgress";
 // import { toast } from "react-toastify";
-// import { SelectAndSearch } from "../../../SelectAndSearch/SelectSearch";
 
 // Utils:
 import { formatToIdCode } from "../../../../utils/formatStrings";
@@ -115,9 +115,18 @@ export function DetailsSolicitacoes({ close, requestTarget }) {
                 <div className="label--input column_full">
                     <label>Status</label>
                     
-                    <p className="input timeline read">
+                    {/* <p className="input timeline read">
+                        {requestTarget?.status}
+                    </p> */}
+                    
+                    
+                    {requestTarget.status_id == 6 ? (
+                    <p className={`input read txt_error`}>
                         {requestTarget?.status}
                     </p>
+                    ) : (
+                    <StatusProgress typeRequest={requestTarget.order_type} idStatus={requestTarget.status_id} vertical={true} />
+                    )}
                 </div>
 
                 <div className="label--input column_full">
@@ -158,7 +167,11 @@ export function DetailsSolicitacoes({ close, requestTarget }) {
                     <label>Status do empréstimo</label>
                     
                     <p className="input read">
-                        {requestTarget.status_reservation || 'Aguardando a entrega'}
+                        {requestTarget.status_id == 6 ? (
+                            'Cancelado'
+                        ) : (
+                            requestTarget.status_reservation || 'Aguardando a entrega'
+                        )}
                     </p>
                 </div>
 
